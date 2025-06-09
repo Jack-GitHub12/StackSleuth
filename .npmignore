@@ -1,0 +1,46 @@
+# Source files
+src/
+*.ts
+!*.d.ts
+
+# Development files
+.eslintrc*
+.prettierrc*
+jest.config*
+tsconfig*.json
+*.test.*
+*.spec.*
+__tests__/
+__mocks__/
+
+# Build artifacts
+.tsbuildinfo
+node_modules/
+
+# Git and CI
+.git*
+.github/
+.travis.yml
+.circleci/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env*
+
+# Coverage
+coverage/
+
+# Examples and docs (except README)
+examples/
+docs/
+*.md
+!README.md 

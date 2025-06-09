@@ -9,19 +9,50 @@
     "dev": "tsc --watch",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@stacksleuth/core": "*",
-    "pg": "^8.11.0"
+    "@stacksleuth/core": "^0.1.0"
   },
   "devDependencies": {
-    "@types/pg": "^8.10.0"
+    "@types/pg": "^8.10.0",
+    "pg": "^8.11.0"
   },
   "peerDependencies": {
     "pg": "^8.0.0"
   },
   "files": [
-    "dist"
-  ]
+    "dist/**/*",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/db-agent"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "keywords": [
+    "stacksleuth",
+    "performance",
+    "profiling",
+    "postgresql",
+    "database",
+    "sql",
+    "instrumentation"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  }
 } 

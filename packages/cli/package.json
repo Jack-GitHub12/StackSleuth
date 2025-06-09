@@ -11,19 +11,50 @@
     "dev": "tsc --watch",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@stacksleuth/core": "*",
+    "@stacksleuth/core": "^0.1.0",
     "commander": "^11.0.0",
     "chalk": "^5.0.0",
     "ora": "^7.0.0",
-    "inquirer": "^9.0.0"
+    "inquirer": "^9.0.0",
+    "ws": "^8.0.0"
   },
   "devDependencies": {
-    "@types/inquirer": "^9.0.0"
+    "@types/inquirer": "^9.0.0",
+    "@types/ws": "^8.0.0"
   },
   "files": [
-    "dist"
-  ]
+    "dist/**/*",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "keywords": [
+    "stacksleuth",
+    "performance",
+    "profiling",
+    "cli",
+    "developer-tools"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  }
 } 

@@ -7,6 +7,12 @@ export * from './utils';
 // Core collector
 export * from './collector';
 
+// Flamegraph utilities
+export * from './flamegraph';
+
+// Adaptive sampling
+export * from './adaptive-sampling';
+
 // Default configuration
 export const defaultConfig = {
   enabled: true,

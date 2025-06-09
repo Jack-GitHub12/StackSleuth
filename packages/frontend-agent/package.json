@@ -9,12 +9,11 @@
     "dev": "tsc --watch",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@stacksleuth/core": "*",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "@stacksleuth/core": "^0.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
@@ -25,6 +24,36 @@
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "files": [
-    "dist"
-  ]
+    "dist/**/*",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/frontend-agent"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "keywords": [
+    "stacksleuth",
+    "performance",
+    "profiling",
+    "react",
+    "frontend",
+    "web-vitals",
+    "instrumentation"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  }
 } 

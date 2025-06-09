@@ -1,0 +1,39 @@
+{
+  "name": "stacksleuth-demo-api",
+  "version": "1.0.0",
+  "description": "Express API with StackSleuth instrumentation demo",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:setup": "ts-node src/setup-db.ts",
+    "db:seed": "ts-node src/seed-data.ts"
+  },
+  "dependencies": {
+    "@stacksleuth/backend-agent": "^0.1.0",
+    "@stacksleuth/db-agent": "^0.1.0",
+    "@stacksleuth/mongodb-agent": "^0.1.0",
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "pg": "^8.11.0",
+    "mongodb": "^6.0.0",
+    "redis": "^4.6.0",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "helmet": "^7.0.0",
+    "compression": "^1.7.4",
+    "rate-limiter-flexible": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/cors": "^2.8.0",
+    "@types/pg": "^8.10.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/compression": "^1.7.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node-dev": "^2.0.0"
+  }
+} 

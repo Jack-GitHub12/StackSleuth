@@ -14,12 +14,37 @@ StackSleuth provides unified profiling across frontend, backend, and database la
 - **🏗️ Multi-Framework** - Support for React, Express, Next.js, and more
 - **📈 Performance Insights** - Detailed statistics and optimization recommendations
 
+## ✨ Latest Enhancements
+
+### 🧱 Extended Framework Support
+- ✅ **Vue.js Agent** (`@stacksleuth/vue-agent`) - Complete Vue 3 Composition API integration
+- ✅ **MongoDB Agent** (`@stacksleuth/mongodb-agent`) - Full NoSQL operation monitoring
+
+### 📊 Advanced Visualization
+- ✅ **Interactive Flamegraphs** - Hierarchical execution visualization with drill-down
+- ✅ **Trace Comparison View** - Side-by-side performance analysis
+- ✅ **Web Vitals Monitoring** - Real-time LCP, FID, CLS tracking
+
+### 🚀 Performance Intelligence
+- ✅ **Adaptive Sampling** - Automatic load-based sampling adjustment
+- ✅ **Smart Memory Management** - Prevents overhead under pressure
+- ✅ **N+1 Query Detection** - Automatic anti-pattern identification
+
+### 📚 Production-Ready Demo
+- ✅ **Full-Stack Example** - Complete Next.js + Express + PostgreSQL + MongoDB
+- ✅ **Real Performance Scenarios** - Caching, transactions, complex queries
+- ✅ **Interactive Documentation** - Live examples in `examples/fullstack-demo/`
+
 ## 📦 Quick Start
 
 ### Installation
 
 ```bash
+# Install the CLI globally
 npm install -g @stacksleuth/cli
+
+# Or run directly with npx
+npx @stacksleuth/cli init
 ```
 
 ### Initialize in your project
@@ -29,6 +54,11 @@ cd your-project
 sleuth init
 ```
 
+This will:
+- Generate configuration files (`stacksleuth.config.js`)
+- Create framework-specific example code
+- Set up the appropriate agent packages
+
 ### Start profiling
 
 ```bash
@@ -36,6 +66,8 @@ sleuth watch
 ```
 
 Visit `http://localhost:3001` to view your performance dashboard.
+
+> **Note**: Packages are ready for npm publishing. See [PUBLISHING.md](PUBLISHING.md) for publication instructions.
 
 ## 🏗️ Architecture
 
@@ -45,7 +77,9 @@ StackSleuth consists of several packages:
 - **`@stacksleuth/cli`** - Command-line interface and dashboard
 - **`@stacksleuth/backend-agent`** - Node.js/Express instrumentation
 - **`@stacksleuth/frontend-agent`** - React performance tracking
-- **`@stacksleuth/db-agent`** - Database query instrumentation
+- **`@stacksleuth/vue-agent`** - Vue.js performance tracking (NEW)
+- **`@stacksleuth/db-agent`** - PostgreSQL query instrumentation
+- **`@stacksleuth/mongodb-agent`** - MongoDB operation monitoring (NEW)
 
 ## 🛠️ Usage
 
@@ -115,6 +149,88 @@ instrumentPg(pool, {
   enableQueryLogging: true,
   slowQueryThreshold: 100 // ms
 });
+```
+
+### Frontend (Vue.js)
+
+```javascript
+import { createApp } from 'vue';
+import { StackSleuthPlugin, useStackSleuth } from '@stacksleuth/vue-agent';
+
+const app = createApp(App);
+
+// Install StackSleuth plugin
+app.use(StackSleuthPlugin, {
+  enabled: true,
+  sampling: { rate: 1.0 }
+});
+
+// In components
+export default {
+  setup() {
+    const { trace, tracedRef } = useStackSleuth();
+    
+    // Trace async operations
+    const fetchData = async () => {
+      await trace('API Call', async () => {
+        const response = await fetch('/api/data');
+        return response.json();
+      });
+    };
+    
+    // Track reactive data changes
+    const count = tracedRef(0, 'counter');
+    
+    return { fetchData, count };
+  }
+};
+```
+
+### Database (MongoDB)
+
+```javascript
+import { MongoClient } from 'mongodb';
+import { instrumentMongoDB } from '@stacksleuth/mongodb-agent';
+
+const client = new MongoClient(uri);
+
+// Instrument MongoDB operations
+const instrumentedClient = instrumentMongoDB(client, {
+  enableQueryLogging: true,
+  slowQueryThreshold: 100,
+  logDocuments: false // Security: don't log document contents
+});
+
+const db = instrumentedClient.db('myapp');
+const collection = db.collection('users');
+
+// All operations are automatically traced
+const users = await collection.find({ active: true }).toArray();
+const result = await collection.insertOne({ name: 'John', email: 'john@example.com' });
+```
+
+### Advanced Features
+
+```javascript
+import { FlamegraphGenerator, AdaptiveSampler } from '@stacksleuth/core';
+
+// Generate flamegraphs from trace data
+const flamegraph = FlamegraphGenerator.generateFromTrace(trace);
+const svg = FlamegraphGenerator.toSVG(flamegraph, 1200, 600);
+
+// Use adaptive sampling for production
+const sampler = new AdaptiveSampler(collector, {
+  targetTracesPerSecond: 100,
+  maxMemoryUsageMB: 500,
+  minSamplingRate: 0.01,
+  maxSamplingRate: 1.0
+});
+
+// Automatically adjusts based on system load
+const decision = sampler.shouldSample();
+if (decision.shouldSample) {
+  // Start tracing...
+}
 ```
 
 ## 📊 Dashboard Features
@@ -195,8 +311,8 @@ StackSleuth automatically detects:
 ### Setup
 
 ```bash
-git clone https://github.com/yourusername/stacksleuth.git
-cd stacksleuth
+git clone https://github.com/Jack-GitHub12/StackSleuth.git
+cd StackSleuth
 npm install
 npm run build
 ```
@@ -209,8 +325,9 @@ packages/
 ├── cli/            # Command-line interface
 ├── backend-agent/  # Node.js instrumentation
 ├── frontend-agent/ # React performance tracking
-├── db-agent/       # Database instrumentation
-└── dashboard/      # Web dashboard (future)
+├── vue-agent/      # Vue.js performance tracking (NEW)
+├── db-agent/       # PostgreSQL instrumentation
+└── mongodb-agent/  # MongoDB instrumentation (NEW)
 ```
 
 ### Building
@@ -226,34 +343,54 @@ npm run lint         # Lint code
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-### Areas where we need help:
+### Priority areas where we need help:
 
-- Additional framework support (Vue, Svelte, FastAPI, Django)
-- Database integrations (MongoDB, Redis, MySQL)
-- Advanced visualization features
-- Performance optimizations
-- Documentation and examples
+- **Database integrations** - Redis, MySQL, Supabase connectors
+- **Additional frameworks** - Svelte, FastAPI, Django, Laravel
+- **Performance optimizations** - Memory usage, CPU overhead reduction
+- **Advanced visualizations** - Custom charts, real-time overlays
+- **Testing & CI/CD** - Automated testing, performance benchmarks
+- **Documentation** - Tutorials, best practices, case studies
+
+### Recently completed ✅:
+- Vue.js frontend agent with Composition API
+- MongoDB NoSQL instrumentation
+- Interactive flamegraph generation
+- Adaptive sampling intelligence
+- Production-ready demo project
 
 ## 📋 Roadmap
 
-### Current (MVP)
+### Current (v0.1) - ✅ COMPLETED
 - ✅ Core tracing infrastructure
 - ✅ CLI and dashboard
 - ✅ Express.js backend agent
 - ✅ React frontend agent
 - ✅ PostgreSQL instrumentation
+- ✅ Vue.js agent with Composition API
+- ✅ MongoDB instrumentation
+- ✅ Interactive flamegraph visualization
+- ✅ Adaptive sampling system
+- ✅ Full-stack demo project
 
-### Next (v0.2)
+### Next (v0.2) - 🔄 IN PROGRESS
+- 🔄 Svelte frontend agent
+- 🔄 Redis operation profiling
+- 🔄 MySQL query instrumentation
+- 🔄 FastAPI backend instrumentation
+- 🔄 Django backend instrumentation
 - 🔄 Browser extension for live inspection
 - 🔄 Session replay integration
-- 🔄 Advanced flamegraph visualization
 - 🔄 CI/CD integration (GitHub Actions)
 
 ### Future (v1.0)
 - 🔄 Hosted SaaS dashboard
 - 🔄 Team collaboration features
 - 🔄 Advanced ML-powered recommendations
-- 🔄 Multi-language support (Python, Go)
+- 🔄 Multi-language support (Python, Go, Rust)
+- 🔄 Distributed tracing across microservices
+- 🔄 Custom metric definitions
+- 🔄 Alerting integrations (PagerDuty, Slack)
 
 ## 📄 License
 

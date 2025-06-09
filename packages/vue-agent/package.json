@@ -1,0 +1,60 @@
+{
+  "name": "@stacksleuth/vue-agent",
+  "version": "0.1.0",
+  "description": "StackSleuth performance tracking agent for Vue.js applications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@stacksleuth/core": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "vue": "^3.3.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/vue-agent"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "keywords": [
+    "stacksleuth",
+    "performance",
+    "profiling",
+    "vue",
+    "vue3",
+    "frontend",
+    "web-vitals",
+    "instrumentation"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  }
+} 

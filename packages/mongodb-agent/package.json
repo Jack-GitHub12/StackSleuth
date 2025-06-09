@@ -1,0 +1,59 @@
+{
+  "name": "@stacksleuth/mongodb-agent",
+  "version": "0.1.0",
+  "description": "StackSleuth database instrumentation agent for MongoDB",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@stacksleuth/core": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "mongodb": "^6.0.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "mongodb": "^5.0.0 || ^6.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/mongodb-agent"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "keywords": [
+    "stacksleuth",
+    "performance",
+    "profiling",
+    "mongodb",
+    "database",
+    "nosql",
+    "instrumentation"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  }
+} 

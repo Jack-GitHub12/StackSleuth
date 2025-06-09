@@ -21,6 +21,10 @@ __exportStar(require("./types"), exports);
 __exportStar(require("./utils"), exports);
 // Core collector
 __exportStar(require("./collector"), exports);
+// Flamegraph utilities
+__exportStar(require("./flamegraph"), exports);
+// Adaptive sampling
+__exportStar(require("./adaptive-sampling"), exports);
 // Default configuration
 exports.defaultConfig = {
     enabled: true,

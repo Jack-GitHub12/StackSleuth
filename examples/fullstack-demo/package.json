@@ -1,0 +1,36 @@
+{
+  "name": "stacksleuth-demo",
+  "version": "1.0.0",
+  "description": "Full-stack demo showcasing StackSleuth performance monitoring",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "cd api && npm run dev",
+    "dev:web": "cd web && npm run dev",
+    "build": "npm run build:api && npm run build:web",
+    "build:api": "cd api && npm run build",
+    "build:web": "cd web && npm run build",
+    "start": "concurrently \"npm run start:api\" \"npm run start:web\"",
+    "start:api": "cd api && npm start",
+    "start:web": "cd web && npm start",
+    "setup": "npm run setup:api && npm run setup:web",
+    "setup:api": "cd api && npm install",
+    "setup:web": "cd web && npm install",
+    "db:setup": "cd api && npm run db:setup",
+    "sleuth": "sleuth watch"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "keywords": [
+    "stacksleuth",
+    "demo",
+    "performance",
+    "monitoring",
+    "fullstack"
+  ]
+} 

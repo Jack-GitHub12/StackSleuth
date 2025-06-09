@@ -4,7 +4,9 @@
   "description": "Open-source, real-time performance profiling tool for full-stack applications",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/fullstack-demo/api",
+    "examples/fullstack-demo/web"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
@@ -12,7 +14,9 @@
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "clean": "npm run clean --workspaces",
-    "sleuth": "node packages/cli/dist/index.js"
+    "sleuth": "node packages/cli/dist/index.js",
+    "prepublish": "npm run build",
+    "publish:all": "npm run build && npm publish --workspace=@stacksleuth/core && npm publish --workspace=@stacksleuth/backend-agent && npm publish --workspace=@stacksleuth/frontend-agent && npm publish --workspace=@stacksleuth/db-agent && npm publish --workspace=@stacksleuth/cli"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -31,14 +35,28 @@
     "monitoring",
     "tracing",
     "fullstack",
-    "developer-tools"
+    "developer-tools",
+    "apm",
+    "observability",
+    "react",
+    "express",
+    "nodejs",
+    "postgresql"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/stacksleuth.git"
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
+  },
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
   }
 } 
