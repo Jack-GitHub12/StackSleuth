@@ -1,0 +1,27 @@
+{
+  "name": "@stacksleuth/db-agent",
+  "version": "0.1.0",
+  "description": "StackSleuth database instrumentation agent for PostgreSQL",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@stacksleuth/core": "*",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.10.0"
+  },
+  "peerDependencies": {
+    "pg": "^8.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+} 
