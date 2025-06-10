@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth Svelte Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=Svelte%20Agent)
+![StackSleuth Svelte Agent](../../assets/logo.svg)
 
 **StackSleuth Svelte Agent**
 
@@ -31,7 +31,14 @@ Specialized Svelte performance monitoring agent - Component lifecycle tracking, 
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/svelte-agent
+
+# yarn
+yarn add @stacksleuth/svelte-agent
+
+# pnpm
+pnpm add @stacksleuth/svelte-agent
 ```
 
 ```bash
@@ -68,6 +75,42 @@ const app = new App({
 });
 
 export default app;
+```
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new SvelteAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new SvelteAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

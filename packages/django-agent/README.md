@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth Django Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=Django%20Agent)
+![StackSleuth Django Agent](../../assets/logo.svg)
 
 **StackSleuth Django Agent**
 
@@ -31,7 +31,14 @@ Advanced Django performance monitoring agent - Middleware tracking, database que
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/django-agent
+
+# yarn
+yarn add @stacksleuth/django-agent
+
+# pnpm
+pnpm add @stacksleuth/django-agent
 ```
 
 ```bash
@@ -70,6 +77,113 @@ from stacksleuth.django import track_performance
 def user_list(request):
     users = User.objects.all()
     return JsonResponse({'users': list(users.values())})
+```
+
+
+## 📖 Comprehensive Examples
+
+### Django Settings
+
+```typescript
+# settings.py
+INSTALLED_APPS = [
+    # ... your apps
+    'stacksleuth.django',
+]
+
+MIDDLEWARE = [
+    'stacksleuth.django.middleware.StackSleuthMiddleware',
+    # ... your middleware
+]
+
+STACKSLEUTH = {
+    'ENABLED': True,
+    'PROJECT_ID': 'your-project-id',
+    'API_KEY': 'your-api-key',
+    'SAMPLE_RATE': 0.1,
+    'MONITOR_DATABASE': True,
+    'MONITOR_TEMPLATES': True,
+}
+```
+
+### View Performance Tracking
+
+```typescript
+# views.py
+from stacksleuth.django import track_performance
+from django.http import JsonResponse
+
+@track_performance('user-list-view')
+def user_list(request):
+    users = User.objects.select_related('profile').all()
+    
+    # Track business metrics
+    track_metric('users.listed', len(users), {
+        'request_method': request.method,
+        'user_authenticated': request.user.is_authenticated
+    })
+    
+    return JsonResponse({'users': list(users.values())})
+```
+
+## 🎯 Real-World Usage
+
+### Production Configuration
+
+```typescript
+const agent = new DjangoAgent({
+  enabled: process.env.NODE_ENV === 'production',
+  projectId: process.env.STACKSLEUTH_PROJECT_ID,
+  apiKey: process.env.STACKSLEUTH_API_KEY,
+  sampleRate: process.env.NODE_ENV === 'production' ? 0.01 : 0.1,
+  bufferSize: 1000,
+  flushInterval: 10000
+});
+```
+
+### Monitoring Best Practices
+
+- **Sampling Rate**: Use lower sampling rates (1-5%) in production
+- **Buffer Management**: Configure appropriate buffer sizes for your traffic
+- **Error Handling**: Always include error context in your monitoring
+- **Security**: Never log sensitive data like passwords or API keys
+- **Performance**: Monitor the monitoring - track agent overhead
+
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new DjangoAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new DjangoAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

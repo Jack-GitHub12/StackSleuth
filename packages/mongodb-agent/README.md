@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth MongoDB Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=MongoDB+Agent)
+![StackSleuth MongoDB Agent](../../assets/logo.svg)
 
 **StackSleuth MongoDB Agent**
 
@@ -31,7 +31,14 @@ Advanced MongoDB performance monitoring agent - Query optimization, aggregation 
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/mongodb-agent
+
+# yarn
+yarn add @stacksleuth/mongodb-agent
+
+# pnpm
+pnpm add @stacksleuth/mongodb-agent
 ```
 
 ```bash
@@ -69,6 +76,42 @@ agent.startMonitoring();
 // Your MongoDB operations are now monitored
 const db = client.db('myapp');
 const users = await db.collection('users').find({ active: true }).toArray();
+```
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new MongodbAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new MongodbAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

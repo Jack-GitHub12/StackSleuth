@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth Laravel Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=Laravel+Agent)
+![StackSleuth Laravel Agent](../../assets/logo.svg)
 
 **StackSleuth Laravel Agent**
 
@@ -31,7 +31,14 @@ Comprehensive Laravel performance monitoring agent - Eloquent ORM optimization, 
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/laravel-agent
+
+# yarn
+yarn add @stacksleuth/laravel-agent
+
+# pnpm
+pnpm add @stacksleuth/laravel-agent
 ```
 
 ```bash
@@ -77,6 +84,42 @@ class UserController extends Controller
         return response()->json($users);
     }
 }
+```
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new LaravelAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new LaravelAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth FastAPI Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=FastAPI+Agent)
+![StackSleuth FastAPI Agent](../../assets/logo.svg)
 
 **StackSleuth FastAPI Agent**
 
@@ -31,7 +31,14 @@ Python FastAPI performance monitoring agent - Route-level tracing, WebSocket int
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/fastapi-agent
+
+# yarn
+yarn add @stacksleuth/fastapi-agent
+
+# pnpm
+pnpm add @stacksleuth/fastapi-agent
 ```
 
 ```bash
@@ -69,6 +76,42 @@ async def get_users():
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     # WebSocket monitoring automatically included
+```
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new FastapiAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new FastapiAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

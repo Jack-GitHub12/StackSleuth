@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth Database Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=Database+Agent)
+![StackSleuth Database Agent](../../assets/logo.svg)
 
 **StackSleuth Database Agent**
 
@@ -31,7 +31,14 @@ Universal database performance monitoring agent - Multi-database support, query 
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/db-agent
+
+# yarn
+yarn add @stacksleuth/db-agent
+
+# pnpm
+pnpm add @stacksleuth/db-agent
 ```
 
 ```bash
@@ -73,6 +80,42 @@ agent.startMonitoring();
 
 // Your database queries are now monitored
 const result = await pool.query('SELECT * FROM users WHERE active = $1', [true]);
+```
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new DbAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new DbAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

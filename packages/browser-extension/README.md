@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth Browser Extension](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=Browser%20Extension)
+![StackSleuth Browser Extension](../../assets/logo.svg)
 
 **StackSleuth Browser Extension**
 
@@ -31,7 +31,14 @@ Comprehensive browser extension for real-time performance monitoring - DevTools 
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/browser-extension
+
+# yarn
+yarn add @stacksleuth/browser-extension
+
+# pnpm
+pnpm add @stacksleuth/browser-extension
 ```
 
 ```bash
@@ -75,6 +82,42 @@ import { BrowserExtension } from '@stacksleuth/browser-extension';
 // Automatically monitor page performance
 const extension = new BrowserExtension();
 extension.collectPageMetrics();
+```
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new BrowserExtension({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new BrowserExtension({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

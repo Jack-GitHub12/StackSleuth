@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth MySQL Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=MySQL%20Agent)
+![StackSleuth MySQL Agent](../../assets/logo.svg)
 
 **StackSleuth MySQL Agent**
 
@@ -31,7 +31,14 @@ Advanced MySQL performance monitoring agent - Query optimization, index analysis
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/mysql-agent
+
+# yarn
+yarn add @stacksleuth/mysql-agent
+
+# pnpm
+pnpm add @stacksleuth/mysql-agent
 ```
 
 ```bash
@@ -75,6 +82,42 @@ const [rows] = await connection.execute(
   'SELECT * FROM users WHERE active = ?',
   [true]
 );
+```
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new MysqlAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new MysqlAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

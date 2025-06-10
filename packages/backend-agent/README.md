@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth Backend Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=Backend%20Agent)
+![StackSleuth Backend Agent](../../assets/logo.svg)
 
 **StackSleuth Backend Agent**
 
@@ -31,7 +31,14 @@ Comprehensive backend performance monitoring agent for Node.js applications - HT
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/backend-agent
+
+# yarn
+yarn add @stacksleuth/backend-agent
+
+# pnpm
+pnpm add @stacksleuth/backend-agent
 ```
 
 ```bash
@@ -69,6 +76,113 @@ app.get('/api/users', async (req, res) => {
 app.listen(3000, () => {
   console.log('Server running with StackSleuth monitoring');
 });
+```
+
+
+## 📖 Comprehensive Examples
+
+### Express.js Integration
+
+```typescript
+import express from 'express';
+import { BackendAgent } from '@stacksleuth/backend-agent';
+
+const app = express();
+const agent = new BackendAgent({
+  enabled: true,
+  projectId: 'your-project-id',
+  sampleRate: 0.1
+});
+
+// Start monitoring
+agent.startMonitoring();
+
+// Add middleware (must be first)
+app.use(agent.middleware());
+
+app.get('/api/users', async (req, res) => {
+  const users = await getUsersFromDatabase();
+  res.json(users);
+});
+
+app.listen(3000, () => {
+  console.log('Server running with StackSleuth monitoring');
+});
+```
+
+### Custom Error Tracking
+
+```typescript
+// Track custom errors
+app.use((error, req, res, next) => {
+  agent.recordError(error, {
+    userId: req.user?.id,
+    path: req.path,
+    method: req.method
+  });
+  
+  res.status(500).json({ error: 'Internal server error' });
+});
+```
+
+## 🎯 Real-World Usage
+
+### Production Configuration
+
+```typescript
+const agent = new BackendAgent({
+  enabled: process.env.NODE_ENV === 'production',
+  projectId: process.env.STACKSLEUTH_PROJECT_ID,
+  apiKey: process.env.STACKSLEUTH_API_KEY,
+  sampleRate: process.env.NODE_ENV === 'production' ? 0.01 : 0.1,
+  bufferSize: 1000,
+  flushInterval: 10000
+});
+```
+
+### Monitoring Best Practices
+
+- **Sampling Rate**: Use lower sampling rates (1-5%) in production
+- **Buffer Management**: Configure appropriate buffer sizes for your traffic
+- **Error Handling**: Always include error context in your monitoring
+- **Security**: Never log sensitive data like passwords or API keys
+- **Performance**: Monitor the monitoring - track agent overhead
+
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new BackendAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new BackendAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

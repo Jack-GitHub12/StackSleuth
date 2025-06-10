@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth CLI](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=StackSleuth+CLI)
+![StackSleuth CLI](../../assets/logo.svg)
 
 **Comprehensive Command-Line Interface for StackSleuth**
 

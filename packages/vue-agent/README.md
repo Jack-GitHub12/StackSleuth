@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth Vue.js Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=Vue.js%20Agent)
+![StackSleuth Vue.js Agent](../../assets/logo.svg)
 
 **StackSleuth Vue.js Agent**
 
@@ -31,7 +31,14 @@ Specialized Vue.js performance monitoring agent - Component lifecycle tracking, 
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/vue-agent
+
+# yarn
+yarn add @stacksleuth/vue-agent
+
+# pnpm
+pnpm add @stacksleuth/vue-agent
 ```
 
 ```bash
@@ -66,6 +73,123 @@ app.use(agent);
 agent.startMonitoring();
 
 app.mount('#app');
+```
+
+
+## 📖 Comprehensive Examples
+
+### Vue 3 Setup
+
+```typescript
+import { createApp } from 'vue';
+import { VueAgent } from '@stacksleuth/vue-agent';
+import App from './App.vue';
+
+const app = createApp(App);
+
+// Initialize Vue agent
+const agent = new VueAgent({
+  enabled: true,
+  trackComponents: true,
+  trackVuex: true,
+  trackRouter: true
+});
+
+// Install as Vue plugin
+app.use(agent);
+
+// Start monitoring
+agent.startMonitoring();
+
+app.mount('#app');
+```
+
+### Component Performance Tracking
+
+```typescript
+// In your Vue component
+export default {
+  name: 'UserDashboard',
+  async mounted() {
+    const span = this.$stacksleuth.startSpan('user-dashboard-load');
+    
+    try {
+      await this.loadUserData();
+      await this.loadDashboardMetrics();
+      span.setStatus('success');
+    } catch (error) {
+      span.setStatus('error', error.message);
+    } finally {
+      span.end();
+    }
+  },
+  methods: {
+    async loadUserData() {
+      // Track specific operations
+      this.$stacksleuth.recordMetric('dashboard.user_data_loaded', 1);
+    }
+  }
+}
+```
+
+## 🎯 Real-World Usage
+
+### Production Configuration
+
+```typescript
+const agent = new VueAgent({
+  enabled: process.env.NODE_ENV === 'production',
+  projectId: process.env.STACKSLEUTH_PROJECT_ID,
+  apiKey: process.env.STACKSLEUTH_API_KEY,
+  sampleRate: process.env.NODE_ENV === 'production' ? 0.01 : 0.1,
+  bufferSize: 1000,
+  flushInterval: 10000
+});
+```
+
+### Monitoring Best Practices
+
+- **Sampling Rate**: Use lower sampling rates (1-5%) in production
+- **Buffer Management**: Configure appropriate buffer sizes for your traffic
+- **Error Handling**: Always include error context in your monitoring
+- **Security**: Never log sensitive data like passwords or API keys
+- **Performance**: Monitor the monitoring - track agent overhead
+
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new VueAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new VueAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

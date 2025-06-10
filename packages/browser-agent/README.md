@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth Browser Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=Browser%20Agent)
+![StackSleuth Browser Agent](../../assets/logo.svg)
 
 **StackSleuth Browser Agent**
 
@@ -31,7 +31,14 @@ Advanced browser automation and performance monitoring agent - Playwright/Puppet
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/browser-agent
+
+# yarn
+yarn add @stacksleuth/browser-agent
+
+# pnpm
+pnpm add @stacksleuth/browser-agent
 ```
 
 ```bash
@@ -75,6 +82,42 @@ console.log('Performance:', metrics);
 
 // Take screenshot
 await session.screenshot('login-page.png');
+```
+
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**Agent Not Starting**
+```typescript
+// Enable debug mode
+const agent = new BrowserAgent({
+  enabled: true,
+  debug: true
+});
+```
+
+**High Memory Usage**
+```typescript
+// Optimize memory usage
+const agent = new BrowserAgent({
+  bufferSize: 500,
+  flushInterval: 5000,
+  sampleRate: 0.01
+});
+```
+
+**Missing Metrics**
+- Check that the agent is enabled
+- Verify your API key and project ID
+- Ensure sampling rate allows data through
+- Check network connectivity to StackSleuth API
+
+### Debug Mode
+
+```bash
+DEBUG=stacksleuth:* node your-app.js
 ```
 
 ## 📚 Resources

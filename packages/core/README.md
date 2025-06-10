@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StackSleuth Logo](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=StackSleuth)
+![StackSleuth Logo](../../assets/logo.svg)
 
 **Advanced TypeScript-based Core Profiling Engine for StackSleuth**
 
@@ -31,7 +31,14 @@ StackSleuth Core is the foundational profiling engine that powers the entire Sta
 ## 📦 Installation
 
 ```bash
+# npm
 npm install @stacksleuth/core
+
+# yarn
+yarn add @stacksleuth/core
+
+# pnpm
+pnpm add @stacksleuth/core
 ```
 
 ```bash
@@ -139,6 +146,83 @@ if (leaks.length > 0) {
   console.warn('Memory leaks detected:', leaks);
 }
 ```
+
+
+## 📖 Comprehensive Examples
+
+### Basic Profiling
+
+```typescript
+import { ProfilerCore } from '@stacksleuth/core';
+
+const profiler = new ProfilerCore({
+  enabled: true,
+  sampleRate: 0.1
+});
+
+profiler.startProfiling();
+
+// Profile a function
+async function processData() {
+  const span = profiler.startSpan('data-processing');
+  
+  try {
+    // Your business logic
+    const result = await heavyDataProcessing();
+    span.setStatus('success');
+    return result;
+  } catch (error) {
+    span.setStatus('error', error.message);
+    throw error;
+  } finally {
+    span.end();
+  }
+}
+
+// Get performance insights
+const metrics = profiler.getMetrics();
+console.log('Performance Summary:', metrics);
+```
+
+### Custom Metrics
+
+```typescript
+// Track business-specific metrics
+profiler.recordMetric('orders.processed', 1, {
+  region: 'us-east-1',
+  paymentMethod: 'credit-card',
+  value: 99.99
+});
+
+profiler.recordMetric('users.active', 1, {
+  plan: 'premium',
+  source: 'mobile-app'
+});
+```
+
+## 🎯 Real-World Usage
+
+### Production Configuration
+
+```typescript
+const agent = new Core({
+  enabled: process.env.NODE_ENV === 'production',
+  projectId: process.env.STACKSLEUTH_PROJECT_ID,
+  apiKey: process.env.STACKSLEUTH_API_KEY,
+  sampleRate: process.env.NODE_ENV === 'production' ? 0.01 : 0.1,
+  bufferSize: 1000,
+  flushInterval: 10000
+});
+```
+
+### Monitoring Best Practices
+
+- **Sampling Rate**: Use lower sampling rates (1-5%) in production
+- **Buffer Management**: Configure appropriate buffer sizes for your traffic
+- **Error Handling**: Always include error context in your monitoring
+- **Security**: Never log sensitive data like passwords or API keys
+- **Performance**: Monitor the monitoring - track agent overhead
+
 
 ## 🏗️ Architecture
 
