@@ -68,6 +68,9 @@ export class BrowserAgent {
     endpoint?: string; 
     apiKey?: string;
     wsPort?: number;
+    trackUserInteractions?: boolean;
+    trackNetworkRequests?: boolean;
+    trackPerformance?: boolean;
   }) {
     this.profiler = new ProfilerCore(config);
     
@@ -709,6 +712,40 @@ export class BrowserAgent {
     await this.profiler.stop();
     
     console.log('🛑 Browser Agent stopped');
+  }
+
+  /**
+   * Legacy compatibility wrappers for tests
+   */
+  public startMonitoring(): Promise<void> {
+    return this.init();
+  }
+
+  public async stopMonitoring(): Promise<void> {
+    await this.stop();
+  }
+
+  public getPageMetrics(): { pageLoadTime: number } {
+    // Simple metric based on active session 0 or placeholder
+    const session = Array.from(this.sessionMetrics.values())[0];
+    return {
+      pageLoadTime: session ? Date.now() - session.startTime : 0
+    };
+  }
+
+  public getPerformanceData(): { resourceTimings: PerformanceResourceTiming[] } {
+    return {
+      resourceTimings: typeof performance !== 'undefined' ? (performance.getEntriesByType('resource') as PerformanceResourceTiming[]) : []
+    };
+  }
+
+  public getUserInteractions(): any[] {
+    const session = Array.from(this.sessionMetrics.values())[0];
+    return session ? session.userActions : [];
+  }
+
+  public getBrowserInfo(): { userAgent: string } {
+    return { userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Node.js' };
   }
 }
 

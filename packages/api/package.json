@@ -57,19 +57,14 @@
   "keywords": [
     "performance",
     "monitoring",
-    "api",
-    "observability",
-    "apm",
-    "metrics",
-    "tracing",
-    "analytics",
-    "dashboard",
-    "real-time",
+    "profiling",
     "stacksleuth",
-    "express",
-    "nodejs",
-    "rest-api",
-    "websocket"
+    "observability",
+    "analytics",
+    "optimization",
+    "instrumentation",
+    "apm",
+    "real-time"
   ],
   "repository": {
     "type": "git",
@@ -89,4 +84,4 @@
   "engines": {
     "node": ">=18.0.0"
   }
-} 
+}

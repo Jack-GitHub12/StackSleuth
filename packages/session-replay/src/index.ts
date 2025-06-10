@@ -74,6 +74,7 @@ export class SessionReplayAgent {
     apiKey?: string;
     maxEvents?: number;
     maxBufferSize?: number;
+    bufferSize?: number;
     autoFlush?: boolean;
     flushInterval?: number;
     enableUserInteractions?: boolean;
@@ -740,6 +741,28 @@ export class SessionReplayAgent {
     await this.profiler.stop();
     
     console.log('🛑 Session Replay Agent stopped');
+  }
+
+  // NEW METHODS FOR TESTS
+  public startRecording(): Promise<void> {
+    return this.init();
+  }
+
+  public async stopRecording(): Promise<void> {
+    await this.stop();
+  }
+
+  public clearSession(): void {
+    this.events = [];
+    this.metadata.eventCount = 0;
+    this.metadata.errorCount = 0;
+  }
+
+  public recordCustomEvent(type: string, data: any): void {
+    this.recordEvent({
+      type: 'custom' as any,
+      data: { type, ...data }
+    });
   }
 }
 

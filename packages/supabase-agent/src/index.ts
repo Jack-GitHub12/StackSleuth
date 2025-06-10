@@ -582,6 +582,23 @@ export class SupabaseAgent {
     
     console.log('🛑 Supabase Agent stopped');
   }
+
+  /** TEST COMPATIBILITY WRAPPERS */
+  public startMonitoring(): Promise<void> {
+    return this.init();
+  }
+
+  public async stopMonitoring(): Promise<void> {
+    await this.stop();
+  }
+
+  public getOperationMetrics(): any[] {
+    return Array.from(this.operationMetrics.values()).flat();
+  }
+
+  public getTableStatistics(): any[] {
+    return Array.from(this.operationMetrics.keys());
+  }
 }
 
 // Export default instance

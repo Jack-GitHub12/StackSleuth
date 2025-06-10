@@ -369,6 +369,15 @@ export class SvelteAgent {
     
     console.log('🛑 Svelte Agent stopped');
   }
+
+  /** TEST COMPATIBILITY WRAPPERS */
+  public startProfiling(): Promise<void> {
+    return this.init();
+  }
+
+  public async stopProfiling(): Promise<void> {
+    await this.stop();
+  }
 }
 
 // Export default instance
