@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/dashboard",
-  "version": "0.2.1",
-  "description": "StackSleuth performance dashboard UI",
+  "version": "0.2.2",
+  "description": "Interactive web dashboard for StackSleuth - Real-time performance visualization, comprehensive analytics, team collaboration features, and advanced monitoring capabilities.",
   "private": true,
   "scripts": {
     "build": "echo 'Dashboard build skipped - using embedded dashboard in CLI'",
@@ -29,5 +29,34 @@
     "tailwindcss": "^3.3.0",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.0"
+  },
+  "keywords": [
+    "performance",
+    "monitoring",
+    "profiling",
+    "observability",
+    "apm",
+    "stacksleuth",
+    "real-time",
+    "analytics",
+    "optimization",
+    "instrumentation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/dashboard"
+  },
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
   }
-} 
+}

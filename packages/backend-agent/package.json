@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/backend-agent",
-  "version": "0.2.1",
-  "description": "StackSleuth backend instrumentation agent for Node.js",
+  "version": "0.2.2",
+  "description": "Comprehensive backend performance monitoring agent for Node.js applications - HTTP request tracing, database query optimization, memory profiling, and real-time metrics collection with WebSocket integration.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -47,7 +47,13 @@
     "express",
     "nodejs",
     "backend",
-    "instrumentation"
+    "instrumentation",
+    "monitoring",
+    "observability",
+    "apm",
+    "real-time",
+    "analytics",
+    "optimization"
   ],
   "license": "MIT",
   "engines": {
@@ -57,4 +63,4 @@
     "name": "Jack",
     "url": "https://github.com/Jack-GitHub12"
   }
-} 
+}

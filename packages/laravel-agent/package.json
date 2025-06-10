@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/laravel-agent",
-  "version": "0.2.1",
-  "description": "StackSleuth Laravel/PHP backend profiling agent with Eloquent ORM monitoring and middleware instrumentation",
+  "version": "0.2.2",
+  "description": "Comprehensive Laravel performance monitoring agent - Eloquent ORM optimization, route performance analysis, middleware tracking, job queue monitoring, and advanced cache performance metrics.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -26,7 +26,14 @@
     "performance",
     "profiling",
     "monitoring",
-    "eloquent"
+    "eloquent",
+    "observability",
+    "apm",
+    "stacksleuth",
+    "real-time",
+    "analytics",
+    "optimization",
+    "instrumentation"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1",
@@ -51,5 +58,16 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
     "directory": "packages/laravel-agent"
   },
-  "license": "MIT"
-} 
+  "license": "MIT",
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

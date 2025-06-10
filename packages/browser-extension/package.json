@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/browser-extension",
-  "version": "0.2.1",
-  "description": "StackSleuth browser extension for developer tools integration and real-time monitoring",
+  "version": "0.2.2",
+  "description": "Comprehensive browser extension for real-time performance monitoring - DevTools integration, content script injection, tab performance tracking, and interactive performance visualization.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -27,7 +27,15 @@
     "monitoring",
     "debugging",
     "chrome",
-    "firefox"
+    "firefox",
+    "profiling",
+    "observability",
+    "apm",
+    "stacksleuth",
+    "real-time",
+    "analytics",
+    "optimization",
+    "instrumentation"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1",
@@ -52,5 +60,16 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
     "directory": "packages/browser-extension"
   },
-  "license": "MIT"
-} 
+  "license": "MIT",
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

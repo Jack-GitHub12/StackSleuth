@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/vue-agent",
-  "version": "0.2.1",
-  "description": "StackSleuth performance tracking agent for Vue.js applications",
+  "version": "0.2.2",
+  "description": "Specialized Vue.js performance monitoring agent - Component lifecycle tracking, Vuex state management profiling, route performance analysis, and reactive data monitoring with Vue DevTools integration.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -47,7 +47,13 @@
     "vue3",
     "frontend",
     "web-vitals",
-    "instrumentation"
+    "instrumentation",
+    "monitoring",
+    "observability",
+    "apm",
+    "real-time",
+    "analytics",
+    "optimization"
   ],
   "license": "MIT",
   "engines": {
@@ -57,4 +63,4 @@
     "name": "Jack",
     "url": "https://github.com/Jack-GitHub12"
   }
-} 
+}

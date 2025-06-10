@@ -1,6 +1,6 @@
 {
   "name": "stacksleuth",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Open-source, real-time performance profiling tool for full-stack applications with advanced database integrations, framework support, and browser automation",
   "private": true,
   "workspaces": [

@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/fastapi-agent",
-  "version": "0.2.1",
-  "description": "StackSleuth FastAPI backend instrumentation and profiling agent",
+  "version": "0.2.2",
+  "description": "Python FastAPI performance monitoring agent - Route-level tracing, WebSocket integration, request/response profiling, middleware performance analysis, and real-time API metrics collection.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -25,7 +25,14 @@
     "performance",
     "profiling",
     "monitoring",
-    "backend"
+    "backend",
+    "observability",
+    "apm",
+    "stacksleuth",
+    "real-time",
+    "analytics",
+    "optimization",
+    "instrumentation"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1",
@@ -48,5 +55,16 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
     "directory": "packages/fastapi-agent"
   },
-  "license": "MIT"
-} 
+  "license": "MIT",
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

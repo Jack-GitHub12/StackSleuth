@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/frontend-agent",
-  "version": "0.2.1",
-  "description": "StackSleuth frontend performance tracking agent for React",
+  "version": "0.2.2",
+  "description": "Advanced frontend performance monitoring for web applications - DOM event tracking, component lifecycle profiling, bundle analysis, memory leak detection, and real-time user interaction monitoring.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -46,7 +46,13 @@
     "react",
     "frontend",
     "web-vitals",
-    "instrumentation"
+    "instrumentation",
+    "monitoring",
+    "observability",
+    "apm",
+    "real-time",
+    "analytics",
+    "optimization"
   ],
   "license": "MIT",
   "engines": {
@@ -56,4 +62,4 @@
     "name": "Jack",
     "url": "https://github.com/Jack-GitHub12"
   }
-} 
+}

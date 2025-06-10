@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/mongodb-agent",
-  "version": "0.2.1",
-  "description": "StackSleuth database instrumentation agent for MongoDB",
+  "version": "0.2.2",
+  "description": "Advanced MongoDB performance monitoring agent - Query optimization, aggregation pipeline analysis, index usage tracking, connection pool monitoring, and real-time database performance metrics.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -46,7 +46,13 @@
     "mongodb",
     "database",
     "nosql",
-    "instrumentation"
+    "instrumentation",
+    "monitoring",
+    "observability",
+    "apm",
+    "real-time",
+    "analytics",
+    "optimization"
   ],
   "license": "MIT",
   "engines": {
@@ -56,4 +62,4 @@
     "name": "Jack",
     "url": "https://github.com/Jack-GitHub12"
   }
-} 
+}

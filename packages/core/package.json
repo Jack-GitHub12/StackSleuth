@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/core",
-  "version": "0.2.1",
-  "description": "Core tracing and profiling engine for StackSleuth",
+  "version": "0.2.2",
+  "description": "Advanced TypeScript-based core profiling engine for StackSleuth - Real-time performance monitoring with flexible profiler, span tracing, and unified agent architecture. Features comprehensive metrics collection, memory optimization, and production-ready instrumentation.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -44,7 +44,13 @@
     "profiling",
     "tracing",
     "monitoring",
-    "apm"
+    "apm",
+    "observability",
+    "stacksleuth",
+    "real-time",
+    "analytics",
+    "optimization",
+    "instrumentation"
   ],
   "license": "MIT",
   "engines": {
@@ -54,4 +60,4 @@
     "name": "Jack",
     "url": "https://github.com/Jack-GitHub12"
   }
-} 
+}

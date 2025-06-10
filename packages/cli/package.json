@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/cli",
-  "version": "0.2.1",
-  "description": "StackSleuth command-line interface",
+  "version": "0.2.2",
+  "description": "Comprehensive command-line interface for StackSleuth - Interactive dashboard, real-time monitoring, performance reports, CI/CD integration, and automated performance optimization recommendations.",
   "main": "dist/index.js",
   "bin": {
     "sleuth": "dist/index.js"
@@ -47,7 +47,14 @@
     "performance",
     "profiling",
     "cli",
-    "developer-tools"
+    "developer-tools",
+    "monitoring",
+    "observability",
+    "apm",
+    "real-time",
+    "analytics",
+    "optimization",
+    "instrumentation"
   ],
   "license": "MIT",
   "engines": {
@@ -57,4 +64,4 @@
     "name": "Jack",
     "url": "https://github.com/Jack-GitHub12"
   }
-} 
+}

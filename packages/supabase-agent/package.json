@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/supabase-agent",
-  "version": "0.2.1",
-  "description": "StackSleuth Supabase database operations and real-time monitoring agent",
+  "version": "0.2.2",
+  "description": "Specialized Supabase performance monitoring agent - Real-time database tracking, auth performance analysis, edge function monitoring, and comprehensive cloud database optimization.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -25,7 +25,14 @@
     "realtime",
     "performance",
     "profiling",
-    "monitoring"
+    "monitoring",
+    "observability",
+    "apm",
+    "stacksleuth",
+    "real-time",
+    "analytics",
+    "optimization",
+    "instrumentation"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1",
@@ -51,5 +58,16 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
     "directory": "packages/supabase-agent"
   },
-  "license": "MIT"
-} 
+  "license": "MIT",
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

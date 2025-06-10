@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/db-agent",
-  "version": "0.2.1",
-  "description": "StackSleuth database instrumentation agent for PostgreSQL",
+  "version": "0.2.2",
+  "description": "Universal database performance monitoring agent - Query optimization, connection pooling analysis, transaction tracking, and database-agnostic performance metrics for SQL and NoSQL databases.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -45,7 +45,13 @@
     "postgresql",
     "database",
     "sql",
-    "instrumentation"
+    "instrumentation",
+    "monitoring",
+    "observability",
+    "apm",
+    "real-time",
+    "analytics",
+    "optimization"
   ],
   "license": "MIT",
   "engines": {
@@ -55,4 +61,4 @@
     "name": "Jack",
     "url": "https://github.com/Jack-GitHub12"
   }
-} 
+}

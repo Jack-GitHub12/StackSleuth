@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/session-replay",
-  "version": "0.2.1",
-  "description": "StackSleuth session recording and replay agent for debugging user interactions",
+  "version": "0.2.2",
+  "description": "Advanced session replay and user interaction recording agent - DOM event capture, user journey tracking, performance correlation, and comprehensive session analytics.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -25,7 +25,15 @@
     "debugging",
     "user-interactions",
     "performance",
-    "monitoring"
+    "monitoring",
+    "profiling",
+    "observability",
+    "apm",
+    "stacksleuth",
+    "real-time",
+    "analytics",
+    "optimization",
+    "instrumentation"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1"
@@ -48,5 +56,16 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
     "directory": "packages/session-replay"
   },
-  "license": "MIT"
-} 
+  "license": "MIT",
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/Jack-GitHub12"
+  },
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "bugs": {
+    "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
