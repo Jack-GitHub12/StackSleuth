@@ -1,249 +1,98 @@
 # @stacksleuth/frontend-agent
 
-Frontend performance tracking agent for React applications.
+<div align="center">
 
-## Installation
+![StackSleuth Frontend Agent](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=Frontend%20Agent)
+
+**StackSleuth Frontend Agent**
+
+[![npm version](https://badge.fury.io/js/%40stacksleuth%2Ffrontend-agent.svg)](https://badge.fury.io/js/%40stacksleuth%2Ffrontend-agent)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18.0+-green.svg)](https://nodejs.org/)
+
+</div>
+
+## 🚀 What is StackSleuth Frontend Agent?
+
+Advanced frontend performance monitoring for web applications - DOM event tracking, component lifecycle profiling, bundle analysis, memory leak detection, and real-time user interaction monitoring.
+
+## ✨ Key Features
+
+- 🌐 **DOM Event Tracking**: Comprehensive user interaction monitoring
+- ⚛️ **Component Lifecycle**: Framework-agnostic component profiling
+- 📦 **Bundle Analysis**: JavaScript bundle performance optimization
+- 💾 **Memory Leak Detection**: Client-side memory usage monitoring
+- 📊 **Core Web Vitals**: LCP, FID, CLS, and other performance metrics
+- 🔄 **Real-time Monitoring**: Live performance insights
+- 📱 **Mobile Optimization**: Mobile-specific performance tracking
+- 🎯 **User Journey Analysis**: Complete user interaction flow tracking
+
+## 📦 Installation
 
 ```bash
 npm install @stacksleuth/frontend-agent
 ```
 
-**Peer Dependencies:**
-- React 16.8+ (hooks support required)
-- React DOM 16.8+
-
-## Quick Start
-
-### Wrap Your App
-
-```jsx
-import React from 'react';
-import { StackSleuthProvider } from '@stacksleuth/frontend-agent';
-import App from './App';
-
-function Root() {
-  return (
-    <StackSleuthProvider>
-      <App />
-    </StackSleuthProvider>
-  );
-}
-
-export default Root;
+```bash
+yarn add @stacksleuth/frontend-agent
 ```
 
-### Manual Tracing with Hook
-
-```jsx
-import { useTrace } from '@stacksleuth/frontend-agent';
-
-function UserProfile({ userId }) {
-  const { trace } = useTrace();
-  const [user, setUser] = useState(null);
-
-  const fetchUser = async () => {
-    // Trace API calls
-    const userData = await trace('api:fetchUser', async () => {
-      const response = await fetch(`/api/users/${userId}`);
-      return response.json();
-    });
-    
-    setUser(userData);
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, [userId]);
-
-  return <div>{user?.name}</div>;
-}
+```bash
+pnpm add @stacksleuth/frontend-agent
 ```
 
-### Component Render Tracing
+## 🏁 Quick Start
 
-```jsx
-import { withTracing } from '@stacksleuth/frontend-agent';
+```typescript
+import { FrontendAgent } from '@stacksleuth/frontend-agent';
 
-// Automatically trace component renders
-const TracedComponent = withTracing(MyComponent, { name: 'MyComponent' });
+// Initialize the agent
+const agent = new FrontendAgent({
+  enabled: true,
+  trackUserInteractions: true,
+  monitorWebVitals: true
+});
 
-function App() {
-  return (
-    <div>
-      <TracedComponent />
-    </div>
-  );
-}
+// Start monitoring
+agent.startMonitoring();
+
+// Track custom events
+agent.trackEvent('user-action', {
+  action: 'button-click',
+  component: 'LoginForm'
+});
+
+// Track page navigation
+agent.trackPageView('/dashboard', {
+  userId: '12345',
+  referrer: document.referrer
+});
 ```
 
-## Configuration
+## 📚 Resources
 
-```jsx
-<StackSleuthProvider config={{
-  enabled: process.env.NODE_ENV === 'development',
-  sampling: { rate: 1.0 }, // 100% sampling in development
-  filters: {
-    excludeComponents: ['DevTools', 'HotReload'],
-    minDuration: 10 // Only track operations >10ms
-  },
-  output: {
-    console: true,
-    dashboard: {
-      enabled: true,
-      port: 3001
-    }
-  }
-}}>
-  <App />
-</StackSleuthProvider>
-```
+- **[Official Documentation](https://github.com/Jack-GitHub12/StackSleuth#readme)**
+- **[API Reference](https://github.com/Jack-GitHub12/StackSleuth/blob/main/docs/frontend-agent.md)**
+- **[Examples Repository](https://github.com/Jack-GitHub12/StackSleuth/tree/main/examples/frontend-agent)**
 
-## Features
+## 🤝 Contributing
 
-### Automatic Web Vitals Tracking
+We welcome contributions! Please see our [Contributing Guide](https://github.com/Jack-GitHub12/StackSleuth/blob/main/CONTRIBUTING.md) for details.
 
-The frontend agent automatically monitors Core Web Vitals:
+## 📄 License
 
-- **LCP (Largest Contentful Paint)** - Loading performance
-- **FID (First Input Delay)** - Interactivity
-- **CLS (Cumulative Layout Shift)** - Visual stability
-- **TTFB (Time to First Byte)** - Server response time
-- **FCP (First Contentful Paint)** - Perceived loading speed
+MIT License - see the [LICENSE](https://github.com/Jack-GitHub12/StackSleuth/blob/main/LICENSE) file for details.
 
-### Component Performance Monitoring
+---
 
-```jsx
-// Automatic render tracking with HOC
-const OptimizedList = withTracing(UserList, { name: 'UserList' });
+<div align="center">
 
-// Manual performance tracking
-function SearchComponent() {
-  const { trace } = useTrace();
-  
-  const handleSearch = async (query) => {
-    await trace('search-operation', async () => {
-      // This operation will be tracked
-      const results = await searchAPI(query);
-      setResults(results);
-    });
-  };
+**[Website](https://github.com/Jack-GitHub12/StackSleuth)** • 
+**[Documentation](https://github.com/Jack-GitHub12/StackSleuth#readme)** • 
+**[NPM Registry](https://www.npmjs.com/package/@stacksleuth/frontend-agent)** • 
+**[GitHub](https://github.com/Jack-GitHub12/StackSleuth)**
 
-  return <input onChange={handleSearch} />;
-}
-```
+Made with ⚡ by [StackSleuth](https://github.com/Jack-GitHub12/StackSleuth)
 
-### Resource Loading Tracking
-
-Automatically tracks:
-- **Script loading** - JavaScript bundle performance
-- **Image loading** - Image optimization opportunities  
-- **CSS loading** - Stylesheet performance
-- **API requests** - Network request timing
-
-### Real-time Performance Alerts
-
-The agent detects and reports:
-- **Slow components** (>100ms render time)
-- **Large resource loads** (>1MB assets)
-- **Memory leaks** (growing component tree)
-- **Excessive re-renders** (component optimization opportunities)
-
-## API Reference
-
-### StackSleuthProvider
-
-Provider component that enables performance tracking.
-
-**Props:**
-- `config?: Partial<StackSleuthConfig>` - Configuration options
-- `children: ReactNode` - Your app components
-
-### useTrace()
-
-Hook for manual performance tracing.
-
-**Returns:**
-- `trace(name, operation)` - Trace an async operation
-- `collector` - Access to the underlying trace collector
-
-### withTracing(Component, options?)
-
-Higher-order component for automatic render tracking.
-
-**Parameters:**
-- `Component` - React component to trace
-- `options.name?` - Custom name for the component
-
-## Performance Examples
-
-### API Call Tracing
-
-```jsx
-function DataFetcher() {
-  const { trace } = useTrace();
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    trace('fetch-initial-data', async () => {
-      const response = await fetch('/api/data');
-      const result = await response.json();
-      setData(result);
-    });
-  }, []);
-
-  return <div>{data.map(item => <Item key={item.id} {...item} />)}</div>;
-}
-```
-
-### Form Submission Tracking
-
-```jsx
-function ContactForm() {
-  const { trace } = useTrace();
-
-  const handleSubmit = async (formData) => {
-    await trace('form-submission', async () => {
-      await fetch('/api/contact', {
-        method: 'POST',
-        body: JSON.stringify(formData)
-      });
-    });
-  };
-
-  return <form onSubmit={handleSubmit}>...</form>;
-}
-```
-
-### Component Optimization
-
-```jsx
-// Before: Untraced component
-function UserList({ users }) {
-  return users.map(user => <UserCard key={user.id} user={user} />);
-}
-
-// After: Traced for performance monitoring
-const TracedUserList = withTracing(UserList, { name: 'UserList' });
-
-// Usage
-<TracedUserList users={users} />
-```
-
-## Browser Compatibility
-
-- **Modern browsers** with ES2020 support
-- **Performance API** required for Web Vitals
-- **Graceful degradation** in older browsers
-
-## Performance Impact
-
-- **<1ms** overhead per traced operation
-- **Minimal memory footprint** (<100KB)
-- **Intelligent sampling** to reduce load
-- **Tree-shakeable** - only includes used features
-
-## Links
-
-- [GitHub Repository](https://github.com/Jack-GitHub12/StackSleuth)
-- [Documentation](https://github.com/Jack-GitHub12/StackSleuth#readme)
-- [Issues](https://github.com/Jack-GitHub12/StackSleuth/issues) 
+</div>
