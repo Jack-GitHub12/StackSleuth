@@ -28,7 +28,10 @@ jobs:
           'mysql-agent',
           'supabase-agent',
           'fastapi-agent',
+          'django-agent',
+          'laravel-agent',
           'browser-agent',
+          'browser-extension',
           'session-replay',
           'cli'
         ]

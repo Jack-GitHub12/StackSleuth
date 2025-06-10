@@ -1,0 +1,58 @@
+{
+  "name": "@stacksleuth/browser-extension",
+  "version": "0.2.1",
+  "description": "StackSleuth browser extension for developer tools integration and real-time monitoring",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "manifest.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc && npm run build:extension",
+    "build:extension": "node scripts/build-extension.js",
+    "dev": "tsc -w",
+    "test": "vitest",
+    "test:ci": "vitest run --coverage",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist",
+    "package": "npm run build && node scripts/package-extension.js",
+    "benchmark": "node benchmarks/extension-performance.js",
+    "performance:test": "clinic doctor -- node benchmarks/memory-test.js"
+  },
+  "keywords": [
+    "browser-extension",
+    "devtools",
+    "performance",
+    "monitoring",
+    "debugging",
+    "chrome",
+    "firefox"
+  ],
+  "dependencies": {
+    "@stacksleuth/core": "^0.2.1",
+    "@stacksleuth/browser-agent": "^0.2.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "jsdom": "^23.0.0",
+    "@types/node": "^20.0.0",
+    "@types/chrome": "^0.0.246",
+    "clinic": "^12.0.0",
+    "benchmark": "^2.1.4",
+    "eslint": "^8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/browser-extension"
+  },
+  "license": "MIT"
+} 
