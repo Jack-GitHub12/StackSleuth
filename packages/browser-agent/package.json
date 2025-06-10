@@ -41,7 +41,7 @@
     "puppeteer": "^21.0.0",
     "cheerio": "^1.0.0-rc.12",
     "axios": "^1.6.0",
-    "ws": "^8.14.0"
+    "ws": "^8.17.1"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
