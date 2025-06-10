@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/django-agent",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Advanced Django performance monitoring agent - Middleware tracking, database query optimization, template rendering analysis, session monitoring, and comprehensive view-level performance metrics.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,20 +20,20 @@
     "performance:test": "clinic doctor -- node benchmarks/memory-test.js"
   },
   "keywords": [
-    "django",
-    "python",
-    "backend",
     "performance",
-    "profiling",
     "monitoring",
-    "database",
-    "observability",
-    "apm",
+    "profiling",
     "stacksleuth",
-    "real-time",
+    "observability",
     "analytics",
     "optimization",
-    "instrumentation"
+    "instrumentation",
+    "apm",
+    "real-time",
+    "django",
+    "python",
+    "orm",
+    "middleware"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1",
@@ -60,10 +60,11 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/django-agent#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },

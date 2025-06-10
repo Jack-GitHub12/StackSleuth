@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/browser-extension",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Comprehensive browser extension for real-time performance monitoring - DevTools integration, content script injection, tab performance tracking, and interactive performance visualization.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,21 +21,20 @@
     "performance:test": "clinic doctor -- node benchmarks/memory-test.js"
   },
   "keywords": [
-    "browser-extension",
-    "devtools",
     "performance",
     "monitoring",
-    "debugging",
-    "chrome",
-    "firefox",
     "profiling",
-    "observability",
-    "apm",
     "stacksleuth",
-    "real-time",
+    "observability",
     "analytics",
     "optimization",
-    "instrumentation"
+    "instrumentation",
+    "apm",
+    "real-time",
+    "extension",
+    "devtools",
+    "browser",
+    "chrome"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1",
@@ -62,10 +61,11 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/browser-extension#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },

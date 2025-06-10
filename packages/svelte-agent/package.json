@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/svelte-agent",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Specialized Svelte performance monitoring agent - Component lifecycle tracking, store subscription monitoring, reactive state analysis, DOM mutation observation, and real-time memory profiling.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,18 +20,19 @@
     "performance:test": "clinic doctor -- node benchmarks/memory-test.js"
   },
   "keywords": [
-    "svelte",
     "performance",
-    "profiling",
     "monitoring",
-    "frontend",
-    "observability",
-    "apm",
+    "profiling",
     "stacksleuth",
-    "real-time",
+    "observability",
     "analytics",
     "optimization",
-    "instrumentation"
+    "instrumentation",
+    "apm",
+    "real-time",
+    "svelte",
+    "sveltekit",
+    "components"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1",
@@ -57,10 +58,11 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/svelte-agent#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },

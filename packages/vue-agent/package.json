@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/vue-agent",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Specialized Vue.js performance monitoring agent - Component lifecycle tracking, Vuex state management profiling, route performance analysis, and reactive data monitoring with Vue DevTools integration.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,32 +35,33 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
     "directory": "packages/vue-agent"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/vue-agent#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },
   "keywords": [
-    "stacksleuth",
     "performance",
-    "profiling",
-    "vue",
-    "vue3",
-    "frontend",
-    "web-vitals",
-    "instrumentation",
     "monitoring",
+    "profiling",
+    "stacksleuth",
     "observability",
+    "analytics",
+    "optimization",
+    "instrumentation",
     "apm",
     "real-time",
-    "analytics",
-    "optimization"
+    "vue",
+    "vuejs",
+    "components",
+    "vuex"
   ],
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
   },
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   }
 }

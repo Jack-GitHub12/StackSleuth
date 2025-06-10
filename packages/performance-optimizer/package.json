@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/performance-optimizer",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Intelligent performance optimization engine - Automated bottleneck detection, code optimization suggestions, resource optimization, and performance enhancement recommendations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,17 +21,19 @@
   },
   "keywords": [
     "performance",
-    "optimization",
-    "analysis",
-    "recommendations",
-    "profiling",
     "monitoring",
-    "observability",
-    "apm",
+    "profiling",
     "stacksleuth",
-    "real-time",
+    "observability",
     "analytics",
-    "instrumentation"
+    "optimization",
+    "instrumentation",
+    "apm",
+    "real-time",
+    "optimization",
+    "ai",
+    "recommendations",
+    "bottlenecks"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1"
@@ -55,10 +57,11 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/performance-optimizer#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },

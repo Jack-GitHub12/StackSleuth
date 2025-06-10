@@ -1,7 +1,7 @@
 {
   "name": "@stacksleuth/db-agent",
-  "version": "0.2.2",
-  "description": "Universal database performance monitoring agent - Query optimization, connection pooling analysis, transaction tracking, and database-agnostic performance metrics for SQL and NoSQL databases.",
+  "version": "0.2.3",
+  "description": "Universal database performance monitoring agent - Multi-database support, query optimization, connection pool monitoring, transaction tracking, and comprehensive database performance analytics.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -34,31 +34,33 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
     "directory": "packages/db-agent"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/db-agent#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },
   "keywords": [
-    "stacksleuth",
     "performance",
-    "profiling",
-    "postgresql",
-    "database",
-    "sql",
-    "instrumentation",
     "monitoring",
+    "profiling",
+    "stacksleuth",
     "observability",
+    "analytics",
+    "optimization",
+    "instrumentation",
     "apm",
     "real-time",
-    "analytics",
-    "optimization"
+    "database",
+    "sql",
+    "orm",
+    "connections"
   ],
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
   },
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   }
 }

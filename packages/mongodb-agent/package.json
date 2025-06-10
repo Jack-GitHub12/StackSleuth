@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/mongodb-agent",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Advanced MongoDB performance monitoring agent - Query optimization, aggregation pipeline analysis, index usage tracking, connection pool monitoring, and real-time database performance metrics.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,31 +35,33 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
     "directory": "packages/mongodb-agent"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/mongodb-agent#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },
   "keywords": [
-    "stacksleuth",
     "performance",
-    "profiling",
-    "mongodb",
-    "database",
-    "nosql",
-    "instrumentation",
     "monitoring",
+    "profiling",
+    "stacksleuth",
     "observability",
+    "analytics",
+    "optimization",
+    "instrumentation",
     "apm",
     "real-time",
-    "analytics",
-    "optimization"
+    "mongodb",
+    "nosql",
+    "aggregation",
+    "index"
   ],
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
   },
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   }
 }

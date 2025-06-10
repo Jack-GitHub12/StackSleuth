@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/backend-agent",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Comprehensive backend performance monitoring agent for Node.js applications - HTTP request tracing, database query optimization, memory profiling, and real-time metrics collection with WebSocket integration.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,31 +36,33 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
     "directory": "packages/backend-agent"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/backend-agent#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },
   "keywords": [
-    "stacksleuth",
     "performance",
-    "profiling",
-    "express",
-    "nodejs",
-    "backend",
-    "instrumentation",
     "monitoring",
+    "profiling",
+    "stacksleuth",
     "observability",
+    "analytics",
+    "optimization",
+    "instrumentation",
     "apm",
     "real-time",
-    "analytics",
-    "optimization"
+    "backend",
+    "nodejs",
+    "express",
+    "api"
   ],
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
   },
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   }
 }

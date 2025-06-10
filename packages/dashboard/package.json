@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/dashboard",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Interactive web dashboard for StackSleuth - Real-time performance visualization, comprehensive analytics, team collaboration features, and advanced monitoring capabilities.",
   "private": true,
   "scripts": {
@@ -34,13 +34,13 @@
     "performance",
     "monitoring",
     "profiling",
-    "observability",
-    "apm",
     "stacksleuth",
-    "real-time",
+    "observability",
     "analytics",
     "optimization",
-    "instrumentation"
+    "instrumentation",
+    "apm",
+    "real-time"
   ],
   "repository": {
     "type": "git",
@@ -48,10 +48,11 @@
     "directory": "packages/dashboard"
   },
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/dashboard#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },

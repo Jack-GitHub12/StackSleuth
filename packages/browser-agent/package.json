@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/browser-agent",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Advanced browser automation and performance monitoring agent - Playwright/Puppeteer integration, website crawling, user interaction simulation, screenshot capture, and real-time debugging capabilities.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,22 +20,20 @@
     "performance:test": "clinic doctor -- node benchmarks/memory-test.js"
   },
   "keywords": [
-    "browser",
-    "automation",
-    "debugging",
-    "crawling",
-    "testing",
-    "simulation",
     "performance",
     "monitoring",
     "profiling",
-    "observability",
-    "apm",
     "stacksleuth",
-    "real-time",
+    "observability",
     "analytics",
     "optimization",
-    "instrumentation"
+    "instrumentation",
+    "apm",
+    "real-time",
+    "browser",
+    "automation",
+    "playwright",
+    "puppeteer"
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1",
@@ -64,10 +62,11 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Jack",
-    "url": "https://github.com/Jack-GitHub12"
+    "name": "StackSleuth Team",
+    "email": "team@stacksleuth.com",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth"
   },
-  "homepage": "https://github.com/Jack-GitHub12/StackSleuth#readme",
+  "homepage": "https://github.com/Jack-GitHub12/StackSleuth/tree/main/packages/browser-agent#readme",
   "bugs": {
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },
