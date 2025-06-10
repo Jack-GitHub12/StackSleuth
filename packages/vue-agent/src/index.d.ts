@@ -8,9 +8,9 @@ export declare const StackSleuthPlugin: Plugin;
  * Composable for using StackSleuth in Vue components
  */
 export declare function useStackSleuth(): {
-    collector: any;
+    collector: TraceCollector;
     trace: <T>(name: string, operation: () => Promise<T>) => Promise<T>;
-    tracedRef: <T>(initialValue: T, name?: string) => any;
+    tracedRef: <T>(initialValue: T, name?: string) => [T] extends [import("vue").Ref<any, any>] ? import("@vue/shared").IfAny<T, import("vue").Ref<T, T>, T> : import("vue").Ref<import("vue").UnwrapRef<T>, T | import("vue").UnwrapRef<T>>;
     traceLifecycle: (eventName: string) => void;
 };
 /**

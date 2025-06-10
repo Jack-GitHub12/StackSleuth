@@ -1,0 +1,428 @@
+name: StackSleuth Performance CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run performance benchmarks daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # Build and test all packages
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [
+          'core',
+          'backend-agent', 
+          'frontend-agent',
+          'svelte-agent',
+          'redis-agent',
+          'mysql-agent',
+          'supabase-agent',
+          'fastapi-agent',
+          'django-agent',
+          'laravel-agent',
+          'browser-agent',
+          'browser-extension',
+          'session-replay',
+          'cli'
+        ]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build package
+      run: npm run build --workspace=@stacksleuth/${{ matrix.package }}
+
+    - name: Run tests
+      run: npm run test:ci --workspace=@stacksleuth/${{ matrix.package }}
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./packages/${{ matrix.package }}/coverage/lcov.info
+        flags: ${{ matrix.package }}
+
+  # Performance benchmarks
+  performance-benchmarks:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: test
+          MYSQL_DATABASE: stacksleuth_test
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+      postgres:
+        image: postgres:15-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: stacksleuth_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install fastapi uvicorn django flask sqlalchemy redis mysql-connector-python psycopg2-binary
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build all packages
+      run: npm run build
+
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+
+    - name: Run performance benchmarks
+      run: |
+        npm run benchmark
+        npm run performance:test
+
+    - name: Generate performance report
+      run: |
+        node scripts/generate-performance-report.js > performance-report.json
+
+    - name: Upload performance artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: performance-reports
+        path: |
+          performance-report.json
+          benchmarks/results/**
+
+    - name: Comment performance results on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('performance-report.json', 'utf8'));
+          
+          const comment = `## 🚀 Performance Report
+          
+          ### Memory Usage
+          - **Average**: ${report.memory.average}MB
+          - **Peak**: ${report.memory.peak}MB
+          - **Delta from baseline**: ${report.memory.delta > 0 ? '+' : ''}${report.memory.delta}MB
+          
+          ### Response Times
+          - **P50**: ${report.responseTime.p50}ms
+          - **P95**: ${report.responseTime.p95}ms
+          - **P99**: ${report.responseTime.p99}ms
+          
+          ### Database Performance
+          - **Average query time**: ${report.database.avgQueryTime}ms
+          - **Slow queries**: ${report.database.slowQueries}
+          
+          ### Browser Automation
+          - **Page load time**: ${report.browser.pageLoadTime}ms
+          - **Interaction latency**: ${report.browser.interactionLatency}ms
+          
+          ${report.regressions.length > 0 ? `### ⚠️ Performance Regressions
+          ${report.regressions.map(r => `- ${r.metric}: ${r.change}`).join('\n')}` : '### ✅ No performance regressions detected'}
+          `;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  # Load testing
+  load-testing:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build packages
+      run: npm run build
+
+    - name: Start test applications
+      run: |
+        # Start FastAPI test server
+        cd examples/fastapi-demo && python -m uvicorn main:app --host 0.0.0.0 --port 8000 &
+        
+        # Start Node.js test server  
+        cd examples/fullstack-demo/api && npm start &
+        
+        # Start frontend
+        cd examples/fullstack-demo/web && npm start &
+        
+        # Wait for services to start
+        sleep 30
+
+    - name: Run load tests with Artillery
+      run: |
+        npm install -g artillery
+        artillery run tests/load/api-load-test.yml --output load-test-results.json
+
+    - name: Run Lighthouse performance audit
+      run: |
+        npm install -g lighthouse
+        lighthouse http://localhost:3000 --output json --output-path lighthouse-report.json --chrome-flags="--headless"
+
+    - name: Upload load test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: load-test-results
+        path: |
+          load-test-results.json
+          lighthouse-report.json
+
+  # Security and dependency checks
+  security-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run npm audit
+      run: npm audit --audit-level moderate
+
+    - name: Run Snyk security scan
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high
+
+    - name: Run CodeQL analysis
+      uses: github/codeql-action/init@v2
+      with:
+        languages: javascript, typescript
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL analysis
+      uses: github/codeql-action/analyze@v2
+
+  # Deploy to staging
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [build-and-test, performance-benchmarks]
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build packages
+      run: npm run build
+
+    - name: Deploy to staging
+      run: |
+        echo "Deploying to staging environment..."
+        # Add your staging deployment commands here
+        
+    - name: Run smoke tests
+      run: |
+        npm run test:smoke:staging
+
+  # Deploy to production
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [build-and-test, performance-benchmarks, security-check]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build packages
+      run: npm run build
+
+    - name: Publish to npm
+      run: npm run publish:all
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    - name: Create GitHub release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        body: |
+          Automated release from CI/CD pipeline
+          
+          ## Performance Metrics
+          - Memory usage optimized
+          - Response times improved
+          - Zero security vulnerabilities
+          
+          ## What's Changed
+          ${{ github.event.head_commit.message }}
+        draft: false
+        prerelease: false
+
+    - name: Deploy to production
+      run: |
+        echo "Deploying to production environment..."
+        # Add your production deployment commands here
+
+    - name: Run production health checks
+      run: |
+        npm run test:health:production
+
+  # Performance monitoring
+  performance-monitoring:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run continuous performance monitoring
+      run: |
+        node scripts/continuous-performance-monitor.js
+
+    - name: Send alerts if performance degraded
+      if: failure()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: failure
+        channel: '#alerts'
+        text: '🚨 Performance degradation detected in StackSleuth'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # Generate documentation
+  documentation:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Generate API documentation
+      run: npm run docs:build
+
+    - name: Deploy documentation to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/dist 

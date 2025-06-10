@@ -21,6 +21,8 @@ __exportStar(require("./types"), exports);
 __exportStar(require("./utils"), exports);
 // Core collector
 __exportStar(require("./collector"), exports);
+// Profiler Core (main interface)
+__exportStar(require("./profiler"), exports);
 // Flamegraph utilities
 __exportStar(require("./flamegraph"), exports);
 // Adaptive sampling

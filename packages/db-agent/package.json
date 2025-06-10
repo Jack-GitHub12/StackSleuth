@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/db-agent",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "StackSleuth database instrumentation agent for PostgreSQL",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@stacksleuth/core": "^0.1.0"
+    "@stacksleuth/core": "^0.2.1"
   },
   "devDependencies": {
     "@types/pg": "^8.10.0",

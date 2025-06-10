@@ -1,6 +1,6 @@
 {
   "name": "@stacksleuth/cli",
-  "version": "0.1.3",
+  "version": "0.2.1",
   "description": "StackSleuth command-line interface",
   "main": "dist/index.js",
   "bin": {
@@ -15,7 +15,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@stacksleuth/core": "^0.1.0",
+    "@stacksleuth/core": "^0.2.1",
     "commander": "^11.0.0",
     "chalk": "^4.1.2",
     "ora": "^5.4.1",

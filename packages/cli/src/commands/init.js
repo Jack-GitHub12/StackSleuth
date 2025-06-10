@@ -1,4 +1,37 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -6,12 +39,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InitCommand = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const chalk_1 = __importDefault(require("chalk"));
 const inquirer_1 = __importDefault(require("inquirer"));
+// Dynamic import for chalk to handle ESM compatibility
+let chalk;
+async function initChalk() {
+    if (!chalk) {
+        chalk = (await Promise.resolve().then(() => __importStar(require('chalk')))).default;
+    }
+    return chalk;
+}
 class InitCommand {
     async execute(options) {
         try {
-            console.log(chalk_1.default.blue('🚀 Initializing StackSleuth in your project...'));
+            const c = await initChalk();
+            console.log(c.blue('🚀 Initializing StackSleuth in your project...'));
             // Interactive setup if no options provided
             const config = await this.gatherConfig(options);
             // Create configuration files
@@ -19,10 +60,11 @@ class InitCommand {
             // Create example integration code
             await this.createExampleCode(config);
             // Show setup instructions
-            this.showSetupInstructions(config);
+            await this.showSetupInstructions(config);
         }
         catch (error) {
-            console.error(chalk_1.default.red('❌ Error during initialization:'), error.message);
+            const c = await initChalk();
+            console.error(c.red('❌ Error during initialization:'), error.message);
             process.exit(1);
         }
     }
@@ -57,11 +99,12 @@ class InitCommand {
         };
     }
     async createConfigFiles(config) {
+        const c = await initChalk();
         // Create stacksleuth.config file
         const configContent = this.generateConfigFile(config);
         const configPath = config.typescript ? 'stacksleuth.config.ts' : 'stacksleuth.config.js';
         fs_1.default.writeFileSync(configPath, configContent);
-        console.log(chalk_1.default.green(`✅ Created ${configPath}`));
+        console.log(c.green(`✅ Created ${configPath}`));
         // Create .stacksleuthrc for CLI settings
         const cliConfig = {
             framework: config.framework,
@@ -75,7 +118,7 @@ class InitCommand {
             }
         };
         fs_1.default.writeFileSync('.stacksleuthrc', JSON.stringify(cliConfig, null, 2));
-        console.log(chalk_1.default.green('✅ Created .stacksleuthrc'));
+        console.log(c.green('✅ Created .stacksleuthrc'));
     }
     generateConfigFile(config) {
         const isTS = config.typescript;
@@ -135,6 +178,7 @@ ${exportSyntax} {
         }
     }
     async createExpressExample(dir, isTS) {
+        const c = await initChalk();
         const ext = isTS ? 'ts' : 'js';
         const content = `${isTS ? "import express from 'express';" : "const express = require('express');"}
 ${isTS ? "import { createBackendAgent } from '@stacksleuth/backend-agent';" : "const { createBackendAgent } = require('@stacksleuth/backend-agent');"}
@@ -171,9 +215,10 @@ app.listen(PORT, () => {
 });
 `;
         fs_1.default.writeFileSync(path_1.default.join(dir, `express-example.${ext}`), content);
-        console.log(chalk_1.default.green(`✅ Created ${dir}/express-example.${ext}`));
+        console.log(c.green(`✅ Created ${dir}/express-example.${ext}`));
     }
     async createReactExample(dir, isTS) {
+        const c = await initChalk();
         const ext = isTS ? 'tsx' : 'jsx';
         const content = `${isTS ? "import React, { useEffect, useState } from 'react';" : "import React, { useEffect, useState } from 'react';"}
 ${isTS ? "import { StackSleuthProvider, useTrace } from '@stacksleuth/frontend-agent';" : "import { StackSleuthProvider, useTrace } from '@stacksleuth/frontend-agent';"}
@@ -231,9 +276,10 @@ function UserList() {
 export default App;
 `;
         fs_1.default.writeFileSync(path_1.default.join(dir, `react-example.${ext}`), content);
-        console.log(chalk_1.default.green(`✅ Created ${dir}/react-example.${ext}`));
+        console.log(c.green(`✅ Created ${dir}/react-example.${ext}`));
     }
     async createNextExample(dir, isTS) {
+        const c = await initChalk();
         const ext = isTS ? 'ts' : 'js';
         // API route example
         const apiContent = `${isTS ? "import type { NextApiRequest, NextApiResponse } from 'next';" : ""}
@@ -289,13 +335,14 @@ export const getServerSideProps${isTS ? ': GetServerSideProps' : ''} = async () 
 `;
         fs_1.default.writeFileSync(path_1.default.join(dir, `api-route.${ext}`), apiContent);
         fs_1.default.writeFileSync(path_1.default.join(dir, `page-example.${ext}`), pageContent);
-        console.log(chalk_1.default.green(`✅ Created ${dir}/api-route.${ext}`));
-        console.log(chalk_1.default.green(`✅ Created ${dir}/page-example.${ext}`));
+        console.log(c.green(`✅ Created ${dir}/api-route.${ext}`));
+        console.log(c.green(`✅ Created ${dir}/page-example.${ext}`));
     }
-    showSetupInstructions(config) {
-        console.log(chalk_1.default.bold('\n🎉 StackSleuth initialization complete!'));
-        console.log(chalk_1.default.gray('─'.repeat(50)));
-        console.log(chalk_1.default.cyan('\n📋 Next steps:'));
+    async showSetupInstructions(config) {
+        const c = await initChalk();
+        console.log(c.bold('\n🎉 StackSleuth initialization complete!'));
+        console.log(c.gray('─'.repeat(50)));
+        console.log(c.cyan('\n📋 Next steps:'));
         console.log('1. Install the required packages:');
         const packages = ['@stacksleuth/core'];
         switch (config.framework) {
@@ -309,18 +356,18 @@ export const getServerSideProps${isTS ? ': GetServerSideProps' : ''} = async () 
                 packages.push('@stacksleuth/backend-agent', '@stacksleuth/frontend-agent');
                 break;
         }
-        console.log(chalk_1.default.gray(`   npm install ${packages.join(' ')}`));
+        console.log(c.gray(`   npm install ${packages.join(' ')}`));
         console.log('\n2. Check the example code in:');
-        console.log(chalk_1.default.gray('   examples/stacksleuth/'));
+        console.log(c.gray('   examples/stacksleuth/'));
         console.log('\n3. Start profiling your application:');
-        console.log(chalk_1.default.gray('   sleuth watch'));
+        console.log(c.gray('   sleuth watch'));
         console.log('\n4. View the dashboard at:');
-        console.log(chalk_1.default.gray('   http://localhost:3001'));
-        console.log(chalk_1.default.yellow('\n💡 Tips:'));
+        console.log(c.gray('   http://localhost:3001'));
+        console.log(c.yellow('\n💡 Tips:'));
         console.log('• Adjust sampling rates in stacksleuth.config for production');
         console.log('• Use filters to exclude noise from your traces');
         console.log('• Check the dashboard for real-time performance insights');
-        console.log(chalk_1.default.green('\n✨ Happy profiling!'));
+        console.log(c.green('\n✨ Happy profiling!'));
     }
 }
 exports.InitCommand = InitCommand;

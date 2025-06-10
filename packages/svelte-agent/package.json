@@ -1,0 +1,51 @@
+{
+  "name": "@stacksleuth/svelte-agent",
+  "version": "0.2.1",
+  "description": "StackSleuth Svelte frontend profiling agent with real-time performance monitoring",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "vitest",
+    "test:ci": "vitest run --coverage",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist",
+    "benchmark": "node benchmarks/performance.js",
+    "performance:test": "clinic doctor -- node benchmarks/memory-test.js"
+  },
+  "keywords": [
+    "svelte",
+    "performance",
+    "profiling",
+    "monitoring",
+    "frontend"
+  ],
+  "dependencies": {
+    "@stacksleuth/core": "^0.2.1",
+    "svelte": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "eslint": "^8.0.0"
+  },
+  "peerDependencies": {
+    "svelte": ">=3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/svelte-agent"
+  },
+  "license": "MIT"
+} 

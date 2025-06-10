@@ -1,5 +1,5 @@
 import { TraceCollector, StackSleuthConfig } from '@stacksleuth/core';
-import { MongoClient, Db, Collection } from 'mongodb';
+import { MongoClient, Db, Collection, Document } from 'mongodb';
 interface MongoInstrumentationOptions {
     enableQueryLogging?: boolean;
     slowQueryThreshold?: number;
@@ -24,7 +24,7 @@ export declare class MongoDBAgent {
     /**
      * Instrument a MongoDB collection
      */
-    instrumentCollection<T = any>(collection: Collection<T>, collectionName: string): Collection<T>;
+    instrumentCollection<T extends Document = Document>(collection: Collection<T>, collectionName: string): Collection<T>;
     /**
      * Create a wrapper for MongoDB operations
      */
@@ -73,7 +73,7 @@ export declare function instrumentMongoDb(db: Db, options?: MongoInstrumentation
 /**
  * Instrument a MongoDB collection with default settings
  */
-export declare function instrumentMongoCollection<T = any>(collection: Collection<T>, collectionName: string, options?: MongoInstrumentationOptions): Collection<T>;
+export declare function instrumentMongoCollection<T extends Document = Document>(collection: Collection<T>, collectionName: string, options?: MongoInstrumentationOptions): Collection<T>;
 /**
  * Create a MongoDB agent instance
  */

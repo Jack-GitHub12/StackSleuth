@@ -11,9 +11,9 @@
     "db:seed": "ts-node src/seed-data.ts"
   },
   "dependencies": {
-    "@stacksleuth/backend-agent": "^0.1.0",
-    "@stacksleuth/db-agent": "^0.1.0",
-    "@stacksleuth/mongodb-agent": "^0.1.0",
+    "@stacksleuth/backend-agent": "^0.2.1",
+    "@stacksleuth/db-agent": "^0.2.1",
+    "@stacksleuth/mongodb-agent": "^0.2.1",
     "express": "^4.18.0",
     "cors": "^2.8.5",
     "pg": "^8.11.0",

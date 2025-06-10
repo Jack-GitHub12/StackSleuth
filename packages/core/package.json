@@ -1,25 +1,30 @@
 {
   "name": "@stacksleuth/core",
-  "version": "0.1.0",
-  "description": "StackSleuth core types, utilities, and interfaces",
+  "version": "0.2.1",
+  "description": "Core tracing and profiling engine for StackSleuth",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
+    "dev": "tsc -w",
     "test": "jest",
+    "test:ci": "jest --coverage --ci",
     "lint": "eslint src/**/*.ts",
-    "clean": "rm -rf dist",
-    "prepublishOnly": "npm run build"
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.0"
+    "@types/uuid": "^9.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "ts-jest": "^29.0.0"
   },
   "files": [
-    "dist/**/*",
+    "dist/",
     "README.md"
   ],
   "publishConfig": {
@@ -35,12 +40,11 @@
     "url": "https://github.com/Jack-GitHub12/StackSleuth/issues"
   },
   "keywords": [
-    "stacksleuth",
     "performance",
     "profiling",
     "tracing",
-    "observability",
-    "core"
+    "monitoring",
+    "apm"
   ],
   "license": "MIT",
   "engines": {

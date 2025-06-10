@@ -1,4 +1,37 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -6,15 +39,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReportCommand = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const chalk_1 = __importDefault(require("chalk"));
 const core_1 = require("@stacksleuth/core");
+// Dynamic import for chalk to handle ESM compatibility
+let chalk;
+async function initChalk() {
+    if (!chalk) {
+        chalk = (await Promise.resolve().then(() => __importStar(require('chalk')))).default;
+    }
+    return chalk;
+}
 class ReportCommand {
     constructor(collector) {
         this.collector = collector;
     }
     async execute(options) {
         try {
-            console.log(chalk_1.default.blue('📊 Generating performance report...'));
+            const c = await initChalk();
+            console.log(c.blue('📊 Generating performance report...'));
             // Get traces based on time filter
             let traces = this.collector.getAllTraces();
             if (options.last) {
@@ -23,7 +64,7 @@ class ReportCommand {
                 traces = this.collector.getTracesByTimeRange(cutoff, Date.now());
             }
             if (traces.length === 0) {
-                console.log(chalk_1.default.yellow('⚠️  No traces found for the specified criteria'));
+                console.log(c.yellow('⚠️  No traces found for the specified criteria'));
                 return;
             }
             // Generate report
@@ -32,16 +73,17 @@ class ReportCommand {
             if (options.output) {
                 const outputPath = path_1.default.resolve(options.output);
                 fs_1.default.writeFileSync(outputPath, report);
-                console.log(chalk_1.default.green(`✅ Report saved to: ${outputPath}`));
+                console.log(c.green(`✅ Report saved to: ${outputPath}`));
             }
             else {
                 console.log('\n' + report);
             }
             // Show summary statistics
-            this.showSummary(traces);
+            await this.showSummary(traces);
         }
         catch (error) {
-            console.error(chalk_1.default.red('❌ Error generating report:'), error.message);
+            const c = await initChalk();
+            console.error(c.red('❌ Error generating report:'), error.message);
             process.exit(1);
         }
     }
@@ -118,23 +160,24 @@ class ReportCommand {
             }
         };
     }
-    showSummary(traces) {
+    async showSummary(traces) {
+        const c = await initChalk();
         const summary = this.generateSummary(traces);
-        console.log(chalk_1.default.bold('\n📈 Report Summary'));
-        console.log(chalk_1.default.gray('─'.repeat(50)));
-        console.log(`${chalk_1.default.cyan('Traces Analyzed:')} ${traces.length}`);
-        console.log(`${chalk_1.default.cyan('Time Range:')} ${core_1.PerformanceUtils.formatDuration(summary.performance.min)} - ${core_1.PerformanceUtils.formatDuration(summary.performance.max)}`);
-        console.log(`${chalk_1.default.cyan('Average Duration:')} ${core_1.PerformanceUtils.formatDuration(summary.performance.avg)}`);
-        console.log(`${chalk_1.default.cyan('P95 Duration:')} ${core_1.PerformanceUtils.formatDuration(summary.performance.p95)}`);
-        console.log(`${chalk_1.default.cyan('P99 Duration:')} ${core_1.PerformanceUtils.formatDuration(summary.performance.p99)}`);
+        console.log(c.bold('\n📈 Report Summary'));
+        console.log(c.gray('─'.repeat(50)));
+        console.log(`${c.cyan('Traces Analyzed:')} ${traces.length}`);
+        console.log(`${c.cyan('Time Range:')} ${core_1.PerformanceUtils.formatDuration(summary.performance.min)} - ${core_1.PerformanceUtils.formatDuration(summary.performance.max)}`);
+        console.log(`${c.cyan('Average Duration:')} ${core_1.PerformanceUtils.formatDuration(summary.performance.avg)}`);
+        console.log(`${c.cyan('P95 Duration:')} ${core_1.PerformanceUtils.formatDuration(summary.performance.p95)}`);
+        console.log(`${c.cyan('P99 Duration:')} ${core_1.PerformanceUtils.formatDuration(summary.performance.p99)}`);
         if (summary.errors.count > 0) {
-            console.log(`${chalk_1.default.red('Errors:')} ${summary.errors.count} (${summary.errors.percentage.toFixed(1)}%)`);
+            console.log(`${c.red('Errors:')} ${summary.errors.count} (${summary.errors.percentage.toFixed(1)}%)`);
         }
         if (summary.slowTraces.count > 0) {
-            console.log(`${chalk_1.default.yellow('Slow Traces (>1s):')} ${summary.slowTraces.count} (${summary.slowTraces.percentage.toFixed(1)}%)`);
+            console.log(`${c.yellow('Slow Traces (>1s):')} ${summary.slowTraces.count} (${summary.slowTraces.percentage.toFixed(1)}%)`);
         }
-        console.log(`${chalk_1.default.cyan('Total Spans:')} ${summary.spans.total}`);
-        console.log(`${chalk_1.default.cyan('Average Spans per Trace:')} ${summary.spans.avg.toFixed(1)}`);
+        console.log(`${c.cyan('Total Spans:')} ${summary.spans.total}`);
+        console.log(`${c.cyan('Average Spans per Trace:')} ${summary.spans.avg.toFixed(1)}`);
         console.log('');
     }
 }

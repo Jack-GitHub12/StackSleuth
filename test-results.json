@@ -1,0 +1,575 @@
+{
+  "passed": 2,
+  "failed": 18,
+  "skipped": 0,
+  "total": 20,
+  "details": [
+    {
+      "package": "backend-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/backend-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "typecheck",
+          "status": "passed",
+          "duration": 0
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 2284,
+      "totalTime": 7135,
+      "status": "failed"
+    },
+    {
+      "package": "browser-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/browser-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "benchmark",
+          "status": "passed",
+          "duration": 656,
+          "output": "\n> @stacksleuth/browser-agent@0.2.1 benchmark\n> node benchmarks/automation-performance.js\n\n"
+        },
+        {
+          "type": "typecheck",
+          "status": "failed",
+          "duration": 0,
+          "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 4102,
+      "totalTime": 10831,
+      "status": "failed"
+    },
+    {
+      "package": "cli",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/cli",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "typecheck",
+          "status": "passed",
+          "duration": 0
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 2688,
+      "totalTime": 7809,
+      "status": "failed"
+    },
+    {
+      "package": "core",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/core",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "typecheck",
+          "status": "passed",
+          "duration": 0
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 2098,
+      "totalTime": 6669,
+      "status": "failed"
+    },
+    {
+      "package": "dashboard",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/dashboard",
+      "tests": [],
+      "buildTime": 0,
+      "totalTime": 0,
+      "status": "failed",
+      "error": "src directory not found in /Users/jacklau/Documents/SlackSleuth/packages/dashboard"
+    },
+    {
+      "package": "db-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/db-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "typecheck",
+          "status": "passed",
+          "duration": 0
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 2240,
+      "totalTime": 6781,
+      "status": "failed"
+    },
+    {
+      "package": "fastapi-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/fastapi-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "benchmark",
+          "status": "passed",
+          "duration": 664,
+          "output": "\n> @stacksleuth/fastapi-agent@0.2.1 benchmark\n> node benchmarks/fastapi-performance.js\n\n"
+        },
+        {
+          "type": "typecheck",
+          "status": "failed",
+          "duration": 0,
+          "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 4155,
+      "totalTime": 10682,
+      "status": "failed"
+    },
+    {
+      "package": "frontend-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/frontend-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "typecheck",
+          "status": "passed",
+          "duration": 0
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 2242,
+      "totalTime": 6525,
+      "status": "failed"
+    },
+    {
+      "package": "mongodb-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/mongodb-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "typecheck",
+          "status": "passed",
+          "duration": 0
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 1922,
+      "totalTime": 6148,
+      "status": "failed"
+    },
+    {
+      "package": "mysql-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/mysql-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "typecheck",
+          "status": "failed",
+          "duration": 0,
+          "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 3957,
+      "totalTime": 9422,
+      "status": "failed"
+    },
+    {
+      "package": "performance-optimizer",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/performance-optimizer",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "benchmark",
+          "status": "passed",
+          "duration": 605,
+          "output": "\n> @stacksleuth/performance-optimizer@0.2.1 benchmark\n> node benchmarks/optimizer-performance.js\n\n"
+        },
+        {
+          "type": "typecheck",
+          "status": "failed",
+          "duration": 0,
+          "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 3728,
+      "totalTime": 9735,
+      "status": "failed"
+    },
+    {
+      "package": "redis-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/redis-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "benchmark",
+          "status": "passed",
+          "duration": 627,
+          "output": "\n> @stacksleuth/redis-agent@0.2.1 benchmark\n> node benchmarks/redis-performance.js\n\n"
+        },
+        {
+          "type": "typecheck",
+          "status": "failed",
+          "duration": 0,
+          "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 3736,
+      "totalTime": 9773,
+      "status": "failed"
+    },
+    {
+      "package": "session-replay",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/session-replay",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "benchmark",
+          "status": "passed",
+          "duration": 611,
+          "output": "\n> @stacksleuth/session-replay@0.2.1 benchmark\n> node benchmarks/replay-performance.js\n\n"
+        },
+        {
+          "type": "typecheck",
+          "status": "failed",
+          "duration": 0,
+          "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\nsrc/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 3826,
+      "totalTime": 9776,
+      "status": "failed"
+    },
+    {
+      "package": "supabase-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/supabase-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "benchmark",
+          "status": "passed",
+          "duration": 657,
+          "output": "\n> @stacksleuth/supabase-agent@0.2.1 benchmark\n> node benchmarks/supabase-performance.js\n\n"
+        },
+        {
+          "type": "typecheck",
+          "status": "failed",
+          "duration": 0,
+          "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\nsrc/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 3731,
+      "totalTime": 9874,
+      "status": "failed"
+    },
+    {
+      "package": "svelte-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/svelte-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "benchmark",
+          "status": "passed",
+          "duration": 660,
+          "output": "\n> @stacksleuth/svelte-agent@0.2.1 benchmark\n> node benchmarks/performance.js\n\n"
+        },
+        {
+          "type": "typecheck",
+          "status": "failed",
+          "duration": 0,
+          "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 3687,
+      "totalTime": 10244,
+      "status": "failed"
+    },
+    {
+      "package": "vue-agent",
+      "path": "/Users/jacklau/Documents/SlackSleuth/packages/vue-agent",
+      "tests": [
+        {
+          "type": "unit",
+          "status": "failed",
+          "duration": 0,
+          "error": "Cannot read properties of undefined (reading 'push')"
+        },
+        {
+          "type": "typecheck",
+          "status": "passed",
+          "duration": 0
+        },
+        {
+          "type": "lint",
+          "status": "passed",
+          "duration": 0
+        }
+      ],
+      "buildTime": 1946,
+      "totalTime": 6090,
+      "status": "failed"
+    }
+  ],
+  "failures": [
+    {
+      "package": "backend-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "browser-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "browser-agent",
+      "test": "typecheck",
+      "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+    },
+    {
+      "package": "cli",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "core",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "dashboard",
+      "test": "general",
+      "error": "src directory not found in /Users/jacklau/Documents/SlackSleuth/packages/dashboard"
+    },
+    {
+      "package": "db-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "fastapi-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "fastapi-agent",
+      "test": "typecheck",
+      "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+    },
+    {
+      "package": "frontend-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "mongodb-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "mysql-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "mysql-agent",
+      "test": "typecheck",
+      "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+    },
+    {
+      "package": "performance-optimizer",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "performance-optimizer",
+      "test": "typecheck",
+      "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+    },
+    {
+      "package": "redis-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "redis-agent",
+      "test": "typecheck",
+      "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+    },
+    {
+      "package": "session-replay",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "session-replay",
+      "test": "typecheck",
+      "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\nsrc/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+    },
+    {
+      "package": "supabase-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "supabase-agent",
+      "test": "typecheck",
+      "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\nsrc/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+    },
+    {
+      "package": "svelte-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "svelte-agent",
+      "test": "typecheck",
+      "error": "Command failed with code 2: npx tsc --noEmit\nSTDOUT: ../session-replay/src/index.ts(272,13): error TS2684: The 'this' context of type '(this: XMLHttpRequest, ev: Event) => any' is not assignable to method's 'this' of type '(this: XMLHttpRequest) => any'.\n  Target signature provides too few arguments. Expected 1 or more, but got 0.\n../session-replay/src/index.ts(736,7): error TS2783: 'sessionId' is specified more than once, so this usage will be overwritten.\n../supabase-agent/src/index.ts(2,63): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.\n\nSTDERR: "
+    },
+    {
+      "package": "vue-agent",
+      "test": "unit",
+      "error": "Cannot read properties of undefined (reading 'push')"
+    },
+    {
+      "package": "integration",
+      "test": "Core + Database Agents Integration",
+      "error": "Command failed with code 1: node -e \"const {ProfilerCore} = require('./packages/core/dist'); const {RedisAgent} = require('./packages/redis-agent/dist'); const {SupabaseAgent} = require('./packages/supabase-agent/dist'); console.log('✅ Integration test passed');\"\nSTDOUT: \nSTDERR: node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './packages/redis-agent/dist'\nRequire stack:\n- /Users/jacklau/Documents/SlackSleuth/[eval]\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Function._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at [eval]:1:78\n    at runScriptInThisContext (node:internal/vm:209:10) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/Users/jacklau/Documents/SlackSleuth/[eval]' ]\n}\n\nNode.js v23.8.0\n"
+    },
+    {
+      "package": "e2e",
+      "test": "CLI workflow",
+      "error": "Command failed with code 1: npm run sleuth -- --version\nSTDOUT: \n> stacksleuth@0.2.0 sleuth\n> node packages/cli/dist/index.js --version\n\n0.1.0\n\nSTDERR: ❌ Error: 0.1.0\n"
+    }
+  ],
+  "performance": {}
+}

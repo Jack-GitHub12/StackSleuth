@@ -7,6 +7,9 @@ export * from './utils';
 // Core collector
 export * from './collector';
 
+// Profiler Core (main interface)
+export * from './profiler';
+
 // Flamegraph utilities
 export * from './flamegraph';
 

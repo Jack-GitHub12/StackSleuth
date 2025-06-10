@@ -1,0 +1,55 @@
+{
+  "name": "@stacksleuth/supabase-agent",
+  "version": "0.2.1",
+  "description": "StackSleuth Supabase database operations and real-time monitoring agent",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "jest",
+    "test:ci": "jest --coverage --ci",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist",
+    "benchmark": "node benchmarks/supabase-performance.js",
+    "performance:test": "clinic doctor -- node benchmarks/memory-test.js"
+  },
+  "keywords": [
+    "supabase",
+    "database",
+    "realtime",
+    "performance",
+    "profiling",
+    "monitoring"
+  ],
+  "dependencies": {
+    "@stacksleuth/core": "^0.2.1",
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "ts-jest": "^29.0.0",
+    "clinic": "^12.0.0",
+    "benchmark": "^2.1.4"
+  },
+  "peerDependencies": {
+    "@supabase/supabase-js": ">=2.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/supabase-agent"
+  },
+  "license": "MIT"
+} 

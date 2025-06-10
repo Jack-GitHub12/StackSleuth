@@ -1,0 +1,62 @@
+{
+  "name": "@stacksleuth/redis-agent",
+  "version": "0.2.1",
+  "description": "StackSleuth Redis operation profiling and performance monitoring agent",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "jest",
+    "test:ci": "jest --coverage --ci",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist",
+    "benchmark": "node benchmarks/redis-performance.js",
+    "performance:test": "clinic doctor -- node benchmarks/memory-test.js"
+  },
+  "keywords": [
+    "redis",
+    "performance",
+    "profiling",
+    "monitoring",
+    "database"
+  ],
+  "dependencies": {
+    "@stacksleuth/core": "^0.2.1",
+    "redis": "^4.6.0",
+    "ioredis": "^5.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "ts-jest": "^29.0.0"
+  },
+  "peerDependencies": {
+    "redis": ">=4.0.0",
+    "ioredis": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "redis": {
+      "optional": true
+    },
+    "ioredis": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jack-GitHub12/StackSleuth.git",
+    "directory": "packages/redis-agent"
+  },
+  "license": "MIT"
+} 
