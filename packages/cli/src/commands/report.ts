@@ -1,12 +1,21 @@
 import fs from 'fs';
 import path from 'path';
-import chalk from 'chalk';
 import { TraceCollector, PerformanceUtils } from '@stacksleuth/core';
 
 interface ReportOptions {
   format: 'json' | 'csv';
   output?: string;
   last?: string;
+}
+
+// Dynamic import for chalk to handle ESM compatibility
+let chalk: any;
+
+async function initChalk() {
+  if (!chalk) {
+    chalk = (await import('chalk')).default;
+  }
+  return chalk;
 }
 
 export class ReportCommand {
@@ -18,7 +27,8 @@ export class ReportCommand {
 
   async execute(options: ReportOptions): Promise<void> {
     try {
-      console.log(chalk.blue('📊 Generating performance report...'));
+      const c = await initChalk();
+      console.log(c.blue('📊 Generating performance report...'));
 
       // Get traces based on time filter
       let traces = this.collector.getAllTraces();
@@ -30,7 +40,7 @@ export class ReportCommand {
       }
 
       if (traces.length === 0) {
-        console.log(chalk.yellow('⚠️  No traces found for the specified criteria'));
+        console.log(c.yellow('⚠️  No traces found for the specified criteria'));
         return;
       }
 
@@ -41,16 +51,17 @@ export class ReportCommand {
       if (options.output) {
         const outputPath = path.resolve(options.output);
         fs.writeFileSync(outputPath, report);
-        console.log(chalk.green(`✅ Report saved to: ${outputPath}`));
+        console.log(c.green(`✅ Report saved to: ${outputPath}`));
       } else {
         console.log('\n' + report);
       }
 
       // Show summary statistics
-      this.showSummary(traces);
+      await this.showSummary(traces);
 
     } catch (error: any) {
-      console.error(chalk.red('❌ Error generating report:'), error.message);
+      const c = await initChalk();
+      console.error(c.red('❌ Error generating report:'), error.message);
       process.exit(1);
     }
   }
@@ -144,28 +155,29 @@ export class ReportCommand {
     };
   }
 
-  private showSummary(traces: any[]): void {
+  private async showSummary(traces: any[]): Promise<void> {
+    const c = await initChalk();
     const summary = this.generateSummary(traces);
 
-    console.log(chalk.bold('\n📈 Report Summary'));
-    console.log(chalk.gray('─'.repeat(50)));
+    console.log(c.bold('\n📈 Report Summary'));
+    console.log(c.gray('─'.repeat(50)));
     
-    console.log(`${chalk.cyan('Traces Analyzed:')} ${traces.length}`);
-    console.log(`${chalk.cyan('Time Range:')} ${PerformanceUtils.formatDuration(summary.performance.min)} - ${PerformanceUtils.formatDuration(summary.performance.max)}`);
-    console.log(`${chalk.cyan('Average Duration:')} ${PerformanceUtils.formatDuration(summary.performance.avg)}`);
-    console.log(`${chalk.cyan('P95 Duration:')} ${PerformanceUtils.formatDuration(summary.performance.p95)}`);
-    console.log(`${chalk.cyan('P99 Duration:')} ${PerformanceUtils.formatDuration(summary.performance.p99)}`);
+    console.log(`${c.cyan('Traces Analyzed:')} ${traces.length}`);
+    console.log(`${c.cyan('Time Range:')} ${PerformanceUtils.formatDuration(summary.performance.min)} - ${PerformanceUtils.formatDuration(summary.performance.max)}`);
+    console.log(`${c.cyan('Average Duration:')} ${PerformanceUtils.formatDuration(summary.performance.avg)}`);
+    console.log(`${c.cyan('P95 Duration:')} ${PerformanceUtils.formatDuration(summary.performance.p95)}`);
+    console.log(`${c.cyan('P99 Duration:')} ${PerformanceUtils.formatDuration(summary.performance.p99)}`);
     
     if (summary.errors.count > 0) {
-      console.log(`${chalk.red('Errors:')} ${summary.errors.count} (${summary.errors.percentage.toFixed(1)}%)`);
+      console.log(`${c.red('Errors:')} ${summary.errors.count} (${summary.errors.percentage.toFixed(1)}%)`);
     }
     
     if (summary.slowTraces.count > 0) {
-      console.log(`${chalk.yellow('Slow Traces (>1s):')} ${summary.slowTraces.count} (${summary.slowTraces.percentage.toFixed(1)}%)`);
+      console.log(`${c.yellow('Slow Traces (>1s):')} ${summary.slowTraces.count} (${summary.slowTraces.percentage.toFixed(1)}%)`);
     }
 
-    console.log(`${chalk.cyan('Total Spans:')} ${summary.spans.total}`);
-    console.log(`${chalk.cyan('Average Spans per Trace:')} ${summary.spans.avg.toFixed(1)}`);
+    console.log(`${c.cyan('Total Spans:')} ${summary.spans.total}`);
+    console.log(`${c.cyan('Average Spans per Trace:')} ${summary.spans.avg.toFixed(1)}`);
     
     console.log('');
   }

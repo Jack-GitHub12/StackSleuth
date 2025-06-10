@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import ora from 'ora';
 import { TraceCollector } from '@stacksleuth/core';
 import { DashboardServer } from '../dashboard/server';
@@ -7,6 +6,16 @@ interface WatchOptions {
   port: string;
   sampling: string;
   dashboard: boolean;
+}
+
+// Dynamic import for chalk to handle ESM compatibility
+let chalk: any;
+
+async function initChalk() {
+  if (!chalk) {
+    chalk = (await import('chalk')).default;
+  }
+  return chalk;
 }
 
 export class WatchCommand {
@@ -18,6 +27,7 @@ export class WatchCommand {
   }
 
   async execute(options: WatchOptions): Promise<void> {
+    const c = await initChalk();
     const spinner = ora('Starting StackSleuth in watch mode...').start();
 
     try {
@@ -59,14 +69,14 @@ export class WatchCommand {
       spinner.succeed('StackSleuth is now watching your application');
 
       // Display configuration
-      console.log(chalk.gray('\n📋 Configuration:'));
-      console.log(`  ${chalk.cyan('Sampling Rate:')} ${samplingRate * 100}%`);
-      console.log(`  ${chalk.cyan('Dashboard:')} ${options.dashboard ? 
-        chalk.green(`Enabled at http://localhost:${port}`) : 
-        chalk.yellow('Disabled')}`);
+      console.log(c.gray('\n📋 Configuration:'));
+      console.log(`  ${c.cyan('Sampling Rate:')} ${samplingRate * 100}%`);
+      console.log(`  ${c.cyan('Dashboard:')} ${options.dashboard ? 
+        c.green(`Enabled at http://localhost:${port}`) : 
+        c.yellow('Disabled')}`);
 
       // Show instructions
-      console.log(chalk.gray('\n💡 Instructions:'));
+      console.log(c.gray('\n💡 Instructions:'));
       console.log('  • Make requests to your application to see traces');
       console.log('  • Performance issues will be highlighted in real-time');
       console.log('  • Press Ctrl+C to stop profiling\n');
@@ -82,64 +92,67 @@ export class WatchCommand {
 
   private setupEventListeners(): void {
     // Real-time trace logging
-    this.collector.on('trace:completed', (trace) => {
+    this.collector.on('trace:completed', async (trace) => {
+      const c = await initChalk();
       const duration = trace.timing.duration || 0;
       const status = trace.status;
       
-      let statusColor = chalk.green;
-      if (status === 'error') statusColor = chalk.red;
-      else if (duration > 1000) statusColor = chalk.yellow;
+      let statusColor = c.green;
+      if (status === 'error') statusColor = c.red;
+      else if (duration > 1000) statusColor = c.yellow;
 
       console.log(
-        `${chalk.gray('[')}${new Date().toISOString()}${chalk.gray(']')} ` +
+        `${c.gray('[')}${new Date().toISOString()}${c.gray(']')} ` +
         `${statusColor(trace.name)} ` +
-        `${chalk.gray('(')}${duration.toFixed(2)}ms${chalk.gray(')')} ` +
-        `${chalk.gray('spans:')} ${trace.spans.length}`
+        `${c.gray('(')}${duration.toFixed(2)}ms${c.gray(')')} ` +
+        `${c.gray('spans:')} ${trace.spans.length}`
       );
     });
 
     // Performance issue alerts
-    this.collector.on('performance:issue', (issue) => {
-      let severityColor = chalk.yellow;
+    this.collector.on('performance:issue', async (issue) => {
+      const c = await initChalk();
+      let severityColor = c.yellow;
       let icon = '⚠️';
 
       switch (issue.severity) {
         case 'critical':
-          severityColor = chalk.red;
+          severityColor = c.red;
           icon = '🚨';
           break;
         case 'high':
-          severityColor = chalk.red;
+          severityColor = c.red;
           icon = '❗';
           break;
         case 'medium':
-          severityColor = chalk.yellow;
+          severityColor = c.yellow;
           icon = '⚠️';
           break;
         case 'low':
-          severityColor = chalk.gray;
+          severityColor = c.gray;
           icon = 'ℹ️';
           break;
       }
 
       console.log(
         `\n${icon} ${severityColor.bold(issue.severity.toUpperCase())} ` +
-        `${chalk.white(issue.message)}`
+        `${c.white(issue.message)}`
       );
       
       if (issue.suggestion) {
-        console.log(`   ${chalk.gray('💡 Suggestion:')} ${issue.suggestion}\n`);
+        console.log(`   ${c.gray('💡 Suggestion:')} ${issue.suggestion}\n`);
       }
     });
 
     // Span performance logging for very slow operations
-    this.collector.on('span:completed', (span) => {
+    this.collector.on('span:completed', async (span) => {
+      const c = await initChalk();
       const duration = span.timing.duration || 0;
       
       if (duration > 500) { // Log spans slower than 500ms
         console.log(
-          `   ${chalk.red('🐌 Slow span:')} ${span.name} ` +
-          `${chalk.gray('(')}${duration.toFixed(2)}ms${chalk.gray(')')}`
+          `   ${c.red('🐌 Slow span:')} ${span.name} ` +
+          `${c.gray('(')}${duration.toFixed(2)}ms${c.gray(')')}`
         );
       }
     });
@@ -148,7 +161,8 @@ export class WatchCommand {
   private async waitForExit(): Promise<void> {
     return new Promise((resolve) => {
       process.on('SIGINT', async () => {
-        console.log(chalk.yellow('\n🛑 Shutting down StackSleuth...'));
+        const c = await initChalk();
+        console.log(c.yellow('\n🛑 Shutting down StackSleuth...'));
 
         // Stop dashboard server
         if (this.dashboardServer) {
@@ -157,12 +171,12 @@ export class WatchCommand {
 
         // Show final statistics
         const stats = this.collector.getStats();
-        console.log(chalk.gray('\n📊 Final Statistics:'));
-        console.log(`  ${chalk.cyan('Total Traces:')} ${stats.traces.total}`);
-        console.log(`  ${chalk.cyan('Total Spans:')} ${stats.spans.total}`);
-        console.log(`  ${chalk.cyan('Average Trace Duration:')} ${stats.traces.avg.toFixed(2)}ms`);
+        console.log(c.gray('\n📊 Final Statistics:'));
+        console.log(`  ${c.cyan('Total Traces:')} ${stats.traces.total}`);
+        console.log(`  ${c.cyan('Total Spans:')} ${stats.spans.total}`);
+        console.log(`  ${c.cyan('Average Trace Duration:')} ${stats.traces.avg.toFixed(2)}ms`);
 
-        console.log(chalk.green('\n✅ StackSleuth stopped successfully'));
+        console.log(c.green('\n✅ StackSleuth stopped successfully'));
         resolve();
       });
     });

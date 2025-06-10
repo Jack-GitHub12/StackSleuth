@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import chalk from 'chalk';
 import inquirer from 'inquirer';
 
 interface InitOptions {
@@ -8,10 +7,21 @@ interface InitOptions {
   typescript: boolean;
 }
 
+// Dynamic import for chalk to handle ESM compatibility
+let chalk: any;
+
+async function initChalk() {
+  if (!chalk) {
+    chalk = (await import('chalk')).default;
+  }
+  return chalk;
+}
+
 export class InitCommand {
   async execute(options: InitOptions): Promise<void> {
     try {
-      console.log(chalk.blue('🚀 Initializing StackSleuth in your project...'));
+      const c = await initChalk();
+      console.log(c.blue('🚀 Initializing StackSleuth in your project...'));
 
       // Interactive setup if no options provided
       const config = await this.gatherConfig(options);
@@ -23,10 +33,11 @@ export class InitCommand {
       await this.createExampleCode(config);
       
       // Show setup instructions
-      this.showSetupInstructions(config);
+      await this.showSetupInstructions(config);
 
     } catch (error: any) {
-      console.error(chalk.red('❌ Error during initialization:'), error.message);
+      const c = await initChalk();
+      console.error(c.red('❌ Error during initialization:'), error.message);
       process.exit(1);
     }
   }
@@ -67,12 +78,13 @@ export class InitCommand {
   }
 
   private async createConfigFiles(config: InitOptions): Promise<void> {
+    const c = await initChalk();
     // Create stacksleuth.config file
     const configContent = this.generateConfigFile(config);
     const configPath = config.typescript ? 'stacksleuth.config.ts' : 'stacksleuth.config.js';
     
     fs.writeFileSync(configPath, configContent);
-    console.log(chalk.green(`✅ Created ${configPath}`));
+    console.log(c.green(`✅ Created ${configPath}`));
 
     // Create .stacksleuthrc for CLI settings
     const cliConfig = {
@@ -88,7 +100,7 @@ export class InitCommand {
     };
 
     fs.writeFileSync('.stacksleuthrc', JSON.stringify(cliConfig, null, 2));
-    console.log(chalk.green('✅ Created .stacksleuthrc'));
+    console.log(c.green('✅ Created .stacksleuthrc'));
   }
 
   private generateConfigFile(config: InitOptions): string {
@@ -155,6 +167,7 @@ ${exportSyntax} {
   }
 
   private async createExpressExample(dir: string, isTS: boolean): Promise<void> {
+    const c = await initChalk();
     const ext = isTS ? 'ts' : 'js';
     const content = `${isTS ? "import express from 'express';" : "const express = require('express');"}
 ${isTS ? "import { createBackendAgent } from '@stacksleuth/backend-agent';" : "const { createBackendAgent } = require('@stacksleuth/backend-agent');"}
@@ -192,10 +205,11 @@ app.listen(PORT, () => {
 `;
 
     fs.writeFileSync(path.join(dir, `express-example.${ext}`), content);
-    console.log(chalk.green(`✅ Created ${dir}/express-example.${ext}`));
+    console.log(c.green(`✅ Created ${dir}/express-example.${ext}`));
   }
 
   private async createReactExample(dir: string, isTS: boolean): Promise<void> {
+    const c = await initChalk();
     const ext = isTS ? 'tsx' : 'jsx';
     const content = `${isTS ? "import React, { useEffect, useState } from 'react';" : "import React, { useEffect, useState } from 'react';"}
 ${isTS ? "import { StackSleuthProvider, useTrace } from '@stacksleuth/frontend-agent';" : "import { StackSleuthProvider, useTrace } from '@stacksleuth/frontend-agent';"}
@@ -254,10 +268,11 @@ export default App;
 `;
 
     fs.writeFileSync(path.join(dir, `react-example.${ext}`), content);
-    console.log(chalk.green(`✅ Created ${dir}/react-example.${ext}`));
+    console.log(c.green(`✅ Created ${dir}/react-example.${ext}`));
   }
 
   private async createNextExample(dir: string, isTS: boolean): Promise<void> {
+    const c = await initChalk();
     const ext = isTS ? 'ts' : 'js';
     
     // API route example
@@ -317,15 +332,16 @@ export const getServerSideProps${isTS ? ': GetServerSideProps' : ''} = async () 
     fs.writeFileSync(path.join(dir, `api-route.${ext}`), apiContent);
     fs.writeFileSync(path.join(dir, `page-example.${ext}`), pageContent);
     
-    console.log(chalk.green(`✅ Created ${dir}/api-route.${ext}`));
-    console.log(chalk.green(`✅ Created ${dir}/page-example.${ext}`));
+    console.log(c.green(`✅ Created ${dir}/api-route.${ext}`));
+    console.log(c.green(`✅ Created ${dir}/page-example.${ext}`));
   }
 
-  private showSetupInstructions(config: InitOptions): void {
-    console.log(chalk.bold('\n🎉 StackSleuth initialization complete!'));
-    console.log(chalk.gray('─'.repeat(50)));
+  private async showSetupInstructions(config: InitOptions): Promise<void> {
+    const c = await initChalk();
+    console.log(c.bold('\n🎉 StackSleuth initialization complete!'));
+    console.log(c.gray('─'.repeat(50)));
     
-    console.log(chalk.cyan('\n📋 Next steps:'));
+    console.log(c.cyan('\n📋 Next steps:'));
     console.log('1. Install the required packages:');
     
     const packages = ['@stacksleuth/core'];
@@ -341,22 +357,22 @@ export const getServerSideProps${isTS ? ': GetServerSideProps' : ''} = async () 
         break;
     }
     
-    console.log(chalk.gray(`   npm install ${packages.join(' ')}`));
+    console.log(c.gray(`   npm install ${packages.join(' ')}`));
     
     console.log('\n2. Check the example code in:');
-    console.log(chalk.gray('   examples/stacksleuth/'));
+    console.log(c.gray('   examples/stacksleuth/'));
     
     console.log('\n3. Start profiling your application:');
-    console.log(chalk.gray('   sleuth watch'));
+    console.log(c.gray('   sleuth watch'));
     
     console.log('\n4. View the dashboard at:');
-    console.log(chalk.gray('   http://localhost:3001'));
+    console.log(c.gray('   http://localhost:3001'));
     
-    console.log(chalk.yellow('\n💡 Tips:'));
+    console.log(c.yellow('\n💡 Tips:'));
     console.log('• Adjust sampling rates in stacksleuth.config for production');
     console.log('• Use filters to exclude noise from your traces');
     console.log('• Check the dashboard for real-time performance insights');
     
-    console.log(chalk.green('\n✨ Happy profiling!'));
+    console.log(c.green('\n✨ Happy profiling!'));
   }
 } 

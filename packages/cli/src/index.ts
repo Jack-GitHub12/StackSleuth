@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import chalk from 'chalk';
 import { TraceCollector } from '@stacksleuth/core';
 import { WatchCommand } from './commands/watch';
 import { ReportCommand } from './commands/report';
@@ -9,19 +8,30 @@ import { InitCommand } from './commands/init';
 
 const program = new Command();
 
+// Dynamic import for chalk to handle ESM compatibility
+let chalk: any;
+
+async function initChalk() {
+  if (!chalk) {
+    chalk = (await import('chalk')).default;
+  }
+  return chalk;
+}
+
 program
   .name('sleuth')
   .description('StackSleuth - Full-stack performance profiling tool')
   .version('0.1.0');
 
-// ASCII Art Banner
-const banner = `
-${chalk.cyan('┌─────────────────────────────────────┐')}
-${chalk.cyan('│')}  ${chalk.bold.white('StackSleuth')} - Performance Profiler ${chalk.cyan('│')}
-${chalk.cyan('└─────────────────────────────────────┘')}
+// ASCII Art Banner function
+async function createBanner() {
+  const c = await initChalk();
+  return `
+${c.cyan('┌─────────────────────────────────────┐')}
+${c.cyan('│')}  ${c.bold.white('StackSleuth')} - Performance Profiler ${c.cyan('│')}
+${c.cyan('└─────────────────────────────────────┘')}
 `;
-
-program.addHelpText('beforeAll', banner);
+}
 
 // Global collector instance
 const collector = new TraceCollector();
@@ -65,37 +75,52 @@ program
 program
   .command('stats')
   .description('Show current performance statistics')
-  .action(() => {
+  .action(async () => {
+    const c = await initChalk();
     const stats = collector.getStats();
     
-    console.log(chalk.bold('\n📊 Performance Statistics'));
-    console.log(chalk.gray('─'.repeat(40)));
+    console.log(c.bold('\n📊 Performance Statistics'));
+    console.log(c.gray('─'.repeat(40)));
     
-    console.log(`${chalk.cyan('Traces:')} ${stats.traces.total}`);
-    console.log(`  ${chalk.gray('Average:')} ${chalk.white(stats.traces.avg.toFixed(2))}ms`);
-    console.log(`  ${chalk.gray('P95:')} ${chalk.white(stats.traces.p95.toFixed(2))}ms`);
-    console.log(`  ${chalk.gray('P99:')} ${chalk.white(stats.traces.p99.toFixed(2))}ms`);
+    console.log(`${c.cyan('Traces:')} ${stats.traces.total}`);
+    console.log(`  ${c.gray('Average:')} ${c.white(stats.traces.avg.toFixed(2))}ms`);
+    console.log(`  ${c.gray('P95:')} ${c.white(stats.traces.p95.toFixed(2))}ms`);
+    console.log(`  ${c.gray('P99:')} ${c.white(stats.traces.p99.toFixed(2))}ms`);
     
-    console.log(`${chalk.cyan('Spans:')} ${stats.spans.total}`);
-    console.log(`  ${chalk.gray('Average:')} ${chalk.white(stats.spans.avg.toFixed(2))}ms`);
-    console.log(`  ${chalk.gray('P95:')} ${chalk.white(stats.spans.p95.toFixed(2))}ms`);
-    console.log(`  ${chalk.gray('P99:')} ${chalk.white(stats.spans.p99.toFixed(2))}ms\n`);
+    console.log(`${c.cyan('Spans:')} ${stats.spans.total}`);
+    console.log(`  ${c.gray('Average:')} ${c.white(stats.spans.avg.toFixed(2))}ms`);
+    console.log(`  ${c.gray('P95:')} ${c.white(stats.spans.p95.toFixed(2))}ms`);
+    console.log(`  ${c.gray('P99:')} ${c.white(stats.spans.p99.toFixed(2))}ms\n`);
   });
 
 // Error handling
 program.exitOverride();
 
-try {
-  program.parse(process.argv);
-} catch (err: any) {
-  if (err.code === 'commander.help') {
-    process.exit(0);
+async function main() {
+  try {
+    // Set banner after chalk is loaded
+    const banner = await createBanner();
+    program.addHelpText('beforeAll', banner);
+    
+    program.parse(process.argv);
+  } catch (err: any) {
+    if (err.code === 'commander.help') {
+      process.exit(0);
+    }
+    const c = await initChalk();
+    console.error(c.red('❌ Error:'), err.message);
+    process.exit(1);
   }
-  console.error(chalk.red('❌ Error:'), err.message);
-  process.exit(1);
+
+  // Show help if no command provided
+  if (!process.argv.slice(2).length) {
+    program.outputHelp();
+  }
 }
 
-// Show help if no command provided
-if (!process.argv.slice(2).length) {
-  program.outputHelp();
-} 
+// Run the main function
+main().catch(async (err) => {
+  const c = await initChalk();
+  console.error(c.red('❌ Fatal Error:'), err.message);
+  process.exit(1);
+}); 

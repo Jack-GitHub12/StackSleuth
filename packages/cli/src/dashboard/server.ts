@@ -1,7 +1,16 @@
 import http from 'http';
 import { WebSocketServer } from 'ws';
 import { TraceCollector } from '@stacksleuth/core';
-import chalk from 'chalk';
+
+// Dynamic import for chalk to handle ESM compatibility
+let chalk: any;
+
+async function initChalk() {
+  if (!chalk) {
+    chalk = (await import('chalk')).default;
+  }
+  return chalk;
+}
 
 export class DashboardServer {
   private server?: http.Server;
@@ -15,7 +24,8 @@ export class DashboardServer {
   }
 
   async start(): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      const c = await initChalk();
       // Create HTTP server with embedded HTML dashboard
       this.server = http.createServer((req, res) => {
         if (req.url === '/') {
@@ -35,7 +45,7 @@ export class DashboardServer {
       this.setupWebSocket();
 
       this.server.listen(this.port, () => {
-        console.log(chalk.green(`📊 Dashboard available at http://localhost:${this.port}`));
+        console.log(c.green(`📊 Dashboard available at http://localhost:${this.port}`));
         resolve();
       });
 
