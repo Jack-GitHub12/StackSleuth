@@ -1,4 +1,5 @@
 export * from './types';
+export * from './base-agent';
 export * from './utils';
 export * from './collector';
 export * from './profiler';

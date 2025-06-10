@@ -11,14 +11,12 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc && npm run build:extension",
-    "build:extension": "node scripts/build-extension.js",
+    "build": "tsc",
     "dev": "tsc -w",
     "test": "vitest",
     "test:ci": "vitest run --coverage",
     "lint": "eslint src/**/*.ts",
     "clean": "rm -rf dist",
-    "package": "npm run build && node scripts/package-extension.js",
     "benchmark": "node benchmarks/extension-performance.js",
     "performance:test": "clinic doctor -- node benchmarks/memory-test.js"
   },

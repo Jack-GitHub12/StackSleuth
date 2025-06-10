@@ -17,6 +17,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.defaultConfig = void 0;
 // Types
 __exportStar(require("./types"), exports);
+// Base Agent
+__exportStar(require("./base-agent"), exports);
 // Utilities
 __exportStar(require("./utils"), exports);
 // Core collector

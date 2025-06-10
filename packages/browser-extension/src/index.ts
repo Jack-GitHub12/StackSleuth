@@ -60,10 +60,10 @@ export interface TabPerformanceData {
 }
 
 export class BrowserExtension extends BaseAgent {
-  private config: ExtensionConfig;
+  protected config: ExtensionConfig;
   private metrics: ExtensionMetric[] = [];
   private tabData: Map<number, TabPerformanceData> = new Map();
-  private isActive = false;
+  protected isActive = false;
 
   constructor(config: ExtensionConfig = {}) {
     super(config);
@@ -76,6 +76,14 @@ export class BrowserExtension extends BaseAgent {
       excludedDomains: ['chrome://'],
       ...config
     };
+  }
+
+  public startMonitoring(): void {
+    this.initialize();
+  }
+
+  public stopMonitoring(): void {
+    this.destroy();
   }
 
   public async initialize(): Promise<void> {
@@ -100,7 +108,7 @@ export class BrowserExtension extends BaseAgent {
   }
 
   private isExtensionEnvironment(): boolean {
-    return typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id;
+    return typeof chrome !== 'undefined' && chrome.runtime && !!chrome.runtime.id;
   }
 
   private setupMessageHandling(): void {

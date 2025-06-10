@@ -1,4 +1,4 @@
-import { BaseAgent, AgentConfig, PerformanceMetric } from '@stacksleuth/core';
+import { BaseAgent, AgentConfig, PerformanceMetrics } from '@stacksleuth/core';
 import axios, { AxiosResponse } from 'axios';
 import { WebSocket } from 'ws';
 
@@ -128,7 +128,7 @@ export class LaravelAgent extends BaseAgent {
   private routeMetrics: LaravelRouteMetric[] = [];
   private jobMetrics: LaravelJobMetric[] = [];
   private cacheMetrics: LaravelCacheMetric[] = [];
-  private config: LaravelAgentConfig;
+  protected config: LaravelAgentConfig;
   private websocket?: WebSocket;
   private isMonitoring = false;
 

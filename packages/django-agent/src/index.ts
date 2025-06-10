@@ -1,4 +1,4 @@
-import { BaseAgent, AgentConfig, PerformanceMetric } from '@stacksleuth/core';
+import { BaseAgent, AgentConfig, PerformanceMetrics } from '@stacksleuth/core';
 import axios, { AxiosResponse } from 'axios';
 import { WebSocket } from 'ws';
 
@@ -91,7 +91,7 @@ export class DjangoAgent extends BaseAgent {
   private databaseMetrics: DjangoDatabaseMetric[] = [];
   private viewMetrics: DjangoViewMetric[] = [];
   private sessionMetrics: Map<string, DjangoSessionMetric> = new Map();
-  private config: DjangoAgentConfig;
+  protected config: DjangoAgentConfig;
   private websocket?: WebSocket;
   private isMonitoring = false;
 

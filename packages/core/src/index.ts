@@ -1,6 +1,9 @@
 // Types
 export * from './types';
 
+// Base Agent
+export * from './base-agent';
+
 // Utilities
 export * from './utils';
 
