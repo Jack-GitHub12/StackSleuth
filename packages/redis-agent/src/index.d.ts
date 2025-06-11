@@ -45,11 +45,13 @@ export declare class RedisAgent {
     private isActive;
     private slowQueryThreshold;
     private maxMetricsHistory;
+    private metricsInterval?;
     constructor(config?: {
         endpoint?: string;
         apiKey?: string;
         slowQueryThreshold?: number;
         maxMetricsHistory?: number;
+        autoInit?: boolean;
     });
     /**
      * Initialize the Redis agent and start monitoring
@@ -80,9 +82,9 @@ export declare class RedisAgent {
      */
     private trackConnection;
     /**
-     * Record operation metrics
+     * Record operation metrics (made public for testing)
      */
-    private recordOperationMetrics;
+    recordOperationMetrics(metrics: RedisOperationMetrics): void;
     /**
      * Update connection metrics
      */
@@ -128,7 +130,7 @@ export declare class RedisAgent {
      */
     getConnectionMetrics(): RedisConnectionMetrics[];
     /**
-     * Stop monitoring and cleanup
+     * Stop the Redis agent and cleanup resources
      */
     stop(): Promise<void>;
 }

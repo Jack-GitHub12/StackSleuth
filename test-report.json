@@ -1,72 +1,72 @@
 {
-  "timestamp": "2025-06-11T01:52:45.417Z",
-  "totalDuration": 28228,
+  "timestamp": "2025-06-11T04:23:08.753Z",
+  "totalDuration": 24040,
   "summary": {
     "total": 18,
-    "passed": 15,
-    "failed": 3
+    "passed": 18,
+    "failed": 0
   },
   "details": {
     "agents": {
       "core": {
         "success": true,
-        "duration": 2571,
+        "duration": 2240,
         "code": 0,
         "stdout": "\n> @stacksleuth/core@0.2.3 build\n> tsc\n\n",
         "stderr": ""
       },
       "backend-agent": {
         "success": true,
-        "duration": 2136,
+        "duration": 2151,
         "code": 0,
         "stdout": "\n> @stacksleuth/backend-agent@0.2.3 build\n> tsc\n\n",
         "stderr": ""
       },
       "frontend-agent": {
         "success": true,
-        "duration": 2249,
+        "duration": 2221,
         "code": 0,
         "stdout": "\n> @stacksleuth/frontend-agent@0.2.3 build\n> tsc\n\n",
         "stderr": ""
       },
       "db-agent": {
         "success": true,
-        "duration": 2268,
+        "duration": 2163,
         "code": 0,
         "stdout": "\n> @stacksleuth/db-agent@0.2.3 build\n> tsc\n\n",
         "stderr": ""
       },
       "svelte-agent": {
         "success": true,
-        "duration": 2230,
+        "duration": 2214,
         "code": 0,
         "stdout": "\n> @stacksleuth/svelte-agent@0.2.3 build\n> tsc\n\n",
         "stderr": ""
       },
       "redis-agent": {
         "success": true,
-        "duration": 4521,
+        "duration": 2263,
         "code": 0,
-        "stdout": " 'data' implicitly has an 'any' type.\n../api/src/middleware/auth.ts(11,5): error TS2322: Type 'Response<any, Record<string, any>>' is not assignable to type 'void'.\n../api/src/middleware/auth.ts(21,5): error TS2322: Type 'Response<any, Record<string, any>>' is not assignable to type 'void'.\n../api/src/utils/logger.ts(1,21): error TS2307: Cannot find module 'winston' or its corresponding type declarations.\n../session-replay/src/__tests__/index.test.ts(53,24): error TS2339: Property 'sessionId' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(54,38): error TS2339: Property 'events' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(61,24): error TS2339: Property 'events' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(68,38): error TS2339: Property 'events' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(68,52): error TS7006: Parameter 'e' implicitly has an 'any' type.\n",
-        "stderr": "npm ERR! Lifecycle script `build` failed with error: \nnpm ERR! Error: command failed \nnpm ERR!   in workspace: @stacksleuth/redis-agent@0.2.3 \nnpm ERR!   at location: /Users/jacklau/Documents/SlackSleuth/packages/redis-agent \n"
+        "stdout": "\n> @stacksleuth/redis-agent@0.2.3 build\n> tsc\n\n",
+        "stderr": ""
       },
       "fastapi-agent": {
         "success": true,
-        "duration": 4292,
+        "duration": 2161,
         "code": 0,
-        "stdout": " 'data' implicitly has an 'any' type.\n../api/src/middleware/auth.ts(11,5): error TS2322: Type 'Response<any, Record<string, any>>' is not assignable to type 'void'.\n../api/src/middleware/auth.ts(21,5): error TS2322: Type 'Response<any, Record<string, any>>' is not assignable to type 'void'.\n../api/src/utils/logger.ts(1,21): error TS2307: Cannot find module 'winston' or its corresponding type declarations.\n../session-replay/src/__tests__/index.test.ts(53,24): error TS2339: Property 'sessionId' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(54,38): error TS2339: Property 'events' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(61,24): error TS2339: Property 'events' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(68,38): error TS2339: Property 'events' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(68,52): error TS7006: Parameter 'e' implicitly has an 'any' type.\n",
-        "stderr": "npm ERR! Lifecycle script `build` failed with error: \nnpm ERR! Error: command failed \nnpm ERR!   in workspace: @stacksleuth/fastapi-agent@0.2.3 \nnpm ERR!   at location: /Users/jacklau/Documents/SlackSleuth/packages/fastapi-agent \n"
+        "stdout": "\n> @stacksleuth/fastapi-agent@0.2.3 build\n> tsc\n\n",
+        "stderr": ""
       },
       "browser-agent": {
         "success": true,
-        "duration": 4510,
+        "duration": 4532,
         "code": 0,
         "stdout": " 'data' implicitly has an 'any' type.\n../api/src/middleware/auth.ts(11,5): error TS2322: Type 'Response<any, Record<string, any>>' is not assignable to type 'void'.\n../api/src/middleware/auth.ts(21,5): error TS2322: Type 'Response<any, Record<string, any>>' is not assignable to type 'void'.\n../api/src/utils/logger.ts(1,21): error TS2307: Cannot find module 'winston' or its corresponding type declarations.\n../session-replay/src/__tests__/index.test.ts(53,24): error TS2339: Property 'sessionId' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(54,38): error TS2339: Property 'events' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(61,24): error TS2339: Property 'events' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(68,38): error TS2339: Property 'events' does not exist on type 'string'.\n../session-replay/src/__tests__/index.test.ts(68,52): error TS7006: Parameter 'e' implicitly has an 'any' type.\n",
         "stderr": "npm ERR! Lifecycle script `build` failed with error: \nnpm ERR! Error: command failed \nnpm ERR!   in workspace: @stacksleuth/browser-agent@0.2.3 \nnpm ERR!   at location: /Users/jacklau/Documents/SlackSleuth/packages/browser-agent \n"
       },
       "cli": {
         "success": true,
-        "duration": 2534,
+        "duration": 2524,
         "code": 0,
         "stdout": "\n> @stacksleuth/cli@0.2.3 build\n> tsc\n\n",
         "stderr": ""
@@ -75,30 +75,30 @@
     "frameworks": {
       "svelte": {
         "success": true,
-        "duration": 149,
+        "duration": 140,
         "code": 0,
         "stdout": "Svelte agent test completed\n",
         "stderr": ""
       },
       "fastapi": {
-        "success": false,
-        "duration": 91,
-        "code": 1,
-        "stdout": "",
-        "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './packages/fastapi-agent/dist/index.js'\nRequire stack:\n- /Users/jacklau/Documents/SlackSleuth/[eval]\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Function._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at [eval]:2:34\n    at runScriptInThisContext (node:internal/vm:209:10) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/Users/jacklau/Documents/SlackSleuth/[eval]' ]\n}\n\nNode.js v23.8.0\n"
+        "success": true,
+        "duration": 244,
+        "code": 0,
+        "stdout": "✅ FastAPIAgent created successfully\n✅ Performance stats method works: 8 properties\n✅ Middleware code generation works: success\nFastAPI agent test completed\n",
+        "stderr": ""
       }
     },
     "databases": {
       "redis": {
-        "success": false,
-        "duration": 105,
-        "code": 1,
-        "stdout": "",
-        "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './packages/redis-agent/dist/index.js'\nRequire stack:\n- /Users/jacklau/Documents/SlackSleuth/[eval]\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Function._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at [eval]:2:32\n    at runScriptInThisContext (node:internal/vm:209:10) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/Users/jacklau/Documents/SlackSleuth/[eval]' ]\n}\n\nNode.js v23.8.0\n"
+        "success": true,
+        "duration": 140,
+        "code": 0,
+        "stdout": "✅ StackSleuth ProfilerCore initialized\n✅ RedisAgent has recordOperationMetrics method\n✅ Performance stats method works: 7 properties\nRedis agent test completed\n",
+        "stderr": ""
       },
       "integration": {
         "success": true,
-        "duration": 95,
+        "duration": 93,
         "code": 0,
         "stdout": "Testing Redis integration...\nTesting MySQL integration...\nTesting Supabase integration...\nDatabase integration tests completed\n",
         "stderr": ""
@@ -107,21 +107,21 @@
     "performance": {
       "memory": {
         "success": true,
-        "duration": 91,
+        "duration": 95,
         "code": 0,
         "stdout": "Start memory: 3.54 MB\nEnd memory: 4.87 MB\nMemory optimization test completed\n",
         "stderr": ""
       },
       "cpu": {
         "success": true,
-        "duration": 100,
+        "duration": 99,
         "code": 0,
         "stdout": "CPU test duration: 0.60 ms\nCPU optimization test completed\n",
         "stderr": ""
       },
       "visualizations": {
         "success": true,
-        "duration": 93,
+        "duration": 95,
         "code": 0,
         "stdout": "✅ Dashboard package found\nTesting real-time chart capabilities...\nTesting performance overlay features...\nVisualization tests completed\n",
         "stderr": ""
@@ -129,17 +129,17 @@
     },
     "browser": {
       "automation": {
-        "success": false,
-        "duration": 92,
-        "code": 1,
-        "stdout": "",
-        "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './packages/browser-agent/dist/index.js'\nRequire stack:\n- /Users/jacklau/Documents/SlackSleuth/[eval]\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Function._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at [eval]:2:34\n    at runScriptInThisContext (node:internal/vm:209:10) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/Users/jacklau/Documents/SlackSleuth/[eval]' ]\n}\n\nNode.js v23.8.0\n"
+        "success": true,
+        "duration": 551,
+        "code": 0,
+        "stdout": "✅ StackSleuth ProfilerCore initialized\nSession ID: test-session-123\nBrowser agent test completed\n🔄 Browser Agent initialized\n",
+        "stderr": ""
       }
     },
     "cicd": {
       "github_actions": {
         "success": true,
-        "duration": 89,
+        "duration": 95,
         "code": 0,
         "stdout": "✅ Performance benchmarks found in workflow\n✅ Load testing found in workflow\n✅ Security checks found in workflow\nCI/CD integration test completed\n",
         "stderr": ""
