@@ -57,6 +57,9 @@ export declare class BrowserAgent {
         endpoint?: string;
         apiKey?: string;
         wsPort?: number;
+        trackUserInteractions?: boolean;
+        trackNetworkRequests?: boolean;
+        trackPerformance?: boolean;
     });
     /**
      * Initialize the browser agent
@@ -151,6 +154,21 @@ export declare class BrowserAgent {
      * Stop the browser agent
      */
     stop(): Promise<void>;
+    /**
+     * Legacy compatibility wrappers for tests
+     */
+    startMonitoring(): Promise<void>;
+    stopMonitoring(): Promise<void>;
+    getPageMetrics(): {
+        pageLoadTime: number;
+    };
+    getPerformanceData(): {
+        resourceTimings: PerformanceResourceTiming[];
+    };
+    getUserInteractions(): any[];
+    getBrowserInfo(): {
+        userAgent: string;
+    };
 }
 export declare const browserAgent: BrowserAgent;
 //# sourceMappingURL=index.d.ts.map

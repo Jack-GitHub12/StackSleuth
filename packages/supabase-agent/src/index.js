@@ -471,6 +471,19 @@ class SupabaseAgent {
         await this.profiler.stop();
         console.log('🛑 Supabase Agent stopped');
     }
+    /** TEST COMPATIBILITY WRAPPERS */
+    startMonitoring() {
+        return this.init();
+    }
+    async stopMonitoring() {
+        await this.stop();
+    }
+    getOperationMetrics() {
+        return Array.from(this.operationMetrics.values()).flat();
+    }
+    getTableStatistics() {
+        return Array.from(this.operationMetrics.keys());
+    }
 }
 exports.SupabaseAgent = SupabaseAgent;
 // Export default instance

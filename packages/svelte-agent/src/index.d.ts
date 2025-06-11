@@ -87,6 +87,9 @@ export declare class SvelteAgent {
      * Stop monitoring and cleanup
      */
     stop(): Promise<void>;
+    /** TEST COMPATIBILITY WRAPPERS */
+    startProfiling(): Promise<void>;
+    stopProfiling(): Promise<void>;
 }
 export declare const svelteAgent: SvelteAgent;
 //# sourceMappingURL=index.d.ts.map

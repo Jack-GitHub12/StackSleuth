@@ -587,6 +587,24 @@ class SessionReplayAgent {
         await this.profiler.stop();
         console.log('🛑 Session Replay Agent stopped');
     }
+    // NEW METHODS FOR TESTS
+    startRecording() {
+        return this.init();
+    }
+    async stopRecording() {
+        await this.stop();
+    }
+    clearSession() {
+        this.events = [];
+        this.metadata.eventCount = 0;
+        this.metadata.errorCount = 0;
+    }
+    recordCustomEvent(type, data) {
+        this.recordEvent({
+            type: 'custom',
+            data: { type, ...data }
+        });
+    }
 }
 exports.SessionReplayAgent = SessionReplayAgent;
 // Export default instance

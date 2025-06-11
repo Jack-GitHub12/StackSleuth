@@ -81,6 +81,7 @@ export declare class SessionReplayAgent {
         apiKey?: string;
         maxEvents?: number;
         maxBufferSize?: number;
+        bufferSize?: number;
         autoFlush?: boolean;
         flushInterval?: number;
         enableUserInteractions?: boolean;
@@ -88,6 +89,7 @@ export declare class SessionReplayAgent {
         enableNetworkTracking?: boolean;
         enablePerformanceTracking?: boolean;
         enableConsoleTracking?: boolean;
+        enablePrivacyMode?: boolean;
     });
     /**
      * Initialize the session replay agent
@@ -171,6 +173,10 @@ export declare class SessionReplayAgent {
      * Stop session recording
      */
     stop(): Promise<void>;
+    startRecording(): Promise<void>;
+    stopRecording(): Promise<void>;
+    clearSession(): void;
+    recordCustomEvent(type: string, data: any): void;
 }
 export declare const sessionReplayAgent: SessionReplayAgent;
 //# sourceMappingURL=index.d.ts.map

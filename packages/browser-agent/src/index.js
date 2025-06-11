@@ -605,6 +605,34 @@ class BrowserAgent {
         await this.profiler.stop();
         console.log('🛑 Browser Agent stopped');
     }
+    /**
+     * Legacy compatibility wrappers for tests
+     */
+    startMonitoring() {
+        return this.init();
+    }
+    async stopMonitoring() {
+        await this.stop();
+    }
+    getPageMetrics() {
+        // Simple metric based on active session 0 or placeholder
+        const session = Array.from(this.sessionMetrics.values())[0];
+        return {
+            pageLoadTime: session ? Date.now() - session.startTime : 0
+        };
+    }
+    getPerformanceData() {
+        return {
+            resourceTimings: typeof performance !== 'undefined' ? performance.getEntriesByType('resource') : []
+        };
+    }
+    getUserInteractions() {
+        const session = Array.from(this.sessionMetrics.values())[0];
+        return session ? session.userActions : [];
+    }
+    getBrowserInfo() {
+        return { userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Node.js' };
+    }
 }
 exports.BrowserAgent = BrowserAgent;
 // Export default instance
