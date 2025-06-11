@@ -197,44 +197,1018 @@
                     <h2>What is StackSleuth?</h2>
                     <p>StackSleuth is a comprehensive performance monitoring solution designed for modern applications. It provides real-time insights into your application's performance across all layers of your stack with minimal overhead and maximum visibility.</p>
                     
-                    <h3>Key Features</h3>
-                    <ul>
-                        <li><strong>Universal Coverage:</strong> Monitor frontend, backend, databases, and APIs</li>
-                        <li><strong>Real-time Analytics:</strong> Get instant insights with live dashboards</li>
-                        <li><strong>Framework Agnostic:</strong> Works with React, Vue, Express, Django, and more</li>
-                        <li><strong>Low Overhead:</strong> Optimized for production with minimal performance impact</li>
-                        <li><strong>Smart Alerting:</strong> Intelligent alerts based on performance thresholds</li>
-                        <li><strong>Deep Insights:</strong> Distributed tracing across your entire stack</li>
-                    </ul>
+                    <div class="callout warning">
+                        <div class="callout-title">🚨 Why Your Application Needs StackSleuth</div>
+                        <p><strong>Modern applications are complex.</strong> With microservices, multiple databases, CDNs, and distributed architectures, performance issues can emerge anywhere. Traditional monitoring tools only show you part of the picture. StackSleuth gives you the complete story.</p>
+                    </div>
+
+                    <h3>🎯 Real-World Problems StackSleuth Solves</h3>
+                    
+                    <div class="problem-solution-grid">
+                        <div class="problem-card">
+                            <div class="problem-header">
+                                <i class="fas fa-exclamation-triangle text-red"></i>
+                                <h4>Problem: Slow Database Queries</h4>
+                            </div>
+                            <p><strong>Scenario:</strong> Your e-commerce site slows down during Black Friday. Users abandon carts due to slow checkout.</p>
+                            <div class="solution">
+                                <strong>StackSleuth Solution:</strong>
+                                <ul>
+                                    <li>Real-time query performance tracking</li>
+                                    <li>Automatic slow query detection</li>
+                                    <li>Index optimization recommendations</li>
+                                    <li>Connection pool monitoring</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header">
+                                <i class="fas fa-mobile-alt text-orange"></i>
+                                <h4>Problem: Poor Mobile Performance</h4>
+                            </div>
+                            <p><strong>Scenario:</strong> Mobile users experience slow load times, high bounce rates, and poor engagement.</p>
+                            <div class="solution">
+                                <strong>StackSleuth Solution:</strong>
+                                <ul>
+                                    <li>Component-level performance tracking</li>
+                                    <li>Bundle size optimization insights</li>
+                                    <li>Mobile-specific performance metrics</li>
+                                    <li>User interaction analysis</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header">
+                                <i class="fas fa-server text-blue"></i>
+                                <h4>Problem: Memory Leaks in Production</h4>
+                            </div>
+                            <p><strong>Scenario:</strong> Your Node.js application crashes randomly in production with out-of-memory errors.</p>
+                            <div class="solution">
+                                <strong>StackSleuth Solution:</strong>
+                                <ul>
+                                    <li>Real-time memory usage tracking</li>
+                                    <li>Garbage collection monitoring</li>
+                                    <li>Memory leak detection</li>
+                                    <li>Automatic alerts and notifications</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header">
+                                <i class="fas fa-chart-line text-green"></i>
+                                <h4>Problem: Unknown Performance Regressions</h4>
+                            </div>
+                            <p><strong>Scenario:</strong> After a deployment, response times increase by 300% but you don't know why.</p>
+                            <div class="solution">
+                                <strong>StackSleuth Solution:</strong>
+                                <ul>
+                                    <li>Deployment-based performance comparison</li>
+                                    <li>Code-level performance attribution</li>
+                                    <li>Regression analysis and alerts</li>
+                                    <li>Rollback recommendations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>💰 Business Impact & ROI</h3>
+                    <div class="impact-grid">
+                        <div class="impact-card">
+                            <div class="impact-number">40%</div>
+                            <div class="impact-label">Faster Issue Resolution</div>
+                            <p>Reduce MTTR with precise performance insights and root cause analysis</p>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-number">25%</div>
+                            <div class="impact-label">Performance Improvement</div>
+                            <p>Optimize critical paths with data-driven performance recommendations</p>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-number">60%</div>
+                            <div class="impact-label">Reduced Downtime</div>
+                            <p>Prevent issues before they impact users with predictive monitoring</p>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-number">$50K+</div>
+                            <div class="impact-label">Annual Savings</div>
+                            <p>Reduce infrastructure costs through performance optimization</p>
+                        </div>
+                    </div>
+                    
+                    <h3>🚀 Key Features & Capabilities</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🌐</div>
+                            <h4>Universal Coverage</h4>
+                            <p>Monitor every layer of your stack:</p>
+                            <ul>
+                                <li><strong>Frontend:</strong> React, Vue, Svelte, Angular</li>
+                                <li><strong>Backend:</strong> Node.js, Express, FastAPI, Django</li>
+                                <li><strong>Databases:</strong> Redis, MySQL, MongoDB, PostgreSQL</li>
+                                <li><strong>Infrastructure:</strong> Docker, Kubernetes, AWS, Azure</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h4>Real-time Analytics</h4>
+                            <p>Get instant insights with live dashboards:</p>
+                            <ul>
+                                <li><strong>Live Metrics:</strong> Response times, throughput, errors</li>
+                                <li><strong>Interactive Charts:</strong> Drill down into performance data</li>
+                                <li><strong>Custom Dashboards:</strong> Build views for your team's needs</li>
+                                <li><strong>Mobile Access:</strong> Monitor on-the-go with mobile apps</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🔬</div>
+                            <h4>Deep Code-Level Insights</h4>
+                            <p>Understand performance at the code level:</p>
+                            <ul>
+                                <li><strong>Function-level profiling:</strong> See which functions are slow</li>
+                                <li><strong>Stack traces:</strong> Trace performance issues to specific lines</li>
+                                <li><strong>Dependency analysis:</strong> Understand third-party impact</li>
+                                <li><strong>Memory allocation:</strong> Track object creation and GC</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h4>Smart Alerting & AI</h4>
+                            <p>Intelligent monitoring that learns your patterns:</p>
+                            <ul>
+                                <li><strong>Anomaly Detection:</strong> ML-powered performance baselines</li>
+                                <li><strong>Predictive Alerts:</strong> Get notified before issues occur</li>
+                                <li><strong>Smart Thresholds:</strong> Dynamic thresholds based on patterns</li>
+                                <li><strong>Alert Correlation:</strong> Reduce noise with related alerts</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🔒</div>
+                            <h4>Production-Ready Security</h4>
+                            <p>Enterprise-grade security and compliance:</p>
+                            <ul>
+                                <li><strong>Data Encryption:</strong> End-to-end encryption in transit and at rest</li>
+                                <li><strong>GDPR Compliant:</strong> Privacy controls and data retention policies</li>
+                                <li><strong>SOC 2 Type II:</strong> Audited security controls</li>
+                                <li><strong>Role-based Access:</strong> Fine-grained permissions and SSO</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">⚙️</div>
+                            <h4>Low Overhead Design</h4>
+                            <p>Optimized for production environments:</p>
+                            <ul>
+                                <li><strong>&lt;1% CPU Impact:</strong> Minimal performance overhead</li>
+                                <li><strong>Smart Sampling:</strong> Adaptive sampling for high-traffic apps</li>
+                                <li><strong>Async Processing:</strong> Non-blocking data collection</li>
+                                <li><strong>Circuit Breakers:</strong> Automatic failsafe mechanisms</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>🏢 Who Uses StackSleuth?</h3>
+                    <div class="use-cases-grid">
+                        <div class="use-case-card">
+                            <div class="use-case-header">
+                                <i class="fas fa-building"></i>
+                                <h4>Enterprise Teams</h4>
+                            </div>
+                            <p><strong>Use Case:</strong> Large-scale applications with complex architectures</p>
+                            <ul>
+                                <li>Microservices monitoring across multiple teams</li>
+                                <li>Compliance and audit requirements</li>
+                                <li>Multi-region deployment monitoring</li>
+                                <li>Performance SLA tracking</li>
+                            </ul>
+                        </div>
+
+                        <div class="use-case-card">
+                            <div class="use-case-header">
+                                <i class="fas fa-rocket"></i>
+                                <h4>Growing Startups</h4>
+                            </div>
+                            <p><strong>Use Case:</strong> Fast-growing applications that need to scale</p>
+                            <ul>
+                                <li>Performance optimization during growth spurts</li>
+                                <li>Cost optimization through efficiency gains</li>
+                                <li>DevOps team productivity enhancement</li>
+                                <li>Customer experience optimization</li>
+                            </ul>
+                        </div>
+
+                        <div class="use-case-card">
+                            <div class="use-case-header">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h4>E-commerce Platforms</h4>
+                            </div>
+                            <p><strong>Use Case:</strong> High-traffic retail applications</p>
+                            <ul>
+                                <li>Peak traffic performance (Black Friday, sales)</li>
+                                <li>Checkout flow optimization</li>
+                                <li>Mobile commerce performance</li>
+                                <li>Revenue impact analysis</li>
+                            </ul>
+                        </div>
+
+                        <div class="use-case-card">
+                            <div class="use-case-header">
+                                <i class="fas fa-gamepad"></i>
+                                <h4>Gaming & Media</h4>
+                            </div>
+                            <p><strong>Use Case:</strong> Real-time applications with strict latency requirements</p>
+                            <ul>
+                                <li>Real-time multiplayer performance</li>
+                                <li>Content delivery optimization</li>
+                                <li>User engagement metrics</li>
+                                <li>Platform-specific optimizations</li>
+                            </ul>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Quick Start -->
                 <section id="installation">
-                    <h2>Quick Installation</h2>
-                    <p>Get started with StackSleuth in under 5 minutes:</p>
+                    <h2>🚀 Quick Installation & Setup</h2>
+                    <p>Get StackSleuth running in your application in under 5 minutes with these step-by-step guides:</p>
 
-                    <h3>1. Install Core Package</h3>
-                    <pre class="language-bash"><code>npm install @stacksleuth/core</code></pre>
+                    <div class="callout info">
+                        <div class="callout-title">📋 Prerequisites</div>
+                        <p>Before you begin, ensure you have:</p>
+                        <ul>
+                            <li>Node.js 16+ or compatible runtime</li>
+                            <li>NPM or Yarn package manager</li>
+                            <li>Access to your application's source code</li>
+                            <li>StackSleuth API key (sign up at <a href="https://stacksleuth.dev">stacksleuth.dev</a>)</li>
+                        </ul>
+                    </div>
 
-                    <h3>2. Choose Your Agent</h3>
-                    <pre class="language-bash"><code># For React applications
-npm install @stacksleuth/react-agent
+                    <h3>🎯 Choose Your Stack</h3>
+                    <div class="tabs-container">
+                        <div class="tabs">
+                            <button class="tab-button active" data-tab="react">React App</button>
+                            <button class="tab-button" data-tab="vue">Vue.js App</button>
+                            <button class="tab-button" data-tab="node">Node.js API</button>
+                            <button class="tab-button" data-tab="fullstack">Full Stack</button>
+                        </div>
 
-# For Node.js/Express backends  
-npm install @stacksleuth/backend-agent
+                        <div id="react" class="tab-content active">
+                            <h4>React Application Setup</h4>
+                            <p><strong>Perfect for:</strong> React SPAs, Next.js apps, React Native applications</p>
+                            
+                            <h5>1. Install Dependencies</h5>
+                            <pre class="language-bash"><code># Install core and React agent
+npm install @stacksleuth/core @stacksleuth/frontend-agent
 
-# For database monitoring
-npm install @stacksleuth/db-agent</code></pre>
+# For Next.js apps, also install
+npm install @stacksleuth/nextjs-agent</code></pre>
 
-                    <h3>3. Initialize Monitoring</h3>
-                    <pre class="language-javascript"><code>import { ProfilerCore } from '@stacksleuth/core';
+                            <h5>2. Configure in Your App Entry Point</h5>
+                            <pre class="language-javascript"><code>// src/index.js or src/main.tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { StackSleuthProvider, initializeStackSleuth } from '@stacksleuth/frontend-agent';
+import App from './App';
 
-const profiler = new ProfilerCore({
-  apiKey: 'your-api-key',
-  environment: 'production'
+// Initialize StackSleuth
+const stackSleuth = initializeStackSleuth({
+  apiKey: process.env.REACT_APP_STACKSLEUTH_API_KEY,
+  environment: process.env.NODE_ENV,
+  appName: 'my-react-app',
+  version: '1.0.0',
+  
+  // React-specific configuration
+  reactConfig: {
+    trackComponentRenders: true,
+    trackHookPerformance: true,
+    trackStateChanges: true,
+    slowComponentThreshold: 16, // ms - anything slower than 16ms
+  },
+  
+  // Performance tracking options
+  performanceConfig: {
+    trackNavigations: true,
+    trackUserInteractions: true,
+    trackNetworkRequests: true,
+    trackBundleSize: true,
+  },
+  
+  // Error tracking
+  errorTracking: {
+    captureConsoleErrors: true,
+    captureUnhandledRejections: true,
+    captureReactErrors: true,
+  }
 });
 
-profiler.startProfiling();</code></pre>
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <StackSleuthProvider value={stackSleuth}>
+    <App />
+  </StackSleuthProvider>
+);</code></pre>
+
+                            <h5>3. Add Component-Level Monitoring</h5>
+                            <pre class="language-javascript"><code>// components/ExpensiveComponent.jsx
+import React, { useState, useEffect } from 'react';
+import { useStackSleuth, withPerformanceTracking } from '@stacksleuth/frontend-agent';
+
+const ExpensiveComponent = () => {
+  const stackSleuth = useStackSleuth();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Track async operations
+      const operation = stackSleuth.startOperation('fetch-expensive-data');
+      
+      try {
+        setLoading(true);
+        const response = await fetch('/api/expensive-data');
+        const result = await response.json();
+        
+        // Track data size and processing time
+        operation.setMetadata({
+          dataSize: result.length,
+          responseTime: response.headers.get('x-response-time'),
+          cacheHit: response.headers.get('x-cache-status') === 'hit'
+        });
+        
+        setData(result);
+        operation.complete('success');
+      } catch (error) {
+        operation.complete('error', { error: error.message });
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [stackSleuth]);
+
+  // Track user interactions
+  const handleItemClick = (item) => {
+    stackSleuth.trackUserAction('item-click', {
+      itemId: item.id,
+      itemType: item.type,
+      timestamp: Date.now()
+    });
+    
+    // Your click handler logic
+    console.log('Item clicked:', item);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="expensive-component">
+      <h2>Expensive Component</h2>
+      {data.map(item => (
+        <div key={item.id} onClick={() => handleItemClick(item)}>
+          {item.name}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Wrap with performance tracking HOC
+export default withPerformanceTracking(ExpensiveComponent, {
+  componentName: 'ExpensiveComponent',
+  trackRenderTime: true,
+  trackPropsChanges: true,
+  warnOnSlowRender: true
+});</code></pre>
+
+                            <h5>4. Environment Configuration</h5>
+                            <pre class="language-bash"><code># .env.local
+REACT_APP_STACKSLEUTH_API_KEY=your_api_key_here
+REACT_APP_STACKSLEUTH_ENVIRONMENT=development
+
+# .env.production
+REACT_APP_STACKSLEUTH_API_KEY=your_production_api_key
+REACT_APP_STACKSLEUTH_ENVIRONMENT=production</code></pre>
+                        </div>
+
+                        <div id="vue" class="tab-content">
+                            <h4>Vue.js Application Setup</h4>
+                            <p><strong>Perfect for:</strong> Vue 3 SPAs, Nuxt.js apps, Vue composition API projects</p>
+                            
+                            <h5>1. Install Dependencies</h5>
+                            <pre class="language-bash"><code># Install core and Vue agent
+npm install @stacksleuth/core @stacksleuth/vue-agent
+
+# For Nuxt.js apps
+npm install @stacksleuth/nuxt-agent</code></pre>
+
+                            <h5>2. Configure Vue Plugin</h5>
+                            <pre class="language-javascript"><code>// main.js
+import { createApp } from 'vue';
+import { createStackSleuth } from '@stacksleuth/vue-agent';
+import App from './App.vue';
+
+const app = createApp(App);
+
+// Create StackSleuth instance
+const stackSleuth = createStackSleuth({
+  apiKey: import.meta.env.VITE_STACKSLEUTH_API_KEY,
+  environment: import.meta.env.MODE,
+  appName: 'my-vue-app',
+  
+  // Vue-specific configuration
+  vueConfig: {
+    trackComponentLifecycle: true,
+    trackReactivity: true,
+    trackVuexMutations: true,
+    trackRouterNavigation: true,
+    slowComponentThreshold: 16,
+  },
+  
+  // Composition API tracking
+  compositionConfig: {
+    trackComposables: true,
+    trackWatchers: true,
+    trackComputed: true,
+  }
+});
+
+// Install the plugin
+app.use(stackSleuth);
+
+app.mount('#app');</code></pre>
+
+                            <h5>3. Component Monitoring with Composition API</h5>
+                            <pre class="language-javascript"><code>// components/DataTable.vue
+<template>
+  <div class="data-table">
+    <div v-if="loading">Loading...</div>
+    <table v-else>
+      <thead>
+        <tr>
+          <th v-for="column in columns" :key="column.key">
+            {{ column.title }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in paginatedData" :key="row.id" @click="trackRowClick(row)">
+          <td v-for="column in columns" :key="column.key">
+            {{ row[column.key] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination v-model:page="currentPage" :total="totalRows" />
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, watch, onMounted } from 'vue';
+import { useStackSleuth } from '@stacksleuth/vue-agent';
+
+const props = defineProps({
+  dataSource: String,
+  pageSize: { type: Number, default: 20 }
+});
+
+const stackSleuth = useStackSleuth();
+const data = ref([]);
+const loading = ref(true);
+const currentPage = ref(1);
+
+// Computed with performance tracking
+const paginatedData = computed(() => {
+  const operation = stackSleuth.startOperation('data-pagination');
+  
+  const start = (currentPage.value - 1) * props.pageSize;
+  const end = start + props.pageSize;
+  const result = data.value.slice(start, end);
+  
+  operation.setMetadata({
+    pageSize: props.pageSize,
+    currentPage: currentPage.value,
+    totalRows: data.value.length,
+    resultSize: result.length
+  });
+  
+  operation.complete('success');
+  return result;
+});
+
+const totalRows = computed(() => data.value.length);
+
+// Watch with performance tracking
+watch(currentPage, (newPage, oldPage) => {
+  stackSleuth.trackUserAction('page-change', {
+    from: oldPage,
+    to: newPage,
+    totalPages: Math.ceil(totalRows.value / props.pageSize)
+  });
+});
+
+// Fetch data with monitoring
+const fetchData = async () => {
+  const operation = stackSleuth.startOperation('fetch-table-data');
+  
+  try {
+    loading.value = true;
+    const response = await fetch(props.dataSource);
+    const result = await response.json();
+    
+    data.value = result;
+    
+    operation.setMetadata({
+      dataSource: props.dataSource,
+      rowCount: result.length,
+      responseSize: JSON.stringify(result).length
+    });
+    
+    operation.complete('success');
+  } catch (error) {
+    operation.complete('error', { error: error.message });
+    throw error;
+  } finally {
+    loading.value = false;
+  }
+};
+
+const trackRowClick = (row) => {
+  stackSleuth.trackUserAction('table-row-click', {
+    rowId: row.id,
+    page: currentPage.value,
+    position: paginatedData.value.indexOf(row)
+  });
+};
+
+onMounted(() => {
+  fetchData();
+});</script></code></pre>
+                        </div>
+
+                        <div id="node" class="tab-content">
+                            <h4>Node.js API Setup</h4>
+                            <p><strong>Perfect for:</strong> Express APIs, Koa applications, Fastify servers, GraphQL endpoints</p>
+                            
+                            <h5>1. Install Dependencies</h5>
+                            <pre class="language-bash"><code># Install core and backend agent
+npm install @stacksleuth/core @stacksleuth/backend-agent
+
+# For specific frameworks
+npm install @stacksleuth/express-agent    # Express.js
+npm install @stacksleuth/fastapi-agent    # FastAPI
+npm install @stacksleuth/graphql-agent    # GraphQL</code></pre>
+
+                            <h5>2. Express.js Integration</h5>
+                            <pre class="language-javascript"><code>// server.js
+const express = require('express');
+const { createStackSleuthMiddleware, BackendAgent } = require('@stacksleuth/backend-agent');
+
+const app = express();
+
+// Initialize StackSleuth
+const stackSleuth = new BackendAgent({
+  apiKey: process.env.STACKSLEUTH_API_KEY,
+  environment: process.env.NODE_ENV,
+  serviceName: 'user-api',
+  version: process.env.npm_package_version,
+  
+  // Backend-specific configuration
+  backendConfig: {
+    trackRoutes: true,
+    trackMiddleware: true,
+    trackDatabaseQueries: true,
+    trackExternalCalls: true,
+    slowRouteThreshold: 1000, // ms
+  },
+  
+  // Database monitoring
+  databaseConfig: {
+    trackQueries: true,
+    trackConnections: true,
+    trackSlowQueries: true,
+    slowQueryThreshold: 500, // ms
+  },
+  
+  // Memory and performance monitoring
+  performanceConfig: {
+    trackMemoryUsage: true,
+    trackCpuUsage: true,
+    trackEventLoopLag: true,
+    memoryLeakDetection: true,
+  }
+});
+
+// Add StackSleuth middleware (should be first)
+app.use(createStackSleuthMiddleware(stackSleuth));
+
+// Standard Express middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Example route with detailed monitoring
+app.get('/api/users/:id', async (req, res) => {
+  const operation = stackSleuth.startOperation('get-user');
+  
+  try {
+    const userId = req.params.id;
+    
+    // Track database query
+    const dbOperation = stackSleuth.startOperation('db-query-user');
+    const user = await User.findById(userId);
+    dbOperation.complete('success', { 
+      query: 'SELECT * FROM users WHERE id = ?',
+      params: [userId],
+      rowsReturned: user ? 1 : 0
+    });
+    
+    if (!user) {
+      operation.complete('error', { error: 'User not found' });
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    // Track external API call
+    const apiOperation = stackSleuth.startOperation('external-api-call');
+    const preferences = await fetch(`https://preferences-api.com/users/${userId}`);
+    const prefsData = await preferences.json();
+    apiOperation.complete('success', {
+      externalService: 'preferences-api',
+      responseTime: preferences.headers.get('x-response-time'),
+      statusCode: preferences.status
+    });
+    
+    // Combine data
+    const result = {
+      ...user.toJSON(),
+      preferences: prefsData
+    };
+    
+    operation.setMetadata({
+      userId,
+      dataSize: JSON.stringify(result).length,
+      includesPreferences: true
+    });
+    
+    operation.complete('success');
+    res.json(result);
+    
+  } catch (error) {
+    operation.complete('error', { 
+      error: error.message,
+      stack: error.stack.substring(0, 500) // Truncate stack trace
+    });
+    
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Database connection monitoring
+const mongoose = require('mongoose');
+const { wrapMongoose } = require('@stacksleuth/mongodb-agent');
+
+// Wrap mongoose with StackSleuth monitoring
+const monitoredMongoose = wrapMongoose(mongoose, stackSleuth);
+
+monitoredMongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+// Error handling middleware
+app.use((error, req, res, next) => {
+  stackSleuth.recordError(error, {
+    route: req.route?.path,
+    method: req.method,
+    userAgent: req.get('User-Agent'),
+    ip: req.ip
+  });
+  
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  stackSleuth.recordMetric('server-start', { port: PORT });
+});</code></pre>
+
+                            <h5>3. Advanced Database Monitoring</h5>
+                            <pre class="language-javascript"><code>// models/User.js with MongoDB monitoring
+const mongoose = require('mongoose');
+const { trackMongooseModel } = require('@stacksleuth/mongodb-agent');
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: { type: String, unique: true },
+  createdAt: { type: Date, default: Date.now },
+  lastActive: Date,
+  profile: {
+    avatar: String,
+    bio: String,
+    location: String
+  }
+});
+
+// Add performance tracking to schema methods
+userSchema.methods.updateLastActive = function() {
+  const operation = global.stackSleuth.startOperation('update-last-active');
+  
+  this.lastActive = new Date();
+  return this.save().then(result => {
+    operation.complete('success', { userId: this._id });
+    return result;
+  }).catch(error => {
+    operation.complete('error', { error: error.message });
+    throw error;
+  });
+};
+
+// Track complex aggregations
+userSchema.statics.getUsersWithRecentActivity = function(days = 7) {
+  const operation = global.stackSleuth.startOperation('users-recent-activity-aggregation');
+  
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+  
+  return this.aggregate([
+    { $match: { lastActive: { $gte: cutoffDate } } },
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$lastActive" } },
+        count: { $sum: 1 },
+        users: { $push: { id: "$_id", name: "$name" } }
+      }
+    },
+    { $sort: { _id: -1 } }
+  ]).then(result => {
+    operation.complete('success', {
+      aggregationStages: 3,
+      resultCount: result.length,
+      daysCovered: days
+    });
+    return result;
+  }).catch(error => {
+    operation.complete('error', { error: error.message });
+    throw error;
+  });
+};
+
+const User = mongoose.model('User', userSchema);
+
+// Wrap the entire model with StackSleuth monitoring
+module.exports = trackMongooseModel(User, global.stackSleuth);</code></pre>
+                        </div>
+
+                        <div id="fullstack" class="tab-content">
+                            <h4>Full Stack Application Setup</h4>
+                            <p><strong>Perfect for:</strong> Complete applications with frontend, backend, and database monitoring</p>
+                            
+                            <h5>1. Project Structure</h5>
+                            <pre class="language-bash"><code>my-fullstack-app/
+├── frontend/          # React/Vue frontend
+├── backend/           # Node.js API server
+├── database/          # Database schemas and migrations
+├── docker-compose.yml # Development environment
+├── stacksleuth.config.js  # Centralized StackSleuth config
+└── package.json</code></pre>
+
+                            <h5>2. Centralized Configuration</h5>
+                            <pre class="language-javascript"><code>// stacksleuth.config.js
+module.exports = {
+  // Global configuration
+  global: {
+    apiKey: process.env.STACKSLEUTH_API_KEY,
+    environment: process.env.NODE_ENV || 'development',
+    projectName: 'my-fullstack-app',
+    version: process.env.npm_package_version,
+  },
+  
+  // Frontend configuration
+  frontend: {
+    appName: 'my-app-frontend',
+    trackingConfig: {
+      trackComponentRenders: true,
+      trackUserInteractions: true,
+      trackNavigations: true,
+      trackNetworkRequests: true,
+    },
+    errorConfig: {
+      captureConsoleErrors: true,
+      captureUnhandledRejections: true,
+    }
+  },
+  
+  // Backend configuration
+  backend: {
+    serviceName: 'my-app-api',
+    trackingConfig: {
+      trackRoutes: true,
+      trackDatabaseQueries: true,
+      trackExternalCalls: true,
+      slowRouteThreshold: 1000,
+    },
+    performanceConfig: {
+      trackMemoryUsage: true,
+      trackCpuUsage: true,
+      trackEventLoopLag: true,
+    }
+  },
+  
+  // Database configuration
+  database: {
+    trackQueries: true,
+    trackConnections: true,
+    slowQueryThreshold: 500,
+    trackIndexUsage: true,
+  },
+  
+  // Correlation configuration
+  correlation: {
+    enableDistributedTracing: true,
+    traceIdHeader: 'x-trace-id',
+    correlateUserSessions: true,
+    correlateDatabaseOperations: true,
+  }
+};</code></pre>
+
+                            <h5>3. Distributed Tracing Setup</h5>
+                            <pre class="language-javascript"><code>// backend/middleware/tracing.js
+const { v4: uuidv4 } = require('uuid');
+
+const distributedTracingMiddleware = (stackSleuth) => {
+  return (req, res, next) => {
+    // Generate or extract trace ID
+    const traceId = req.headers['x-trace-id'] || uuidv4();
+    
+    // Add trace ID to response headers
+    res.setHeader('x-trace-id', traceId);
+    
+    // Create trace context
+    req.traceContext = {
+      traceId,
+      spanId: uuidv4(),
+      parentSpanId: req.headers['x-parent-span-id'],
+      userId: req.user?.id,
+      sessionId: req.sessionID,
+    };
+    
+    // Start request span
+    const requestSpan = stackSleuth.startSpan('http-request', {
+      traceId,
+      spanId: req.traceContext.spanId,
+      parentSpanId: req.traceContext.parentSpanId,
+      metadata: {
+        method: req.method,
+        url: req.url,
+        userAgent: req.get('User-Agent'),
+        userId: req.traceContext.userId,
+      }
+    });
+    
+    // Add span to request for use in route handlers
+    req.span = requestSpan;
+    
+    // End span when response finishes
+    res.on('finish', () => {
+      requestSpan.setMetadata({
+        statusCode: res.statusCode,
+        responseTime: Date.now() - req.startTime,
+      });
+      
+      requestSpan.complete(res.statusCode < 400 ? 'success' : 'error');
+    });
+    
+    next();
+  };
+};
+
+module.exports = distributedTracingMiddleware;</code></pre>
+
+                            <h5>4. Frontend-Backend Correlation</h5>
+                            <pre class="language-javascript"><code>// frontend/utils/api.js
+import { useStackSleuth } from '@stacksleuth/frontend-agent';
+
+class CorrelatedApiClient {
+  constructor(stackSleuth) {
+    this.stackSleuth = stackSleuth;
+    this.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+  }
+  
+  async request(method, endpoint, data = null) {
+    // Start frontend operation
+    const operation = this.stackSleuth.startOperation(`api-${method.toLowerCase()}-${endpoint}`);
+    
+    // Generate trace ID for correlation
+    const traceId = this.stackSleuth.generateTraceId();
+    const spanId = this.stackSleuth.generateSpanId();
+    
+    const config = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-trace-id': traceId,
+        'x-parent-span-id': spanId,
+        'x-user-id': this.stackSleuth.getUserId(),
+        'x-session-id': this.stackSleuth.getSessionId(),
+      }
+    };
+    
+    if (data) {
+      config.body = JSON.stringify(data);
+    }
+    
+    try {
+      const startTime = performance.now();
+      const response = await fetch(`${this.baseURL}${endpoint}`, config);
+      const endTime = performance.now();
+      
+      const responseData = await response.json();
+      
+      operation.setMetadata({
+        method,
+        endpoint,
+        statusCode: response.status,
+        responseTime: endTime - startTime,
+        requestSize: data ? JSON.stringify(data).length : 0,
+        responseSize: JSON.stringify(responseData).length,
+        traceId,
+        spanId,
+        backendSpanId: response.headers.get('x-span-id'),
+      });
+      
+      if (response.ok) {
+        operation.complete('success');
+        return responseData;
+      } else {
+        operation.complete('error', { 
+          error: `HTTP ${response.status}`,
+          message: responseData.message 
+        });
+        throw new Error(responseData.message);
+      }
+      
+    } catch (error) {
+      operation.complete('error', { 
+        error: error.message,
+        networkError: !error.response 
+      });
+      throw error;
+    }
+  }
+  
+  // Convenience methods
+  get(endpoint) { return this.request('GET', endpoint); }
+  post(endpoint, data) { return this.request('POST', endpoint, data); }
+  put(endpoint, data) { return this.request('PUT', endpoint, data); }
+  delete(endpoint) { return this.request('DELETE', endpoint); }
+}
+
+// React hook for API client
+export const useApiClient = () => {
+  const stackSleuth = useStackSleuth();
+  return new CorrelatedApiClient(stackSleuth);
+};</code></pre>
+                        </div>
+                    </div>
+
+                    <h3>🔧 Environment Variables Setup</h3>
+                    <pre class="language-bash"><code># Development (.env.development)
+STACKSLEUTH_API_KEY=sk_dev_your_development_key_here
+STACKSLEUTH_ENVIRONMENT=development
+STACKSLEUTH_LOG_LEVEL=debug
+STACKSLEUTH_SAMPLE_RATE=1.0  # 100% sampling in development
+
+# Production (.env.production)
+STACKSLEUTH_API_KEY=sk_prod_your_production_key_here
+STACKSLEUTH_ENVIRONMENT=production
+STACKSLEUTH_LOG_LEVEL=warn
+STACKSLEUTH_SAMPLE_RATE=0.1  # 10% sampling in production
+
+# Optional: Advanced configuration
+STACKSLEUTH_ENDPOINT=https://api.stacksleuth.dev
+STACKSLEUTH_BATCH_SIZE=100
+STACKSLEUTH_FLUSH_INTERVAL=10000  # 10 seconds</code></pre>
+
+                    <div class="callout success">
+                        <div class="callout-title">✅ Next Steps</div>
+                        <p>After installation, you'll immediately see:</p>
+                        <ul>
+                            <li><strong>Real-time metrics</strong> in your StackSleuth dashboard</li>
+                            <li><strong>Performance insights</strong> for your application</li>
+                            <li><strong>Error tracking</strong> with stack traces</li>
+                            <li><strong>User behavior</strong> analytics</li>
+                        </ul>
+                        <p><a href="getting-started.html">Continue to the complete getting started guide →</a></p>
+                    </div>
                 </section>
 
                 <!-- Architecture -->

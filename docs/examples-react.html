@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Examples - StackSleuth</title>
+    <link rel="stylesheet" href="css/gitbook.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="gitbook-container">
+        <!-- Sidebar -->
+        <nav class="gitbook-sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo">
+                    <img src="logo.svg" alt="StackSleuth">
+                    <span>StackSleuth</span>
+                </a>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Examples</div>
+                    <div class="nav-item">
+                        <a href="examples-react.html" class="nav-link active">
+                            <i class="fab fa-react icon"></i>
+                            React Examples
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="examples-vue.html" class="nav-link">
+                            <i class="fab fa-vuejs icon"></i>
+                            Vue Examples
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="examples-node.html" class="nav-link">
+                            <i class="fab fa-node-js icon"></i>
+                            Node.js Examples
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="gitbook-content">
+            <div class="content-wrapper">
+                <div class="content-header">
+                    <h1 class="content-title">React Application Examples</h1>
+                    <p class="content-subtitle">Real-world implementations of StackSleuth in React applications</p>
+                </div>
+
+                <div class="callout info">
+                    <div class="callout-title">🎯 Complete Examples</div>
+                    <p>These examples show real-world scenarios including e-commerce, dashboards, and data-heavy applications with production-ready monitoring.</p>
+                </div>
+
+                <!-- E-commerce Example -->
+                <section id="ecommerce">
+                    <h2>🛒 E-commerce Product Catalog</h2>
+                    <p>This example demonstrates monitoring a product catalog with search, filtering, and cart functionality.</p>
+
+                    <h3>Setup & Configuration</h3>
+                    <pre class="language-bash"><code>npm install @stacksleuth/core @stacksleuth/frontend-agent react react-dom</code></pre>
+
+                    <h3>App.js - Main Application Setup</h3>
+                    <pre class="language-javascript"><code>// src/App.js
+import React from 'react';
+import { StackSleuthProvider, initializeStackSleuth } from '@stacksleuth/frontend-agent';
+import ProductCatalog from './components/ProductCatalog';
+import ShoppingCart from './components/ShoppingCart';
+import SearchBar from './components/SearchBar';
+
+const stackSleuth = initializeStackSleuth({
+  apiKey: process.env.REACT_APP_STACKSLEUTH_API_KEY,
+  environment: process.env.NODE_ENV,
+  appName: 'ecommerce-frontend',
+  
+  // E-commerce specific tracking
+  businessMetrics: {
+    trackConversions: true,
+    trackRevenueEvents: true,
+    trackCartAbandonment: true,
+    trackSearchQueries: true,
+  },
+  
+  // Performance thresholds for e-commerce
+  performanceThresholds: {
+    productLoadTime: 1000,    // Product listings should load in 1s
+    searchResponseTime: 500,   // Search should respond in 500ms
+    cartUpdateTime: 200,       // Cart updates should be instant
+    checkoutFlowTime: 5000,    // Checkout flow max 5s per step
+  }
+});
+
+function App() {
+  return (
+    <StackSleuthProvider value={stackSleuth}>
+      <div className="app">
+        <header>
+          <SearchBar />
+          <ShoppingCart />
+        </header>
+        <main>
+          <ProductCatalog />
+        </main>
+      </div>
+    </StackSleuthProvider>
+  );
+}
+
+export default App;</code></pre>
+
+                    <h3>ProductCatalog.js - Performance-Monitored Product Grid</h3>
+                    <pre class="language-javascript"><code>// src/components/ProductCatalog.js
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useStackSleuth, withPerformanceTracking } from '@stacksleuth/frontend-agent';
+import ProductCard from './ProductCard';
+import LoadingSpinner from './LoadingSpinner';
+
+const ProductCatalog = () => {
+  const stackSleuth = useStackSleuth();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    category: 'all',
+    priceRange: [0, 1000],
+    sortBy: 'popularity'
+  });
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Performance-tracked product fetching
+  const fetchProducts = useCallback(async () => {
+    const operation = stackSleuth.startOperation('fetch-products');
+    
+    try {
+      setLoading(true);
+      const startTime = performance.now();
+      
+      const response = await fetch('/api/products?' + new URLSearchParams({
+        category: filters.category,
+        minPrice: filters.priceRange[0],
+        maxPrice: filters.priceRange[1],
+        sortBy: filters.sortBy,
+        search: searchQuery
+      }));
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      const loadTime = performance.now() - startTime;
+      
+      // Track business metrics
+      operation.setMetadata({
+        productCount: data.products.length,
+        category: filters.category,
+        searchQuery: searchQuery || null,
+        loadTime,
+        responseSize: JSON.stringify(data).length,
+        cacheHit: response.headers.get('x-cache') === 'HIT',
+        sortBy: filters.sortBy
+      });
+      
+      // Track performance against thresholds
+      if (loadTime > 1000) {
+        stackSleuth.recordEvent('slow-product-load', {
+          loadTime,
+          productCount: data.products.length,
+          filters
+        });
+      }
+      
+      setProducts(data.products);
+      operation.complete('success');
+      
+    } catch (error) {
+      operation.complete('error', { 
+        error: error.message,
+        filters,
+        searchQuery 
+      });
+      
+      stackSleuth.recordError(error, {
+        context: 'product-fetch',
+        filters,
+        searchQuery
+      });
+      
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [filters, searchQuery, stackSleuth]);
+
+  // Performance-optimized filtering
+  const filteredProducts = useMemo(() => {
+    const operation = stackSleuth.startOperation('filter-products');
+    
+    const startTime = performance.now();
+    let filtered = products;
+    
+    // Apply search filter
+    if (searchQuery) {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    
+    // Apply category filter
+    if (filters.category !== 'all') {
+      filtered = filtered.filter(product => product.category === filters.category);
+    }
+    
+    // Apply price filter
+    filtered = filtered.filter(product =>
+      product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1]
+    );
+    
+    // Apply sorting
+    filtered.sort((a, b) => {
+      switch (filters.sortBy) {
+        case 'price-low':
+          return a.price - b.price;
+        case 'price-high':
+          return b.price - a.price;
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'popularity':
+        default:
+          return b.popularity - a.popularity;
+      }
+    });
+    
+    const filterTime = performance.now() - startTime;
+    
+    operation.setMetadata({
+      originalCount: products.length,
+      filteredCount: filtered.length,
+      filterTime,
+      hasSearch: !!searchQuery,
+      activeFilters: Object.keys(filters).filter(key => 
+        filters[key] !== 'all' && filters[key] !== [0, 1000]
+      ).length
+    });
+    
+    operation.complete('success');
+    return filtered;
+  }, [products, searchQuery, filters, stackSleuth]);
+
+  // Track user interactions
+  const handleFilterChange = useCallback((newFilters) => {
+    stackSleuth.trackUserAction('filter-change', {
+      previousFilters: filters,
+      newFilters,
+      timestamp: Date.now(),
+      resultCount: filteredProducts.length
+    });
+    
+    setFilters(newFilters);
+  }, [filters, filteredProducts.length, stackSleuth]);
+
+  const handleSearchChange = useCallback((query) => {
+    stackSleuth.trackUserAction('search-query', {
+      query,
+      queryLength: query.length,
+      timestamp: Date.now(),
+      previousQuery: searchQuery
+    });
+    
+    setSearchQuery(query);
+  }, [searchQuery, stackSleuth]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  // Track when users scroll to bottom (for infinite scroll scenarios)
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      if (scrollPosition >= documentHeight - 100) {
+        stackSleuth.trackUserAction('scroll-to-bottom', {
+          productsLoaded: filteredProducts.length,
+          timestamp: Date.now()
+        });
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [filteredProducts.length, stackSleuth]);
+
+  if (loading) {
+    return <LoadingSpinner message="Loading products..." />;
+  }
+
+  return (
+    <div className="product-catalog">
+      <div className="catalog-header">
+        <h2>Products ({filteredProducts.length})</h2>
+        <FilterControls 
+          filters={filters} 
+          onFilterChange={handleFilterChange}
+          onSearchChange={handleSearchChange}
+          searchQuery={searchQuery}
+        />
+      </div>
+      
+      <div className="product-grid">
+        {filteredProducts.map(product => (
+          <ProductCard 
+            key={product.id} 
+            product={product}
+            onAddToCart={(product) => {
+              stackSleuth.trackConversion('add-to-cart', {
+                productId: product.id,
+                productName: product.name,
+                price: product.price,
+                category: product.category,
+                timestamp: Date.now()
+              });
+            }}
+          />
+        ))}
+      </div>
+      
+      {filteredProducts.length === 0 && (
+        <div className="no-results">
+          <p>No products found matching your criteria.</p>
+          <button onClick={() => {
+            setFilters({ category: 'all', priceRange: [0, 1000], sortBy: 'popularity' });
+            setSearchQuery('');
+          }}>
+            Clear Filters
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Wrap with performance tracking
+export default withPerformanceTracking(ProductCatalog, {
+  componentName: 'ProductCatalog',
+  trackRenderTime: true,
+  trackPropsChanges: false,
+  warnOnSlowRender: true,
+  renderTimeThreshold: 50 // Warn if render takes longer than 50ms
+});</code></pre>
+
+                    <h3>ProductCard.js - Individual Product Monitoring</h3>
+                    <pre class="language-javascript"><code>// src/components/ProductCard.js
+import React, { useState, useCallback } from 'react';
+import { useStackSleuth } from '@stacksleuth/frontend-agent';
+
+const ProductCard = ({ product, onAddToCart }) => {
+  const stackSleuth = useStackSleuth();
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+    stackSleuth.trackEvent('product-image-loaded', {
+      productId: product.id,
+      imageUrl: product.imageUrl,
+      loadTime: Date.now() - window.performance.timing.navigationStart
+    });
+  }, [product.id, product.imageUrl, stackSleuth]);
+
+  const handleImageError = useCallback(() => {
+    setImageError(true);
+    stackSleuth.recordError(new Error('Product image failed to load'), {
+      productId: product.id,
+      imageUrl: product.imageUrl,
+      context: 'product-card-image'
+    });
+  }, [product.id, product.imageUrl, stackSleuth]);
+
+  const handleProductClick = useCallback(() => {
+    stackSleuth.trackUserAction('product-view', {
+      productId: product.id,
+      productName: product.name,
+      category: product.category,
+      price: product.price,
+      timestamp: Date.now(),
+      position: 'product-grid'
+    });
+  }, [product, stackSleuth]);
+
+  const handleAddToCart = useCallback(() => {
+    const operation = stackSleuth.startOperation('add-to-cart-click');
+    
+    try {
+      onAddToCart(product);
+      
+      operation.setMetadata({
+        productId: product.id,
+        productName: product.name,
+        price: product.price,
+        category: product.category
+      });
+      
+      operation.complete('success');
+    } catch (error) {
+      operation.complete('error', { error: error.message });
+      throw error;
+    }
+  }, [product, onAddToCart, stackSleuth]);
+
+  return (
+    <div className="product-card" onClick={handleProductClick}>
+      <div className="product-image">
+        {!imageLoaded && !imageError && (
+          <div className="image-placeholder">Loading...</div>
+        )}
+        {imageError ? (
+          <div className="image-error">Failed to load image</div>
+        ) : (
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            style={{ display: imageLoaded ? 'block' : 'none' }}
+          />
+        )}
+      </div>
+      
+      <div className="product-info">
+        <h3>{product.name}</h3>
+        <p className="product-description">{product.description}</p>
+        <div className="product-meta">
+          <span className="price">${product.price}</span>
+          <span className="category">{product.category}</span>
+        </div>
+        
+        <button 
+          className="add-to-cart-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleAddToCart();
+          }}
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;</code></pre>
+
+                    <h3>Business Metrics Dashboard</h3>
+                    <p>With this setup, you'll get comprehensive e-commerce insights:</p>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4>🛒 Conversion Tracking</h4>
+                            <ul>
+                                <li>Product view → Add to cart conversion rate</li>
+                                <li>Search → purchase funnel analysis</li>
+                                <li>Category performance metrics</li>
+                                <li>Cart abandonment tracking</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <h4>⚡ Performance Metrics</h4>
+                            <ul>
+                                <li>Product catalog load times</li>
+                                <li>Search response performance</li>
+                                <li>Image loading optimization</li>
+                                <li>Filter/sort operation speed</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <h4>👤 User Behavior</h4>
+                            <ul>
+                                <li>Popular search queries</li>
+                                <li>Filter usage patterns</li>
+                                <li>Product interaction heatmaps</li>
+                                <li>Session duration and engagement</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <h4>🎯 Business Intelligence</h4>
+                            <ul>
+                                <li>Revenue attribution per feature</li>
+                                <li>Performance impact on sales</li>
+                                <li>Mobile vs desktop behavior</li>
+                                <li>A/B testing integration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Dashboard Example -->
+                <section id="dashboard">
+                    <h2>📊 Real-time Analytics Dashboard</h2>
+                    <p>This example shows how to monitor a data-heavy dashboard with real-time updates and complex visualizations.</p>
+
+                    <h3>Dashboard.js - Main Dashboard Component</h3>
+                    <pre class="language-javascript"><code>// src/components/Dashboard.js
+import React, { useState, useEffect, useRef } from 'react';
+import { useStackSleuth } from '@stacksleuth/frontend-agent';
+import ChartWidget from './ChartWidget';
+import MetricCard from './MetricCard';
+import DataTable from './DataTable';
+
+const Dashboard = () => {
+  const stackSleuth = useStackSleuth();
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdate, setLastUpdate] = useState(null);
+  const wsRef = useRef(null);
+  const updateIntervalRef = useRef(null);
+
+  // Track dashboard performance
+  useEffect(() => {
+    const dashboardSession = stackSleuth.startSession('dashboard-session');
+    
+    return () => {
+      dashboardSession.end({
+        sessionDuration: Date.now() - dashboardSession.startTime,
+        totalUpdates: lastUpdate ? 1 : 0
+      });
+    };
+  }, [stackSleuth]);
+
+  // Real-time data connection with monitoring
+  useEffect(() => {
+    const connectWebSocket = () => {
+      const wsOperation = stackSleuth.startOperation('websocket-connection');
+      
+      try {
+        wsRef.current = new WebSocket(process.env.REACT_APP_WS_URL);
+        
+        wsRef.current.onopen = () => {
+          wsOperation.complete('success');
+          stackSleuth.trackEvent('websocket-connected');
+        };
+        
+        wsRef.current.onmessage = (event) => {
+          const updateOperation = stackSleuth.startOperation('dashboard-data-update');
+          
+          try {
+            const data = JSON.parse(event.data);
+            const updateSize = event.data.length;
+            
+            setDashboardData(data);
+            setLastUpdate(Date.now());
+            
+            updateOperation.setMetadata({
+              dataSize: updateSize,
+              updateType: data.type,
+              metricsCount: data.metrics?.length || 0,
+              chartsUpdated: data.charts?.length || 0
+            });
+            
+            updateOperation.complete('success');
+            
+            // Track real-time performance
+            stackSleuth.trackEvent('dashboard-updated', {
+              updateLatency: Date.now() - data.timestamp,
+              dataSize: updateSize,
+              updateType: data.type
+            });
+            
+          } catch (error) {
+            updateOperation.complete('error', { error: error.message });
+            stackSleuth.recordError(error, { context: 'websocket-message-parse' });
+          }
+        };
+        
+        wsRef.current.onerror = (error) => {
+          wsOperation.complete('error', { error: 'WebSocket connection failed' });
+          stackSleuth.recordError(new Error('WebSocket connection failed'), {
+            context: 'websocket-connection'
+          });
+        };
+        
+        wsRef.current.onclose = () => {
+          stackSleuth.trackEvent('websocket-disconnected');
+          
+          // Attempt reconnection after 5 seconds
+          setTimeout(connectWebSocket, 5000);
+        };
+        
+      } catch (error) {
+        wsOperation.complete('error', { error: error.message });
+        stackSleuth.recordError(error, { context: 'websocket-setup' });
+      }
+    };
+
+    connectWebSocket();
+    
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, [stackSleuth]);
+
+  // Initial data fetch
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const operation = stackSleuth.startOperation('dashboard-initial-load');
+      
+      try {
+        setLoading(true);
+        const startTime = performance.now();
+        
+        const response = await fetch('/api/dashboard/initial');
+        const data = await response.json();
+        
+        const loadTime = performance.now() - startTime;
+        
+        operation.setMetadata({
+          loadTime,
+          dataSize: JSON.stringify(data).length,
+          metricsCount: data.metrics?.length || 0,
+          chartsCount: data.charts?.length || 0
+        });
+        
+        setDashboardData(data);
+        operation.complete('success');
+        
+      } catch (error) {
+        operation.complete('error', { error: error.message });
+        stackSleuth.recordError(error, { context: 'dashboard-initial-load' });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInitialData();
+  }, [stackSleuth]);
+
+  // Performance monitoring for render cycles
+  useEffect(() => {
+    if (dashboardData) {
+      const renderOperation = stackSleuth.startOperation('dashboard-render-cycle');
+      
+      // Simulate complex render work
+      const startTime = performance.now();
+      
+      // Use requestAnimationFrame to measure actual render time
+      requestAnimationFrame(() => {
+        const renderTime = performance.now() - startTime;
+        
+        renderOperation.setMetadata({
+          renderTime,
+          metricsCount: dashboardData.metrics?.length || 0,
+          chartsCount: dashboardData.charts?.length || 0,
+          dataSize: JSON.stringify(dashboardData).length
+        });
+        
+        if (renderTime > 100) {
+          stackSleuth.recordEvent('slow-dashboard-render', {
+            renderTime,
+            dataSize: JSON.stringify(dashboardData).length
+          });
+        }
+        
+        renderOperation.complete('success');
+      });
+    }
+  }, [dashboardData, stackSleuth]);
+
+  if (loading) {
+    return (
+      <div className="dashboard-loading">
+        <div className="loading-spinner"></div>
+        <p>Loading dashboard...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="dashboard">
+      <div className="dashboard-header">
+        <h1>Analytics Dashboard</h1>
+        <div className="dashboard-status">
+          <span className="status-indicator online"></span>
+          <span>Live Updates</span>
+          {lastUpdate && (
+            <span className="last-update">
+              Last update: {new Date(lastUpdate).toLocaleTimeString()}
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="dashboard-content">
+        {/* Key Metrics Row */}
+        <div className="metrics-row">
+          {dashboardData?.metrics?.map(metric => (
+            <MetricCard 
+              key={metric.id} 
+              metric={metric}
+              onInteraction={(action, data) => {
+                stackSleuth.trackUserAction(`metric-${action}`, {
+                  metricId: metric.id,
+                  metricName: metric.name,
+                  ...data
+                });
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Charts Row */}
+        <div className="charts-row">
+          {dashboardData?.charts?.map(chart => (
+            <ChartWidget 
+              key={chart.id} 
+              chart={chart}
+              onRenderComplete={(renderTime, dataPoints) => {
+                stackSleuth.trackEvent('chart-rendered', {
+                  chartId: chart.id,
+                  chartType: chart.type,
+                  renderTime,
+                  dataPoints
+                });
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Data Table */}
+        <div className="table-section">
+          <DataTable 
+            data={dashboardData?.tableData || []}
+            onSort={(column, direction) => {
+              stackSleuth.trackUserAction('table-sort', {
+                column,
+                direction,
+                rowCount: dashboardData?.tableData?.length || 0
+              });
+            }}
+            onFilter={(filters) => {
+              stackSleuth.trackUserAction('table-filter', {
+                filters,
+                rowCount: dashboardData?.tableData?.length || 0
+              });
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;</code></pre>
+                </section>
+
+                <!-- Performance Best Practices -->
+                <section id="best-practices">
+                    <h2>🎯 React Performance Best Practices with StackSleuth</h2>
+                    
+                    <div class="best-practices-grid">
+                        <div class="practice-card">
+                            <h3>🔍 Component-Level Monitoring</h3>
+                            <p>Track individual component performance to identify bottlenecks:</p>
+                            <ul>
+                                <li>Use <code>withPerformanceTracking</code> HOC for critical components</li>
+                                <li>Set appropriate render time thresholds</li>
+                                <li>Monitor props changes and their impact</li>
+                                <li>Track component lifecycle events</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="practice-card">
+                            <h3>⚡ Async Operations</h3>
+                            <p>Monitor all async operations for performance insights:</p>
+                            <ul>
+                                <li>Wrap API calls with operation tracking</li>
+                                <li>Monitor WebSocket connections and updates</li>
+                                <li>Track image loading performance</li>
+                                <li>Measure data processing times</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="practice-card">
+                            <h3>📊 User Interactions</h3>
+                            <p>Track how users interact with your application:</p>
+                            <ul>
+                                <li>Monitor click patterns and user flows</li>
+                                <li>Track search queries and results</li>
+                                <li>Measure form completion rates</li>
+                                <li>Analyze scroll behavior and engagement</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="practice-card">
+                            <h3>🚨 Error Handling</h3>
+                            <p>Comprehensive error tracking and monitoring:</p>
+                            <ul>
+                                <li>Capture and categorize all errors</li>
+                                <li>Provide context with error metadata</li>
+                                <li>Monitor error rates and trends</li>
+                                <li>Set up alerting for critical errors</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Footer Navigation -->
+                <div class="content-footer">
+                    <a href="examples.html" class="footer-nav">
+                        <i class="fas fa-arrow-left icon"></i>
+                        <span>Back: Examples Overview</span>
+                    </a>
+                    <a href="examples-vue.html" class="footer-nav">
+                        <span>Next: Vue.js Examples</span>
+                        <i class="fas fa-arrow-right icon"></i>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="js/gitbook.js"></script>
+</body>
+</html> 

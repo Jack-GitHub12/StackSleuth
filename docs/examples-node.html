@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Examples - StackSleuth</title>
+    <link rel="stylesheet" href="css/gitbook.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="gitbook-container">
+        <!-- Sidebar -->
+        <nav class="gitbook-sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo">
+                    <img src="logo.svg" alt="StackSleuth">
+                    <span>StackSleuth</span>
+                </a>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Examples</div>
+                    <div class="nav-item">
+                        <a href="examples-react.html" class="nav-link">
+                            <i class="fab fa-react icon"></i>
+                            React Examples
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="examples-vue.html" class="nav-link">
+                            <i class="fab fa-vuejs icon"></i>
+                            Vue Examples
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="examples-node.html" class="nav-link active">
+                            <i class="fab fa-node-js icon"></i>
+                            Node.js Examples
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="gitbook-content">
+            <div class="content-wrapper">
+                <div class="content-header">
+                    <h1 class="content-title">Node.js Backend Examples</h1>
+                    <p class="content-subtitle">Production-ready Node.js applications with comprehensive monitoring</p>
+                </div>
+
+                <div class="callout info">
+                    <div class="callout-title">🚀 Enterprise-Ready Examples</div>
+                    <p>These examples demonstrate real-world Node.js applications including REST APIs, GraphQL servers, microservices, and database integrations with full monitoring capabilities.</p>
+                </div>
+
+                <!-- REST API Example -->
+                <section id="rest-api">
+                    <h2>🌐 Express.js REST API with Full Monitoring</h2>
+                    <p>A complete e-commerce API with user management, product catalog, and order processing.</p>
+
+                    <h3>Setup & Dependencies</h3>
+                    <pre class="language-bash"><code>npm install express @stacksleuth/core @stacksleuth/backend-agent
+npm install @stacksleuth/mongodb-agent @stacksleuth/redis-agent
+npm install mongoose redis helmet cors compression</code></pre>
+
+                    <h3>server.js - Main Application Setup</h3>
+                    <pre class="language-javascript"><code>// server.js
+const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
+const compression = require('compression');
+const { BackendAgent, createStackSleuthMiddleware } = require('@stacksleuth/backend-agent');
+const { connectDatabase } = require('./config/database');
+const { connectRedis } = require('./config/redis');
+
+// Routes
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
+const productRoutes = require('./routes/products');
+const orderRoutes = require('./routes/orders');
+
+const app = express();
+
+// Initialize StackSleuth with comprehensive configuration
+const stackSleuth = new BackendAgent({
+  apiKey: process.env.STACKSLEUTH_API_KEY,
+  environment: process.env.NODE_ENV,
+  serviceName: 'ecommerce-api',
+  version: process.env.npm_package_version,
+  
+  // Service configuration
+  serviceConfig: {
+    region: process.env.AWS_REGION || 'us-east-1',
+    instanceId: process.env.INSTANCE_ID,
+    clusterId: process.env.CLUSTER_ID,
+  },
+  
+  // Performance monitoring
+  performanceConfig: {
+    trackRoutes: true,
+    trackMiddleware: true,
+    trackDatabaseQueries: true,
+    trackExternalCalls: true,
+    trackMemoryUsage: true,
+    trackCpuUsage: true,
+    trackEventLoopLag: true,
+    slowRouteThreshold: 1000, // 1 second
+    memoryLeakThreshold: 100 * 1024 * 1024, // 100MB
+  },
+  
+  // Database monitoring
+  databaseConfig: {
+    trackQueries: true,
+    trackConnections: true,
+    trackSlowQueries: true,
+    slowQueryThreshold: 500,
+    trackIndexUsage: true,
+  },
+  
+  // Cache monitoring
+  cacheConfig: {
+    trackOperations: true,
+    trackHitRates: true,
+    trackMemoryUsage: true,
+  },
+  
+  // Error tracking
+  errorConfig: {
+    captureUnhandledExceptions: true,
+    captureUnhandledRejections: true,
+    captureConsoleErrors: true,
+    stackTraceLimit: 10,
+  },
+  
+  // Business metrics
+  businessConfig: {
+    trackUserActions: true,
+    trackConversions: true,
+    trackRevenue: true,
+  }
+});
+
+// Security and performance middleware
+app.use(helmet());
+app.use(cors());
+app.use(compression());
+
+// StackSleuth middleware (must be first)
+app.use(createStackSleuthMiddleware(stackSleuth));
+
+// Body parsing middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Custom request ID middleware for tracing
+app.use((req, res, next) => {
+  req.requestId = stackSleuth.generateRequestId();
+  res.setHeader('X-Request-ID', req.requestId);
+  next();
+});
+
+// Rate limiting with monitoring
+const rateLimit = require('express-rate-limit');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  handler: (req, res) => {
+    stackSleuth.recordSecurityEvent('rate-limit-exceeded', {
+      ip: req.ip,
+      userAgent: req.get('User-Agent'),
+      path: req.path,
+      method: req.method,
+    });
+    
+    res.status(429).json({
+      error: 'Too many requests',
+      retryAfter: Math.round(limiter.windowMs / 1000)
+    });
+  }
+});
+app.use('/api/', limiter);
+
+// Health check endpoint with detailed monitoring
+app.get('/health', async (req, res) => {
+  const healthCheck = stackSleuth.startOperation('health-check');
+  
+  try {
+    const startTime = Date.now();
+    
+    // Check database connectivity
+    const dbCheck = await stackSleuth.checkDatabaseHealth();
+    
+    // Check Redis connectivity  
+    const redisCheck = await stackSleuth.checkCacheHealth();
+    
+    // Check memory usage
+    const memoryUsage = process.memoryUsage();
+    const cpuUsage = process.cpuUsage();
+    
+    // Check external services
+    const externalChecks = await Promise.all([
+      checkPaymentService(),
+      checkEmailService(),
+      checkImageCDN()
+    ]);
+    
+    const responseTime = Date.now() - startTime;
+    
+    const health = {
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      responseTime,
+      services: {
+        database: dbCheck,
+        cache: redisCheck,
+        payment: externalChecks[0],
+        email: externalChecks[1],
+        cdn: externalChecks[2]
+      },
+      system: {
+        memory: {
+          used: Math.round(memoryUsage.heapUsed / 1024 / 1024),
+          total: Math.round(memoryUsage.heapTotal / 1024 / 1024),
+          external: Math.round(memoryUsage.external / 1024 / 1024)
+        },
+        cpu: {
+          user: cpuUsage.user,
+          system: cpuUsage.system
+        },
+        uptime: process.uptime()
+      }
+    };
+    
+    healthCheck.setMetadata(health);
+    healthCheck.complete('success');
+    
+    res.json(health);
+    
+  } catch (error) {
+    healthCheck.complete('error', { error: error.message });
+    
+    res.status(503).json({
+      status: 'unhealthy',
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// API Routes with monitoring
+app.use('/api/auth', authRoutes(stackSleuth));
+app.use('/api/users', userRoutes(stackSleuth));
+app.use('/api/products', productRoutes(stackSleuth));
+app.use('/api/orders', orderRoutes(stackSleuth));
+
+// Global error handler with comprehensive tracking
+app.use((error, req, res, next) => {
+  stackSleuth.recordError(error, {
+    requestId: req.requestId,
+    method: req.method,
+    url: req.url,
+    userAgent: req.get('User-Agent'),
+    ip: req.ip,
+    userId: req.user?.id,
+    body: req.method !== 'GET' ? req.body : undefined,
+    query: req.query,
+    params: req.params,
+  });
+  
+  // Don't expose internal errors in production
+  const isProduction = process.env.NODE_ENV === 'production';
+  
+  res.status(error.statusCode || 500).json({
+    error: isProduction ? 'Internal Server Error' : error.message,
+    requestId: req.requestId,
+    ...(isProduction ? {} : { stack: error.stack })
+  });
+});
+
+// 404 handler
+app.use('*', (req, res) => {
+  stackSleuth.recordEvent('route-not-found', {
+    method: req.method,
+    url: req.originalUrl,
+    userAgent: req.get('User-Agent'),
+    ip: req.ip,
+  });
+  
+  res.status(404).json({
+    error: 'Route not found',
+    method: req.method,
+    path: req.originalUrl
+  });
+});
+
+// Graceful shutdown handling
+process.on('SIGTERM', async () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  
+  stackSleuth.recordEvent('server-shutdown-start');
+  
+  // Stop accepting new connections
+  server.close(() => {
+    stackSleuth.recordEvent('server-shutdown-complete');
+    process.exit(0);
+  });
+  
+  // Force close after 10 seconds
+  setTimeout(() => {
+    console.log('Forcing shutdown');
+    process.exit(1);
+  }, 10000);
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT, async () => {
+  console.log(`Server running on port ${PORT}`);
+  
+  // Initialize database and cache connections
+  await connectDatabase(stackSleuth);
+  await connectRedis(stackSleuth);
+  
+  stackSleuth.recordEvent('server-start', {
+    port: PORT,
+    environment: process.env.NODE_ENV,
+    nodeVersion: process.version,
+  });
+});
+
+module.exports = { app, server, stackSleuth };</code></pre>
+
+                    <h3>routes/orders.js - Order Processing with Business Metrics</h3>
+                    <pre class="language-javascript"><code>// routes/orders.js
+const express = require('express');
+const router = express.Router();
+const Order = require('../models/Order');
+const Product = require('../models/Product');
+const { authenticate, authorize } = require('../middleware/auth');
+const { validateOrder } = require('../middleware/validation');
+
+module.exports = (stackSleuth) => {
+  
+  // Create new order
+  router.post('/', authenticate, validateOrder, async (req, res) => {
+    const operation = stackSleuth.startOperation('create-order');
+    
+    try {
+      const { userId } = req.user;
+      const { items, shippingAddress, paymentMethod } = req.body;
+      
+      operation.setMetadata({
+        userId,
+        itemCount: items.length,
+        paymentMethod,
+        shippingCountry: shippingAddress.country
+      });
+      
+      // Start order processing transaction
+      const orderTransaction = stackSleuth.startTransaction('order-processing');
+      
+      // Validate product availability and calculate totals
+      const validationOperation = stackSleuth.startOperation('validate-order-items');
+      
+      let totalAmount = 0;
+      const orderItems = [];
+      
+      for (const item of items) {
+        const product = await Product.findById(item.productId);
+        
+        if (!product) {
+          throw new Error(`Product ${item.productId} not found`);
+        }
+        
+        if (product.stock < item.quantity) {
+          throw new Error(`Insufficient stock for ${product.name}`);
+        }
+        
+        const itemTotal = product.price * item.quantity;
+        totalAmount += itemTotal;
+        
+        orderItems.push({
+          productId: product._id,
+          productName: product.name,
+          price: product.price,
+          quantity: item.quantity,
+          total: itemTotal
+        });
+      }
+      
+      validationOperation.setMetadata({
+        totalAmount,
+        itemsValidated: orderItems.length
+      });
+      validationOperation.complete('success');
+      
+      // Process payment
+      const paymentOperation = stackSleuth.startOperation('process-payment');
+      
+      try {
+        const paymentResult = await processPayment({
+          amount: totalAmount,
+          currency: 'USD',
+          paymentMethod,
+          customerId: userId
+        });
+        
+        paymentOperation.setMetadata({
+          paymentId: paymentResult.id,
+          amount: totalAmount,
+          paymentMethod,
+          processingTime: paymentResult.processingTime
+        });
+        
+        paymentOperation.complete('success');
+        
+        // Create order in database
+        const dbOperation = stackSleuth.startOperation('create-order-db');
+        
+        const order = new Order({
+          userId,
+          items: orderItems,
+          totalAmount,
+          shippingAddress,
+          paymentId: paymentResult.id,
+          status: 'confirmed',
+          createdAt: new Date()
+        });
+        
+        await order.save();
+        
+        dbOperation.setMetadata({
+          orderId: order._id,
+          totalAmount
+        });
+        dbOperation.complete('success');
+        
+        // Update product stock
+        const stockOperation = stackSleuth.startOperation('update-product-stock');
+        
+        await Promise.all(
+          orderItems.map(item =>
+            Product.findByIdAndUpdate(
+              item.productId,
+              { $inc: { stock: -item.quantity } }
+            )
+          )
+        );
+        
+        stockOperation.complete('success');
+        
+        // Send confirmation email
+        const emailOperation = stackSleuth.startOperation('send-order-confirmation');
+        
+        await sendOrderConfirmationEmail(userId, order);
+        
+        emailOperation.complete('success');
+        
+        // Record business metrics
+        stackSleuth.recordConversion('order-completed', {
+          orderId: order._id,
+          userId,
+          amount: totalAmount,
+          itemCount: orderItems.length,
+          paymentMethod,
+          acquisitionChannel: req.get('X-Acquisition-Channel'),
+        });
+        
+        stackSleuth.recordRevenue(totalAmount, {
+          orderId: order._id,
+          userId,
+          currency: 'USD',
+          products: orderItems.map(item => ({
+            productId: item.productId,
+            revenue: item.total
+          }))
+        });
+        
+        orderTransaction.complete('success', {
+          orderId: order._id,
+          totalAmount,
+          processingTime: Date.now() - orderTransaction.startTime
+        });
+        
+        operation.setMetadata({
+          orderId: order._id,
+          totalAmount,
+          paymentId: paymentResult.id
+        });
+        
+        operation.complete('success');
+        
+        res.status(201).json({
+          success: true,
+          order: {
+            id: order._id,
+            totalAmount,
+            status: order.status,
+            estimatedDelivery: calculateDeliveryDate(shippingAddress),
+            trackingNumber: generateTrackingNumber()
+          }
+        });
+        
+      } catch (paymentError) {
+        paymentOperation.complete('error', { error: paymentError.message });
+        throw new Error(`Payment failed: ${paymentError.message}`);
+      }
+      
+    } catch (error) {
+      operation.complete('error', { 
+        error: error.message,
+        errorType: error.constructor.name 
+      });
+      
+      stackSleuth.recordError(error, {
+        context: 'order-creation',
+        userId: req.user?.userId,
+        orderData: req.body
+      });
+      
+      res.status(400).json({
+        error: error.message,
+        requestId: req.requestId
+      });
+    }
+  });
+  
+  // Get user orders with pagination and performance tracking
+  router.get('/', authenticate, async (req, res) => {
+    const operation = stackSleuth.startOperation('get-user-orders');
+    
+    try {
+      const { userId } = req.user;
+      const { page = 1, limit = 10, status, sortBy = 'createdAt' } = req.query;
+      
+      const skip = (page - 1) * limit;
+      
+      // Build query with performance monitoring
+      const queryOperation = stackSleuth.startOperation('orders-database-query');
+      
+      const query = { userId };
+      if (status) query.status = status;
+      
+      const [orders, totalCount] = await Promise.all([
+        Order.find(query)
+          .sort({ [sortBy]: -1 })
+          .skip(skip)
+          .limit(parseInt(limit))
+          .populate('items.productId', 'name imageUrl')
+          .lean(),
+        Order.countDocuments(query)
+      ]);
+      
+      queryOperation.setMetadata({
+        resultCount: orders.length,
+        totalCount,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        hasFilter: !!status,
+        sortBy
+      });
+      
+      queryOperation.complete('success');
+      
+      // Track user behavior
+      stackSleuth.trackUserAction('view-orders', {
+        userId,
+        page: parseInt(page),
+        ordersViewed: orders.length,
+        filterApplied: !!status
+      });
+      
+      operation.setMetadata({
+        userId,
+        ordersReturned: orders.length,
+        totalOrders: totalCount,
+        page: parseInt(page)
+      });
+      
+      operation.complete('success');
+      
+      res.json({
+        orders,
+        pagination: {
+          currentPage: parseInt(page),
+          totalPages: Math.ceil(totalCount / limit),
+          totalCount,
+          hasNext: page * limit < totalCount,
+          hasPrev: page > 1
+        }
+      });
+      
+    } catch (error) {
+      operation.complete('error', { error: error.message });
+      
+      stackSleuth.recordError(error, {
+        context: 'get-user-orders',
+        userId: req.user?.userId,
+        query: req.query
+      });
+      
+      res.status(500).json({
+        error: 'Failed to retrieve orders',
+        requestId: req.requestId
+      });
+    }
+  });
+  
+  // Get order details with detailed tracking
+  router.get('/:orderId', authenticate, async (req, res) => {
+    const operation = stackSleuth.startOperation('get-order-details');
+    
+    try {
+      const { orderId } = req.params;
+      const { userId } = req.user;
+      
+      operation.setMetadata({ orderId, userId });
+      
+      const order = await Order.findOne({ _id: orderId, userId })
+        .populate('items.productId')
+        .lean();
+      
+      if (!order) {
+        stackSleuth.recordEvent('order-not-found', {
+          orderId,
+          userId,
+          requestId: req.requestId
+        });
+        
+        return res.status(404).json({
+          error: 'Order not found',
+          requestId: req.requestId
+        });
+      }
+      
+      // Add real-time tracking information
+      const trackingInfo = await getOrderTrackingInfo(orderId);
+      
+      const enrichedOrder = {
+        ...order,
+        tracking: trackingInfo,
+        estimatedDelivery: calculateDeliveryDate(order.shippingAddress),
+        canCancel: order.status === 'confirmed' && 
+                   Date.now() - new Date(order.createdAt).getTime() < 24 * 60 * 60 * 1000
+      };
+      
+      // Track order view for analytics
+      stackSleuth.trackUserAction('view-order-details', {
+        orderId,
+        userId,
+        orderStatus: order.status,
+        orderValue: order.totalAmount,
+        daysSinceOrder: Math.floor(
+          (Date.now() - new Date(order.createdAt).getTime()) / (24 * 60 * 60 * 1000)
+        )
+      });
+      
+      operation.complete('success');
+      
+      res.json(enrichedOrder);
+      
+    } catch (error) {
+      operation.complete('error', { error: error.message });
+      
+      stackSleuth.recordError(error, {
+        context: 'get-order-details',
+        orderId: req.params.orderId,
+        userId: req.user?.userId
+      });
+      
+      res.status(500).json({
+        error: 'Failed to retrieve order details',
+        requestId: req.requestId
+      });
+    }
+  });
+  
+  return router;
+};
+
+// Helper functions
+async function processPayment(paymentData) {
+  // Simulate payment processing with external service
+  const startTime = Date.now();
+  
+  // Mock payment processing delay
+  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
+  
+  // Simulate occasional payment failures
+  if (Math.random() < 0.05) {
+    throw new Error('Payment declined by bank');
+  }
+  
+  return {
+    id: `pay_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    status: 'completed',
+    processingTime: Date.now() - startTime
+  };
+}
+
+async function sendOrderConfirmationEmail(userId, order) {
+  // Mock email service
+  await new Promise(resolve => setTimeout(resolve, 50));
+  return { messageId: `msg_${Date.now()}` };
+}
+
+function calculateDeliveryDate(address) {
+  const baseDeliveryDays = address.country === 'US' ? 3 : 7;
+  const deliveryDate = new Date();
+  deliveryDate.setDate(deliveryDate.getDate() + baseDeliveryDays);
+  return deliveryDate.toISOString();
+}
+
+function generateTrackingNumber() {
+  return `TRK${Date.now()}${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+}
+
+async function getOrderTrackingInfo(orderId) {
+  // Mock tracking service
+  return {
+    status: 'in_transit',
+    lastUpdate: new Date().toISOString(),
+    location: 'Distribution Center',
+    estimatedDelivery: calculateDeliveryDate({ country: 'US' })
+  };
+}</code></pre>
+
+                    <h3>Business Intelligence Dashboard</h3>
+                    <p>With this comprehensive monitoring setup, you get deep insights into your business:</p>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4>💰 Revenue Analytics</h4>
+                            <ul>
+                                <li>Real-time revenue tracking per order</li>
+                                <li>Product profitability analysis</li>
+                                <li>Payment method performance</li>
+                                <li>Geographic revenue distribution</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <h4>⚡ Performance Metrics</h4>
+                            <ul>
+                                <li>API endpoint response times</li>
+                                <li>Database query optimization</li>
+                                <li>Payment processing speed</li>
+                                <li>Memory and CPU utilization</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <h4>🛍️ Customer Behavior</h4>
+                            <ul>
+                                <li>Order completion funnel</li>
+                                <li>Cart abandonment analysis</li>
+                                <li>Customer lifetime value</li>
+                                <li>Purchase pattern insights</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <h4>🔧 Operational Health</h4>
+                            <ul>
+                                <li>Error rates and patterns</li>
+                                <li>External service dependencies</li>
+                                <li>System reliability metrics</li>
+                                <li>Security event monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- GraphQL API Example -->
+                <section id="graphql">
+                    <h2>🔗 GraphQL API with Apollo Server</h2>
+                    <p>Advanced GraphQL implementation with field-level performance tracking and query complexity analysis.</p>
+
+                    <h3>Apollo Server Setup with StackSleuth</h3>
+                    <pre class="language-javascript"><code>// graphql-server.js
+const { ApolloServer } = require('apollo-server-express');
+const { BackendAgent } = require('@stacksleuth/backend-agent');
+const { createGraphQLMonitoringPlugin } = require('@stacksleuth/graphql-agent');
+
+const stackSleuth = new BackendAgent({
+  apiKey: process.env.STACKSLEUTH_API_KEY,
+  serviceName: 'graphql-api',
+  
+  // GraphQL-specific configuration
+  graphqlConfig: {
+    trackResolvers: true,
+    trackFieldAccess: true,
+    trackQueryComplexity: true,
+    trackSchemaUsage: true,
+    complexityThreshold: 1000,
+    depthLimit: 10,
+  }
+});
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  
+  // StackSleuth GraphQL monitoring plugin
+  plugins: [
+    createGraphQLMonitoringPlugin(stackSleuth, {
+      // Track resolver performance
+      trackResolvers: true,
+      
+      // Track field access patterns
+      trackFieldAccess: true,
+      
+      // Monitor query complexity
+      trackComplexity: true,
+      
+      // Track schema usage analytics
+      trackSchemaUsage: true,
+      
+      // Custom metric collection
+      onRequestStart: (requestContext) => {
+        const operation = stackSleuth.startOperation('graphql-request');
+        requestContext.stackSleuthOperation = operation;
+        
+        operation.setMetadata({
+          operationType: requestContext.request.operationName,
+          query: requestContext.request.query,
+          variables: requestContext.request.variables,
+        });
+      },
+      
+      onRequestEnd: (requestContext) => {
+        if (requestContext.stackSleuthOperation) {
+          const { response, errors } = requestContext;
+          
+          requestContext.stackSleuthOperation.setMetadata({
+            hasErrors: !!errors?.length,
+            errorCount: errors?.length || 0,
+            responseSize: JSON.stringify(response.data || {}).length,
+          });
+          
+          requestContext.stackSleuthOperation.complete(
+            errors?.length ? 'error' : 'success',
+            errors ? { errors: errors.map(e => e.message) } : undefined
+          );
+        }
+      },
+    })
+  ],
+  
+  // Custom context with monitoring
+  context: ({ req }) => {
+    const requestId = stackSleuth.generateRequestId();
+    
+    return {
+      requestId,
+      stackSleuth,
+      user: req.user,
+      startTime: Date.now(),
+    };
+  },
+});
+
+// Resolver instrumentation
+const resolvers = {
+  Query: {
+    products: async (parent, args, context) => {
+      const { stackSleuth } = context;
+      const operation = stackSleuth.startOperation('resolve-products');
+      
+      try {
+        const { filter, sort, pagination } = args;
+        
+        operation.setMetadata({
+          hasFilter: !!filter,
+          sortBy: sort?.field,
+          page: pagination?.page,
+          limit: pagination?.limit
+        });
+        
+        // Track database query
+        const dbOperation = stackSleuth.startOperation('products-db-query');
+        
+        const products = await Product.find(filter)
+          .sort(sort)
+          .limit(pagination?.limit || 20)
+          .skip((pagination?.page - 1) * (pagination?.limit || 20));
+        
+        dbOperation.setMetadata({
+          resultCount: products.length,
+          queryTime: Date.now() - dbOperation.startTime
+        });
+        dbOperation.complete('success');
+        
+        operation.setMetadata({
+          productCount: products.length
+        });
+        operation.complete('success');
+        
+        return products;
+        
+      } catch (error) {
+        operation.complete('error', { error: error.message });
+        throw error;
+      }
+    },
+    
+    user: async (parent, { id }, context) => {
+      const { stackSleuth } = context;
+      const operation = stackSleuth.startOperation('resolve-user');
+      
+      try {
+        operation.setMetadata({ userId: id });
+        
+        const user = await User.findById(id);
+        
+        if (!user) {
+          stackSleuth.recordEvent('user-not-found', { userId: id });
+          return null;
+        }
+        
+        operation.complete('success');
+        return user;
+        
+      } catch (error) {
+        operation.complete('error', { error: error.message });
+        throw error;
+      }
+    }
+  },
+  
+  Product: {
+    // Field-level resolver monitoring
+    reviews: async (product, args, context) => {
+      const { stackSleuth } = context;
+      const operation = stackSleuth.startOperation('resolve-product-reviews');
+      
+      try {
+        operation.setMetadata({
+          productId: product.id,
+          limit: args.limit
+        });
+        
+        const reviews = await Review.find({ productId: product.id })
+          .limit(args.limit || 10)
+          .sort({ createdAt: -1 });
+        
+        operation.setMetadata({
+          reviewCount: reviews.length
+        });
+        operation.complete('success');
+        
+        return reviews;
+        
+      } catch (error) {
+        operation.complete('error', { error: error.message });
+        throw error;
+      }
+    },
+    
+    recommendations: async (product, args, context) => {
+      const { stackSleuth } = context;
+      const operation = stackSleuth.startOperation('resolve-product-recommendations');
+      
+      try {
+        // This could be an expensive ML operation
+        const mlOperation = stackSleuth.startOperation('ml-recommendation-engine');
+        
+        const recommendations = await generateRecommendations(product.id, {
+          limit: args.limit || 5,
+          userId: context.user?.id
+        });
+        
+        mlOperation.setMetadata({
+          productId: product.id,
+          userId: context.user?.id,
+          recommendationCount: recommendations.length,
+          mlModelVersion: '2.1.0'
+        });
+        mlOperation.complete('success');
+        
+        operation.complete('success');
+        return recommendations;
+        
+      } catch (error) {
+        operation.complete('error', { error: error.message });
+        throw error;
+      }
+    }
+  },
+  
+  Mutation: {
+    createOrder: async (parent, { input }, context) => {
+      const { stackSleuth, user } = context;
+      const operation = stackSleuth.startOperation('create-order-mutation');
+      
+      if (!user) {
+        stackSleuth.recordSecurityEvent('unauthorized-order-attempt', {
+          input: input,
+          requestId: context.requestId
+        });
+        throw new Error('Authentication required');
+      }
+      
+      try {
+        operation.setMetadata({
+          userId: user.id,
+          itemCount: input.items.length,
+          estimatedTotal: input.estimatedTotal
+        });
+        
+        // Use the same order creation logic as REST API
+        const order = await createOrder(user.id, input, stackSleuth);
+        
+        operation.complete('success');
+        return order;
+        
+      } catch (error) {
+        operation.complete('error', { error: error.message });
+        throw error;
+      }
+    }
+  }
+};</code></pre>
+                </section>
+
+                <!-- Microservices Example -->
+                <section id="microservices">
+                    <h2>🏗️ Microservices Architecture</h2>
+                    <p>Distributed microservices with cross-service tracing and correlation.</p>
+
+                    <h3>Service Discovery & Communication</h3>
+                    <pre class="language-javascript"><code>// services/user-service/index.js
+const express = require('express');
+const { BackendAgent } = require('@stacksleuth/backend-agent');
+const { ServiceMesh } = require('@stacksleuth/service-mesh');
+
+const stackSleuth = new BackendAgent({
+  apiKey: process.env.STACKSLEUTH_API_KEY,
+  serviceName: 'user-service',
+  
+  // Microservice configuration
+  serviceConfig: {
+    serviceId: process.env.SERVICE_ID,
+    serviceVersion: process.env.SERVICE_VERSION,
+    datacenter: process.env.DATACENTER,
+    
+    // Service dependencies
+    dependencies: [
+      'auth-service',
+      'notification-service',
+      'audit-service'
+    ],
+    
+    // Service mesh configuration
+    mesh: {
+      enableTracing: true,
+      enableMetrics: true,
+      enableCircuitBreaker: true,
+      circuitBreakerThreshold: 5,
+      circuitBreakerTimeout: 30000,
+    }
+  }
+});
+
+// Service mesh for inter-service communication
+const serviceMesh = new ServiceMesh(stackSleuth, {
+  services: {
+    'auth-service': process.env.AUTH_SERVICE_URL,
+    'notification-service': process.env.NOTIFICATION_SERVICE_URL,
+    'audit-service': process.env.AUDIT_SERVICE_URL,
+  },
+  
+  // Circuit breaker configuration
+  circuitBreaker: {
+    threshold: 5,
+    timeout: 30000,
+    resetTimeout: 60000,
+  },
+  
+  // Retry configuration
+  retry: {
+    attempts: 3,
+    delay: 1000,
+    backoff: 2,
+  }
+});
+
+const app = express();
+
+// Distributed tracing middleware
+app.use((req, res, next) => {
+  const traceId = req.headers['x-trace-id'] || stackSleuth.generateTraceId();
+  const spanId = stackSleuth.generateSpanId();
+  const parentSpanId = req.headers['x-parent-span-id'];
+  
+  req.tracing = {
+    traceId,
+    spanId,
+    parentSpanId,
+    serviceName: 'user-service'
+  };
+  
+  // Add tracing headers to response
+  res.setHeader('x-trace-id', traceId);
+  res.setHeader('x-span-id', spanId);
+  
+  // Start request span
+  req.span = stackSleuth.startSpan('http-request', {
+    traceId,
+    spanId,
+    parentSpanId,
+    serviceName: 'user-service',
+    operation: `${req.method} ${req.path}`,
+    metadata: {
+      method: req.method,
+      path: req.path,
+      userAgent: req.get('User-Agent'),
+      contentLength: req.get('Content-Length'),
+    }
+  });
+  
+  next();
+});
+
+// User profile endpoint with cross-service calls
+app.get('/users/:id/profile', async (req, res) => {
+  const operation = stackSleuth.startOperation('get-user-profile');
+  
+  try {
+    const { id } = req.params;
+    const { tracing } = req;
+    
+    operation.setMetadata({
+      userId: id,
+      traceId: tracing.traceId
+    });
+    
+    // Get user data from database
+    const userSpan = stackSleuth.startSpan('user-db-query', {
+      parentSpanId: tracing.spanId,
+      traceId: tracing.traceId
+    });
+    
+    const user = await User.findById(id);
+    userSpan.complete('success', { userId: id });
+    
+    if (!user) {
+      operation.complete('error', { error: 'User not found' });
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    // Get user permissions from auth service
+    const authSpan = stackSleuth.startSpan('auth-service-call', {
+      parentSpanId: tracing.spanId,
+      traceId: tracing.traceId
+    });
+    
+    const permissions = await serviceMesh.call('auth-service', {
+      method: 'GET',
+      path: `/permissions/${id}`,
+      headers: {
+        'x-trace-id': tracing.traceId,
+        'x-parent-span-id': tracing.spanId,
+        'x-service-name': 'user-service'
+      }
+    });
+    
+    authSpan.complete('success', { 
+      permissionCount: permissions.data.length 
+    });
+    
+    // Get user preferences from profile service
+    const profileSpan = stackSleuth.startSpan('profile-service-call', {
+      parentSpanId: tracing.spanId,
+      traceId: tracing.traceId
+    });
+    
+    const preferences = await serviceMesh.call('profile-service', {
+      method: 'GET',
+      path: `/preferences/${id}`,
+      headers: {
+        'x-trace-id': tracing.traceId,
+        'x-parent-span-id': tracing.spanId,
+        'x-service-name': 'user-service'
+      }
+    });
+    
+    profileSpan.complete('success');
+    
+    // Audit the profile access
+    const auditSpan = stackSleuth.startSpan('audit-service-call', {
+      parentSpanId: tracing.spanId,
+      traceId: tracing.traceId
+    });
+    
+    serviceMesh.call('audit-service', {
+      method: 'POST',
+      path: '/events',
+      body: {
+        event: 'user-profile-accessed',
+        userId: id,
+        accessedBy: req.user?.id,
+        timestamp: new Date().toISOString(),
+        traceId: tracing.traceId
+      },
+      headers: {
+        'x-trace-id': tracing.traceId,
+        'x-parent-span-id': tracing.spanId,
+        'x-service-name': 'user-service'
+      }
+    }).catch(error => {
+      // Don't fail the request if audit fails
+      auditSpan.complete('error', { error: error.message });
+      stackSleuth.recordError(error, { context: 'audit-service-call' });
+    });
+    
+    auditSpan.complete('success');
+    
+    // Combine response
+    const response = {
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        status: user.status
+      },
+      permissions: permissions.data,
+      preferences: preferences.data,
+      _metadata: {
+        traceId: tracing.traceId,
+        serviceVersion: process.env.SERVICE_VERSION,
+        timestamp: new Date().toISOString()
+      }
+    };
+    
+    operation.setMetadata({
+      responseSize: JSON.stringify(response).length,
+      servicesContacted: 3
+    });
+    
+    operation.complete('success');
+    req.span.complete('success');
+    
+    res.json(response);
+    
+  } catch (error) {
+    operation.complete('error', { error: error.message });
+    req.span.complete('error', { error: error.message });
+    
+    stackSleuth.recordError(error, {
+      context: 'get-user-profile',
+      userId: req.params.id,
+      traceId: req.tracing?.traceId
+    });
+    
+    res.status(500).json({
+      error: 'Internal server error',
+      traceId: req.tracing?.traceId
+    });
+  }
+});
+
+module.exports = { app, stackSleuth, serviceMesh };</code></pre>
+                </section>
+
+                <!-- Footer Navigation -->
+                <div class="content-footer">
+                    <a href="examples-vue.html" class="footer-nav">
+                        <i class="fas fa-arrow-left icon"></i>
+                        <span>Back: Vue.js Examples</span>
+                    </a>
+                    <a href="examples-production.html" class="footer-nav">
+                        <span>Next: Production Deployment</span>
+                        <i class="fas fa-arrow-right icon"></i>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="js/gitbook.js"></script>
+</body>
+</html> 
