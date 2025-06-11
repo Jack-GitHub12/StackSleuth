@@ -1,0 +1,247 @@
+/* Packages Page Specific Styles */
+
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.search-box {
+    max-width: 600px;
+    margin: 2rem auto 0;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.packages-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.packages-sidebar {
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+}
+
+.packages-sidebar h3 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+}
+
+.category-list li {
+    margin-bottom: 0.5rem;
+}
+
+.category-list a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #666;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.category-list a:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.category-list a.active {
+    background: #667eea;
+    color: white;
+}
+
+.package-section {
+    margin-bottom: 3rem;
+}
+
+.package-section h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.package-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.package-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.package-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.package-header h3 {
+    color: #333;
+    font-size: 1.4rem;
+    font-family: 'Courier New', monospace;
+}
+
+.package-badges {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.package-badges img {
+    height: 20px;
+}
+
+.framework-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.framework-badge.react { background: #61dafb; color: #333; }
+.framework-badge.vue { background: #4fc08d; }
+.framework-badge.svelte { background: #ff3e00; }
+.framework-badge.node { background: #339933; }
+.framework-badge.python { background: #3776ab; }
+.framework-badge.redis { background: #dc382d; }
+.framework-badge.mysql { background: #00758f; }
+.framework-badge.mongodb { background: #47a248; }
+.framework-badge.browser { background: #f7b93e; color: #333; }
+.framework-badge.cli { background: #333; }
+
+.package-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.install-section,
+.usage-section,
+.features-section {
+    margin-top: 1.5rem;
+}
+
+.install-section h4,
+.usage-section h4,
+.features-section h4 {
+    color: #333;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.install-section pre,
+.usage-section pre {
+    background: #2d2d2d;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.features-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.features-section li {
+    padding: 0.5rem 0;
+    color: #666;
+}
+
+.features-section li i {
+    color: #4fc08d;
+    margin-right: 0.5rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+code[class*="language-"] {
+    font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .packages-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .packages-sidebar {
+        position: relative;
+        top: 0;
+        margin-bottom: 2rem;
+    }
+    
+    .category-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .category-list li {
+        margin: 0;
+    }
+    
+    .category-list a {
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Navbar adjustments */
+.navbar .nav-links a {
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-links a.active {
+    color: #667eea;
+    font-weight: 600;
+} 

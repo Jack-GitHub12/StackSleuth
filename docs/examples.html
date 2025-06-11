@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackSleuth - Examples</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/examples.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <img src="logo.svg" alt="StackSleuth">
+                    <span>StackSleuth</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="getting-started.html">Getting Started</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="api-reference.html">API Reference</a></li>
+                    <li><a href="examples.html" class="active">Examples</a></li>
+                    <li><a href="configuration.html">Configuration</a></li>
+                    <li><a href="https://github.com/Jack-GitHub12/StackSleuth" target="_blank"><i class="fab fa-github"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="examples-hero">
+        <div class="container">
+            <h1>Examples & Use Cases</h1>
+            <p>Real-world implementations of StackSleuth across different technologies</p>
+        </div>
+    </div>
+
+    <div class="container examples-container">
+        <div class="example-filters">
+            <button class="filter-btn active" data-filter="all">All Examples</button>
+            <button class="filter-btn" data-filter="react">React</button>
+            <button class="filter-btn" data-filter="vue">Vue</button>
+            <button class="filter-btn" data-filter="backend">Backend</button>
+            <button class="filter-btn" data-filter="database">Database</button>
+            <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+        </div>
+
+        <div class="examples-grid">
+            <!-- React E-commerce Example -->
+            <div class="example-card" data-category="react">
+                <div class="example-header">
+                    <h3>React E-commerce Performance</h3>
+                    <span class="example-tag react">React</span>
+                </div>
+                <p>Monitor performance in a React e-commerce application with dynamic product listings and checkout flow.</p>
+                
+                <div class="example-content">
+                    <h4>Setup</h4>
+                    <pre class="language-javascript"><code>// app.js
+import { ReactAgent } from '@stacksleuth/react-agent';
+
+ReactAgent.init({
+  apiKey: process.env.REACT_APP_STACKSLEUTH_KEY,
+  trackRenders: true,
+  trackStateChanges: true,
+  componentWhitelist: ['ProductList', 'CartDrawer', 'CheckoutForm']
+});</code></pre>
+
+                    <h4>Product List Component</h4>
+                    <pre class="language-javascript"><code>import { useProfiler } from '@stacksleuth/react-agent';
+
+function ProductList({ category }) {
+  const profiler = useProfiler('ProductList');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      profiler.startMeasure('fetch-products');
+      try {
+        const response = await api.getProducts(category);
+        setProducts(response.data);
+      } finally {
+        profiler.endMeasure('fetch-products');
+        setLoading(false);
+      }
+    };
+    
+    fetchProducts();
+  }, [category]);
+
+  return (
+    &lt;div className="product-grid"&gt;
+      {loading ? (
+        &lt;LoadingSpinner /&gt;
+      ) : (
+        products.map(product =&gt; (
+          &lt;ProductCard key={product.id} product={product} /&gt;
+        ))
+      )}
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+                    <div class="metrics-preview">
+                        <h4>Captured Metrics</h4>
+                        <ul>
+                            <li>Component render time: 12ms</li>
+                            <li>API fetch duration: 245ms</li>
+                            <li>Re-renders on category change: 3</li>
+                            <li>Memory usage: 4.2MB</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vue Dashboard Example -->
+            <div class="example-card" data-category="vue">
+                <div class="example-header">
+                    <h3>Vue Admin Dashboard</h3>
+                    <span class="example-tag vue">Vue</span>
+                </div>
+                <p>Track performance in a Vue.js admin dashboard with real-time data updates and complex state management.</p>
+                
+                <div class="example-content">
+                    <h4>Main Setup</h4>
+                    <pre class="language-javascript"><code>// main.js
+import { createApp } from 'vue';
+import { VueAgent } from '@stacksleuth/vue-agent';
+
+const app = createApp(App);
+
+app.use(VueAgent, {
+  apiKey: process.env.VUE_APP_STACKSLEUTH_KEY,
+  trackComponents: true,
+  trackVuexMutations: true,
+  slowComponentThreshold: 50
+});</code></pre>
+
+                    <h4>Dashboard Component</h4>
+                    <pre class="language-javascript"><code>&lt;template&gt;
+  &lt;div class="dashboard"&gt;
+    &lt;MetricsGrid :metrics="metrics" /&gt;
+    &lt;RealtimeChart :data="chartData" /&gt;
+    &lt;DataTable :items="tableData" /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import { useStackSleuth } from '@stacksleuth/vue-agent';
+
+export default {
+  setup() {
+    const { trackMethod } = useStackSleuth();
+    
+    const loadDashboardData = trackMethod('loadDashboardData', async () => {
+      const [metrics, chart, table] = await Promise.all([
+        api.getMetrics(),
+        api.getChartData(),
+        api.getTableData()
+      ]);
+      
+      return { metrics, chart, table };
+    });
+    
+    onMounted(() => {
+      loadDashboardData();
+    });
+  }
+}
+&lt;/script&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Node.js Microservice Example -->
+            <div class="example-card" data-category="backend">
+                <div class="example-header">
+                    <h3>Node.js Microservice</h3>
+                    <span class="example-tag node">Node.js</span>
+                </div>
+                <p>Monitor Express.js microservice performance with route tracking and middleware profiling.</p>
+                
+                <div class="example-content">
+                    <h4>Express Setup</h4>
+                    <pre class="language-javascript"><code>const express = require('express');
+const { BackendAgent } = require('@stacksleuth/backend-agent');
+
+const app = express();
+const agent = new BackendAgent({
+  apiKey: process.env.STACKSLEUTH_KEY,
+  serviceName: 'user-service'
+});
+
+// Apply middleware
+app.use(agent.middleware());
+
+// Track specific routes
+app.get('/api/users/:id', agent.trackRoute(), async (req, res) => {
+  const user = await db.users.findById(req.params.id);
+  res.json(user);
+});
+
+// Custom metrics
+app.post('/api/users', async (req, res) => {
+  const timer = agent.startTimer('user.creation');
+  try {
+    const user = await createUser(req.body);
+    agent.recordMetric('user.created', 1);
+    res.json(user);
+  } finally {
+    timer.end();
+  }
+});</code></pre>
+                </div>
+            </div>
+
+            <!-- Redis Caching Example -->
+            <div class="example-card" data-category="database">
+                <div class="example-header">
+                    <h3>Redis Caching Layer</h3>
+                    <span class="example-tag redis">Redis</span>
+                </div>
+                <p>Implement performance monitoring for a Redis caching layer with hit/miss tracking.</p>
+                
+                <div class="example-content">
+                    <h4>Cache Implementation</h4>
+                    <pre class="language-javascript"><code>import { RedisAgent } from '@stacksleuth/redis-agent';
+import { createClient } from 'redis';
+
+class CacheService {
+  constructor() {
+    this.client = createClient();
+    this.agent = new RedisAgent({ apiKey: process.env.STACKSLEUTH_KEY });
+    this.agent.instrument(this.client);
+  }
+
+  async get(key) {
+    const value = await this.client.get(key);
+    
+    // Track cache hit/miss
+    this.agent.recordMetric(value ? 'cache.hit' : 'cache.miss', 1);
+    
+    return value;
+  }
+
+  async set(key, value, ttl = 3600) {
+    const timer = this.agent.startTimer('cache.write');
+    try {
+      await this.client.setex(key, ttl, JSON.stringify(value));
+    } finally {
+      timer.end();
+    }
+  }
+  
+  async invalidate(pattern) {
+    const timer = this.agent.startTimer('cache.invalidation');
+    const keys = await this.client.keys(pattern);
+    if (keys.length > 0) {
+      await this.client.del(...keys);
+    }
+    timer.end({ keysDeleted: keys.length });
+  }
+}</code></pre>
+
+                    <div class="performance-tips">
+                        <h4>Performance Insights</h4>
+                        <ul>
+                            <li>Average cache hit rate: 87%</li>
+                            <li>Cache write latency: 2.3ms</li>
+                            <li>Peak operations/sec: 12,450</li>
+                            <li>Memory usage: 245MB</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Stack Example -->
+            <div class="example-card large" data-category="fullstack">
+                <div class="example-header">
+                    <h3>Full Stack SaaS Application</h3>
+                    <span class="example-tag fullstack">Full Stack</span>
+                </div>
+                <p>Complete monitoring setup for a SaaS application with React frontend, Node.js backend, and PostgreSQL database.</p>
+                
+                <div class="example-content">
+                    <h4>Frontend (React)</h4>
+                    <pre class="language-javascript"><code>// Frontend monitoring setup
+import { ReactAgent } from '@stacksleuth/react-agent';
+import { FrontendAgent } from '@stacksleuth/frontend-agent';
+
+// Initialize agents
+ReactAgent.init({
+  apiKey: process.env.REACT_APP_STACKSLEUTH_KEY,
+  trackRenders: true
+});
+
+FrontendAgent.init({
+  apiKey: process.env.REACT_APP_STACKSLEUTH_KEY,
+  trackPageLoads: true,
+  trackApiCalls: true,
+  trackErrors: true
+});</code></pre>
+
+                    <h4>Backend (Node.js + Express)</h4>
+                    <pre class="language-javascript"><code>// Backend monitoring setup
+const { BackendAgent } = require('@stacksleuth/backend-agent');
+const { DatabaseAgent } = require('@stacksleuth/db-agent');
+
+const agent = new BackendAgent({
+  apiKey: process.env.STACKSLEUTH_KEY,
+  serviceName: 'saas-api'
+});
+
+// Database monitoring
+const dbAgent = new DatabaseAgent({
+  apiKey: process.env.STACKSLEUTH_KEY,
+  slowQueryThreshold: 100
+});
+
+// Apply to PostgreSQL
+dbAgent.instrumentPostgres(pgPool);</code></pre>
+
+                    <h4>Deployment Configuration</h4>
+                    <pre class="language-yaml"><code># docker-compose.yml
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    environment:
+      - REACT_APP_STACKSLEUTH_KEY=${STACKSLEUTH_KEY}
+    
+  backend:
+    build: ./backend
+    environment:
+      - STACKSLEUTH_KEY=${STACKSLEUTH_KEY}
+      - NODE_ENV=production
+    
+  postgres:
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=saas_db</code></pre>
+
+                    <div class="architecture-diagram">
+                        <h4>Monitoring Architecture</h4>
+                        <img src="images/fullstack-architecture.svg" alt="Full Stack Monitoring Architecture">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Browser Automation Example -->
+            <div class="example-card" data-category="fullstack">
+                <div class="example-header">
+                    <h3>E2E Testing & Monitoring</h3>
+                    <span class="example-tag browser">Browser</span>
+                </div>
+                <p>Automated browser testing with performance monitoring for critical user journeys.</p>
+                
+                <div class="example-content">
+                    <h4>User Journey Testing</h4>
+                    <pre class="language-javascript"><code>import { BrowserAgent } from '@stacksleuth/browser-agent';
+
+const agent = new BrowserAgent({
+  apiKey: process.env.STACKSLEUTH_KEY,
+  headless: true,
+  recordVideo: true
+});
+
+describe('User Registration Flow', () => {
+  it('should complete registration within 5 seconds', async () => {
+    const session = await agent.startSession({
+      name: 'user-registration',
+      viewport: { width: 1280, height: 720 }
+    });
+    
+    // Navigate to registration page
+    await session.goto('https://app.example.com/register');
+    
+    // Fill registration form
+    await session.fill('#email', 'test@example.com');
+    await session.fill('#password', 'SecurePass123!');
+    await session.fill('#confirmPassword', 'SecurePass123!');
+    
+    // Submit and wait for redirect
+    const metrics = await session.measureAction('registration', async () => {
+      await session.click('button[type="submit"]');
+      await session.waitForURL('**/dashboard');
+    });
+    
+    expect(metrics.duration).toBeLessThan(5000);
+    await session.end();
+  });
+});</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="integration-section">
+            <h2>Integration Patterns</h2>
+            
+            <div class="pattern-cards">
+                <div class="pattern-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>Microservices</h3>
+                    <p>Distributed tracing across multiple services with correlation IDs and request tracking.</p>
+                    <a href="#" class="pattern-link">View Pattern →</a>
+                </div>
+                
+                <div class="pattern-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile + API</h3>
+                    <p>Monitor mobile app performance alongside API endpoints for complete user journey tracking.</p>
+                    <a href="#" class="pattern-link">View Pattern →</a>
+                </div>
+                
+                <div class="pattern-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Real-time Analytics</h3>
+                    <p>Stream performance data to analytics platforms for custom dashboards and alerts.</p>
+                    <a href="#" class="pattern-link">View Pattern →</a>
+                </div>
+                
+                <div class="pattern-card">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Serverless</h3>
+                    <p>Monitor AWS Lambda, Vercel, and other serverless platforms with automatic cold start detection.</p>
+                    <a href="#" class="pattern-link">View Pattern →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>StackSleuth</h4>
+                    <p>Advanced performance monitoring for modern applications</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="getting-started.html">Documentation</a></li>
+                        <li><a href="api-reference.html">API Reference</a></li>
+                        <li><a href="examples.html">Examples</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://github.com/Jack-GitHub12/StackSleuth">GitHub</a></li>
+                        <li><a href="https://www.npmjs.com/org/stacksleuth">NPM</a></li>
+                        <li><a href="https://discord.gg/stacksleuth">Discord</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="js/examples.js"></script>
+</body>
+</html> 

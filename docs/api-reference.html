@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackSleuth - API Reference</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/api-reference.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <img src="logo.svg" alt="StackSleuth">
+                    <span>StackSleuth</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="getting-started.html">Getting Started</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="api-reference.html" class="active">API Reference</a></li>
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="configuration.html">Configuration</a></li>
+                    <li><a href="https://github.com/Jack-GitHub12/StackSleuth" target="_blank"><i class="fab fa-github"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="api-container">
+        <aside class="api-sidebar">
+            <div class="api-search">
+                <input type="text" placeholder="Search API..." id="api-search">
+            </div>
+            
+            <div class="api-nav">
+                <h3>Core API</h3>
+                <ul>
+                    <li><a href="#profiler-core">ProfilerCore</a></li>
+                    <li><a href="#metrics">Metrics</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#configuration">Configuration</a></li>
+                </ul>
+                
+                <h3>Agent APIs</h3>
+                <ul>
+                    <li><a href="#react-api">React Agent</a></li>
+                    <li><a href="#vue-api">Vue Agent</a></li>
+                    <li><a href="#svelte-api">Svelte Agent</a></li>
+                    <li><a href="#backend-api">Backend Agent</a></li>
+                    <li><a href="#database-api">Database Agents</a></li>
+                    <li><a href="#browser-api">Browser Agent</a></li>
+                </ul>
+                
+                <h3>Utilities</h3>
+                <ul>
+                    <li><a href="#helpers">Helper Functions</a></li>
+                    <li><a href="#types">TypeScript Types</a></li>
+                    <li><a href="#constants">Constants</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="api-content">
+            <div class="api-header">
+                <h1>API Reference</h1>
+                <p>Complete documentation for all StackSleuth APIs and methods</p>
+            </div>
+            
+            <!-- ProfilerCore API -->
+            <section id="profiler-core" class="api-section">
+                <h2>ProfilerCore</h2>
+                <p class="section-description">The core profiling class that provides the foundation for all StackSleuth agents.</p>
+                
+                <div class="api-method">
+                    <h3>Constructor</h3>
+                    <pre class="language-typescript"><code>new ProfilerCore(config: ProfilerConfig)</code></pre>
+                    
+                    <h4>Parameters</h4>
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>config</code></td>
+                                <td><code>ProfilerConfig</code></td>
+                                <td>Yes</td>
+                                <td>Configuration object for the profiler</td>
+                            </tr>
+                            <tr>
+                                <td><code>config.apiKey</code></td>
+                                <td><code>string</code></td>
+                                <td>Yes</td>
+                                <td>Your StackSleuth API key</td>
+                            </tr>
+                            <tr>
+                                <td><code>config.environment</code></td>
+                                <td><code>string</code></td>
+                                <td>No</td>
+                                <td>Environment name (default: 'production')</td>
+                            </tr>
+                            <tr>
+                                <td><code>config.enabled</code></td>
+                                <td><code>boolean</code></td>
+                                <td>No</td>
+                                <td>Enable/disable profiling (default: true)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Example</h4>
+                    <pre class="language-javascript"><code>const profiler = new ProfilerCore({
+  apiKey: 'your-api-key',
+  environment: 'production',
+  enabled: process.env.NODE_ENV === 'production'
+});</code></pre>
+                </div>
+                
+                <div class="api-method">
+                    <h3>startProfiling()</h3>
+                    <pre class="language-typescript"><code>startProfiling(sessionId?: string): void</code></pre>
+                    <p>Starts a new profiling session.</p>
+                    
+                    <h4>Parameters</h4>
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>sessionId</code></td>
+                                <td><code>string</code></td>
+                                <td>No</td>
+                                <td>Optional custom session ID</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="api-method">
+                    <h3>stopProfiling()</h3>
+                    <pre class="language-typescript"><code>stopProfiling(): Promise&lt;ProfileReport&gt;</code></pre>
+                    <p>Stops the current profiling session and returns the collected data.</p>
+                    
+                    <h4>Returns</h4>
+                    <p>A promise that resolves to a <code>ProfileReport</code> object containing all collected metrics.</p>
+                    
+                    <h4>Example</h4>
+                    <pre class="language-javascript"><code>const report = await profiler.stopProfiling();
+console.log('Total duration:', report.duration);
+console.log('Metrics collected:', report.metrics.length);</code></pre>
+                </div>
+                
+                <div class="api-method">
+                    <h3>captureMetric()</h3>
+                    <pre class="language-typescript"><code>captureMetric(name: string, value: number, metadata?: object): void</code></pre>
+                    <p>Captures a custom metric.</p>
+                    
+                    <h4>Parameters</h4>
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>name</code></td>
+                                <td><code>string</code></td>
+                                <td>Yes</td>
+                                <td>Metric name (e.g., 'api.response.time')</td>
+                            </tr>
+                            <tr>
+                                <td><code>value</code></td>
+                                <td><code>number</code></td>
+                                <td>Yes</td>
+                                <td>Metric value</td>
+                            </tr>
+                            <tr>
+                                <td><code>metadata</code></td>
+                                <td><code>object</code></td>
+                                <td>No</td>
+                                <td>Additional metadata for the metric</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Metrics API -->
+            <section id="metrics" class="api-section">
+                <h2>Metrics API</h2>
+                <p class="section-description">Methods for working with performance metrics.</p>
+                
+                <div class="api-method">
+                    <h3>getMetrics()</h3>
+                    <pre class="language-typescript"><code>getMetrics(filter?: MetricFilter): Metric[]</code></pre>
+                    <p>Retrieves collected metrics with optional filtering.</p>
+                    
+                    <h4>Example</h4>
+                    <pre class="language-javascript"><code>// Get all metrics
+const allMetrics = profiler.getMetrics();
+
+// Get metrics by type
+const apiMetrics = profiler.getMetrics({ type: 'api' });
+
+// Get metrics within time range
+const recentMetrics = profiler.getMetrics({
+  startTime: Date.now() - 60000,
+  endTime: Date.now()
+});</code></pre>
+                </div>
+            </section>
+            
+            <!-- Events API -->
+            <section id="events" class="api-section">
+                <h2>Events API</h2>
+                <p class="section-description">Event handling and custom event tracking.</p>
+                
+                <div class="api-method">
+                    <h3>on()</h3>
+                    <pre class="language-typescript"><code>on(event: string, handler: Function): void</code></pre>
+                    <p>Subscribes to profiler events.</p>
+                    
+                    <h4>Available Events</h4>
+                    <ul class="event-list">
+                        <li><code>metric:captured</code> - Fired when a metric is captured</li>
+                        <li><code>session:start</code> - Fired when profiling starts</li>
+                        <li><code>session:end</code> - Fired when profiling ends</li>
+                        <li><code>error</code> - Fired on profiler errors</li>
+                    </ul>
+                    
+                    <h4>Example</h4>
+                    <pre class="language-javascript"><code>profiler.on('metric:captured', (metric) => {
+  console.log('New metric:', metric.name, metric.value);
+});
+
+profiler.on('error', (error) => {
+  console.error('Profiler error:', error);
+});</code></pre>
+                </div>
+            </section>
+            
+            <!-- React API -->
+            <section id="react-api" class="api-section">
+                <h2>React Agent API</h2>
+                <p class="section-description">React-specific profiling methods and components.</p>
+                
+                <div class="api-method">
+                    <h3>ReactAgent.init()</h3>
+                    <pre class="language-typescript"><code>ReactAgent.init(config: ReactAgentConfig): void</code></pre>
+                    <p>Initializes the React profiling agent.</p>
+                    
+                    <h4>Configuration Options</h4>
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Option</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>trackRenders</code></td>
+                                <td><code>boolean</code></td>
+                                <td>true</td>
+                                <td>Track component render cycles</td>
+                            </tr>
+                            <tr>
+                                <td><code>trackStateChanges</code></td>
+                                <td><code>boolean</code></td>
+                                <td>true</td>
+                                <td>Track state updates</td>
+                            </tr>
+                            <tr>
+                                <td><code>trackEffects</code></td>
+                                <td><code>boolean</code></td>
+                                <td>true</td>
+                                <td>Track useEffect executions</td>
+                            </tr>
+                            <tr>
+                                <td><code>componentWhitelist</code></td>
+                                <td><code>string[]</code></td>
+                                <td>[]</td>
+                                <td>Components to specifically track</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="api-method">
+                    <h3>useProfiler Hook</h3>
+                    <pre class="language-typescript"><code>useProfiler(componentName: string): ProfilerHook</code></pre>
+                    <p>React hook for component-level profiling.</p>
+                    
+                    <h4>Example</h4>
+                    <pre class="language-javascript"><code>function MyComponent() {
+  const profiler = useProfiler('MyComponent');
+  
+  const handleClick = () => {
+    profiler.startMeasure('click-handler');
+    // ... expensive operation
+    profiler.endMeasure('click-handler');
+  };
+  
+  return &lt;button onClick={handleClick}&gt;Click me&lt;/button&gt;;
+}</code></pre>
+                </div>
+            </section>
+            
+            <!-- Database API -->
+            <section id="database-api" class="api-section">
+                <h2>Database Agent APIs</h2>
+                <p class="section-description">APIs for database performance monitoring.</p>
+                
+                <div class="api-method">
+                    <h3>RedisAgent</h3>
+                    <pre class="language-typescript"><code>new RedisAgent(config: AgentConfig)</code></pre>
+                    
+                    <h4>Methods</h4>
+                    <div class="method-list">
+                        <div class="sub-method">
+                            <h5>instrument()</h5>
+                            <pre class="language-javascript"><code>instrument(client: RedisClient): void</code></pre>
+                            <p>Instruments a Redis client for automatic tracking.</p>
+                        </div>
+                        
+                        <div class="sub-method">
+                            <h5>getSlowQueries()</h5>
+                            <pre class="language-javascript"><code>getSlowQueries(threshold?: number): Query[]</code></pre>
+                            <p>Returns queries that exceeded the specified threshold (default: 100ms).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- TypeScript Types -->
+            <section id="types" class="api-section">
+                <h2>TypeScript Types</h2>
+                <p class="section-description">Type definitions for TypeScript users.</p>
+                
+                <div class="api-method">
+                    <h3>Core Types</h3>
+                    <pre class="language-typescript"><code>interface ProfilerConfig {
+  apiKey: string;
+  environment?: string;
+  enabled?: boolean;
+  endpoint?: string;
+  batchSize?: number;
+  flushInterval?: number;
+}
+
+interface Metric {
+  name: string;
+  value: number;
+  timestamp: number;
+  metadata?: Record&lt;string, any&gt;;
+}
+
+interface ProfileReport {
+  sessionId: string;
+  startTime: number;
+  endTime: number;
+  duration: number;
+  metrics: Metric[];
+  metadata: Record&lt;string, any&gt;;
+}</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>StackSleuth</h4>
+                    <p>Advanced performance monitoring for modern applications</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="getting-started.html">Documentation</a></li>
+                        <li><a href="api-reference.html">API Reference</a></li>
+                        <li><a href="examples.html">Examples</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://github.com/Jack-GitHub12/StackSleuth">GitHub</a></li>
+                        <li><a href="https://www.npmjs.com/org/stacksleuth">NPM</a></li>
+                        <li><a href="https://discord.gg/stacksleuth">Discord</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="js/api-reference.js"></script>
+</body>
+</html> 
