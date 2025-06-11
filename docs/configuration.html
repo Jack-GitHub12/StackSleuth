@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration - StackSleuth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <style>
+        .config-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .config-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .config-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .config-table th,
+        .config-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .config-table th {
+            background: #f5f5f5;
+            font-weight: 600;
+        }
+        .config-table code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="logo.svg" alt="StackSleuth Logo" class="logo">
+                <span>StackSleuth</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="getting-started.html">Getting Started</a></li>
+                <li><a href="configuration.html" class="active">Configuration</a></li>
+                <li><a href="api-reference.html">API Reference</a></li>
+                <li><a href="https://github.com/Jack-GitHub12/StackSleuth" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="config-content">
+        <h1>Configuration Guide</h1>
+        <p class="lead">Learn how to configure StackSleuth for optimal performance monitoring in your application.</p>
+
+        <div class="config-section">
+            <h2>Core Configuration Options</h2>
+            <p>All StackSleuth agents share these core configuration options:</p>
+            
+            <table class="config-table">
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>enabled</code></td>
+                        <td>boolean</td>
+                        <td>true</td>
+                        <td>Enable or disable the agent</td>
+                    </tr>
+                    <tr>
+                        <td><code>projectId</code></td>
+                        <td>string</td>
+                        <td>required</td>
+                        <td>Unique identifier for your project</td>
+                    </tr>
+                    <tr>
+                        <td><code>apiKey</code></td>
+                        <td>string</td>
+                        <td>null</td>
+                        <td>API key for authentication (required for cloud-hosted)</td>
+                    </tr>
+                    <tr>
+                        <td><code>apiEndpoint</code></td>
+                        <td>string</td>
+                        <td>'http://localhost:3000'</td>
+                        <td>StackSleuth API endpoint</td>
+                    </tr>
+                    <tr>
+                        <td><code>sampleRate</code></td>
+                        <td>number</td>
+                        <td>1.0</td>
+                        <td>Percentage of requests to monitor (0.0-1.0)</td>
+                    </tr>
+                    <tr>
+                        <td><code>enableTracing</code></td>
+                        <td>boolean</td>
+                        <td>true</td>
+                        <td>Enable distributed tracing</td>
+                    </tr>
+                    <tr>
+                        <td><code>enableMetrics</code></td>
+                        <td>boolean</td>
+                        <td>true</td>
+                        <td>Enable performance metrics collection</td>
+                    </tr>
+                    <tr>
+                        <td><code>enableProfiling</code></td>
+                        <td>boolean</td>
+                        <td>false</td>
+                        <td>Enable CPU/memory profiling (higher overhead)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="config-section">
+            <h2>Backend Agent Configuration</h2>
+            <p>Additional options for backend monitoring:</p>
+
+            <pre><code class="language-javascript">const agent = new BackendAgent({
+    // Core options
+    enabled: true,
+    projectId: 'my-backend-app',
+    
+    // Backend-specific options
+    middleware: {
+        captureBody: true,        // Capture request/response bodies
+        captureHeaders: true,     // Capture HTTP headers
+        redactKeys: ['password', 'token', 'secret'], // Redact sensitive data
+        ignoreRoutes: ['/health', '/metrics'],       // Routes to ignore
+        ignoreUserAgents: ['bot', 'crawler']         // User agents to ignore
+    },
+    
+    // Database monitoring
+    database: {
+        captureQueries: true,     // Log database queries
+        slowQueryThreshold: 100,  // Mark queries slower than 100ms
+        explainSlowQueries: true  // Run EXPLAIN on slow queries
+    },
+    
+    // Custom metadata
+    metadata: {
+        environment: 'production',
+        region: 'us-west-2',
+        version: '1.2.3'
+    }
+});</code></pre>
+
+            <div class="info">
+                <strong>Tip:</strong> Use environment variables for sensitive configuration:
+                <pre><code class="language-javascript">apiKey: process.env.STACKSLEUTH_API_KEY</code></pre>
+            </div>
+        </div>
+
+        <div class="config-section">
+            <h2>Frontend Agent Configuration</h2>
+            <p>Options specific to browser monitoring:</p>
+
+            <pre><code class="language-javascript">const agent = new FrontendAgent({
+    // Core options
+    enabled: true,
+    projectId: 'my-frontend-app',
+    
+    // Frontend-specific options
+    performance: {
+        trackResources: true,     // Track resource loading times
+        trackLongTasks: true,     // Track tasks > 50ms
+        trackFCP: true,           // First Contentful Paint
+        trackLCP: true,           // Largest Contentful Paint
+        trackCLS: true,           // Cumulative Layout Shift
+        trackFID: true,           // First Input Delay
+        trackTTFB: true           // Time to First Byte
+    },
+    
+    // Error tracking
+    errors: {
+        captureErrors: true,      // Capture JavaScript errors
+        capturePromiseRejections: true,
+        ignoreErrors: ['ResizeObserver', 'Network request failed'],
+        beforeSend: (error) => {
+            // Filter or modify errors before sending
+            if (error.message.includes('test')) return null;
+            return error;
+        }
+    },
+    
+    // User tracking
+    user: {
+        trackClicks: true,        // Track user clicks
+        trackScrolls: true,       // Track scroll depth
+        trackSessions: true,      // Track user sessions
+        anonymizeIP: true         // Anonymize IP addresses
+    }
+});</code></pre>
+
+            <div class="warning">
+                <strong>Privacy Notice:</strong> Always inform users about monitoring and comply with privacy regulations (GDPR, CCPA).
+            </div>
+        </div>
+
+        <div class="config-section">
+            <h2>Database Agent Configuration</h2>
+            <p>Configure database-specific monitoring:</p>
+
+            <h3>MongoDB Agent</h3>
+            <pre><code class="language-javascript">const mongoAgent = new MongoDBAgent({
+    connectionString: 'mongodb://localhost:27017',
+    projectId: 'my-app',
+    
+    // MongoDB-specific options
+    profiling: {
+        slowOpThreshold: 100,     // Log operations > 100ms
+        sampleRate: 0.1,          // Sample 10% of operations
+        captureFullQuery: false   // Redact query values
+    },
+    
+    collections: {
+        ignore: ['sessions', 'logs'], // Collections to ignore
+        indexAnalysis: true           // Analyze index usage
+    }
+});</code></pre>
+
+            <h3>Redis Agent</h3>
+            <pre><code class="language-javascript">const redisAgent = new RedisAgent({
+    host: 'localhost',
+    port: 6379,
+    projectId: 'my-app',
+    
+    // Redis-specific options
+    monitoring: {
+        trackKeyPatterns: true,   // Track key access patterns
+        trackMemoryUsage: true,   // Monitor memory consumption
+        slowLogThreshold: 10      // Commands slower than 10ms
+    }
+});</code></pre>
+
+            <h3>MySQL Agent</h3>
+            <pre><code class="language-javascript">const mysqlAgent = new MySQLAgent({
+    host: 'localhost',
+    user: 'monitoring',
+    password: process.env.DB_PASSWORD,
+    projectId: 'my-app',
+    
+    // MySQL-specific options
+    monitoring: {
+        slowQueryLog: true,       // Enable slow query logging
+        slowQueryThreshold: 100,  // Queries slower than 100ms
+        explainPlan: true,        // Get execution plans
+        indexUsage: true          // Track index effectiveness
+    }
+});</code></pre>
+        </div>
+
+        <div class="config-section">
+            <h2>Environment-Specific Configuration</h2>
+            <p>Configure StackSleuth differently for each environment:</p>
+
+            <pre><code class="language-javascript">// config/stacksleuth.js
+const configs = {
+    development: {
+        enabled: true,
+        sampleRate: 1.0,          // Monitor all requests in dev
+        apiEndpoint: 'http://localhost:3000',
+        enableProfiling: true     // Enable profiling in dev
+    },
+    
+    staging: {
+        enabled: true,
+        sampleRate: 0.5,          // Monitor 50% in staging
+        apiEndpoint: 'https://staging-api.stacksleuth.com',
+        enableProfiling: false
+    },
+    
+    production: {
+        enabled: true,
+        sampleRate: 0.1,          // Monitor 10% in production
+        apiEndpoint: 'https://api.stacksleuth.com',
+        enableProfiling: false,
+        apiKey: process.env.STACKSLEUTH_API_KEY
+    }
+};
+
+export default configs[process.env.NODE_ENV || 'development'];</code></pre>
+        </div>
+
+        <div class="config-section">
+            <h2>Performance Thresholds</h2>
+            <p>Set custom thresholds for performance monitoring:</p>
+
+            <pre><code class="language-javascript">const agent = new BackendAgent({
+    projectId: 'my-app',
+    
+    thresholds: {
+        // Response time thresholds (ms)
+        responseTime: {
+            good: 200,      // < 200ms is good
+            warning: 1000,  // 200-1000ms is warning
+            critical: 3000  // > 3000ms is critical
+        },
+        
+        // Error rate thresholds (percentage)
+        errorRate: {
+            good: 0.01,     // < 1% is good
+            warning: 0.05,  // 1-5% is warning
+            critical: 0.10  // > 10% is critical
+        },
+        
+        // Database query thresholds (ms)
+        databaseQuery: {
+            good: 50,
+            warning: 200,
+            critical: 1000
+        },
+        
+        // Memory usage thresholds (MB)
+        memoryUsage: {
+            good: 256,
+            warning: 512,
+            critical: 1024
+        }
+    }
+});</code></pre>
+        </div>
+
+        <div class="config-section">
+            <h2>Advanced Configuration</h2>
+            
+            <h3>Custom Reporters</h3>
+            <pre><code class="language-javascript">class CustomReporter {
+    async report(metrics) {
+        // Send metrics to custom endpoint
+        await fetch('https://my-metrics-service.com', {
+            method: 'POST',
+            body: JSON.stringify(metrics)
+        });
+    }
+}
+
+const agent = new BackendAgent({
+    projectId: 'my-app',
+    reporters: [
+        new CustomReporter(),
+        new ConsoleReporter({ pretty: true })
+    ]
+});</code></pre>
+
+            <h3>Sampling Strategies</h3>
+            <pre><code class="language-javascript">// Adaptive sampling based on traffic
+const agent = new BackendAgent({
+    projectId: 'my-app',
+    sampling: {
+        type: 'adaptive',
+        baseRate: 0.01,           // 1% baseline
+        peakRate: 0.10,           // 10% during peaks
+        errorRate: 1.0,           // 100% for errors
+        slowRequestRate: 0.50     // 50% for slow requests
+    }
+});</code></pre>
+
+            <h3>Custom Instrumentation</h3>
+            <pre><code class="language-javascript">// Add custom timers
+agent.startTimer('custom-operation');
+// ... perform operation ...
+agent.endTimer('custom-operation');
+
+// Add custom metrics
+agent.recordMetric('cache.hit.rate', 0.95);
+agent.recordMetric('queue.length', 42);
+
+// Add custom spans
+const span = agent.startSpan('process-payment');
+try {
+    // ... process payment ...
+    span.setTag('amount', 99.99);
+    span.setTag('currency', 'USD');
+} finally {
+    span.finish();
+}</code></pre>
+        </div>
+
+        <div class="config-section">
+            <h2>Configuration Best Practices</h2>
+            
+            <ol>
+                <li><strong>Start Conservative:</strong> Begin with low sample rates and increase as needed</li>
+                <li><strong>Use Environment Variables:</strong> Never hardcode sensitive values</li>
+                <li><strong>Monitor Overhead:</strong> Check the performance impact of monitoring</li>
+                <li><strong>Redact Sensitive Data:</strong> Configure proper data redaction rules</li>
+                <li><strong>Test Configuration:</strong> Validate config changes in staging first</li>
+                <li><strong>Document Changes:</strong> Keep a changelog of configuration updates</li>
+                <li><strong>Regular Review:</strong> Periodically review and optimize settings</li>
+            </ol>
+
+            <div class="info">
+                <strong>Configuration Validation:</strong> StackSleuth validates configuration on startup and logs warnings for invalid settings.
+            </div>
+        </div>
+
+        <div class="next-steps">
+            <h2>Related Documentation</h2>
+            <ul>
+                <li><a href="best-practices.html">Best Practices</a> - Optimization techniques</li>
+                <li><a href="troubleshooting.html">Troubleshooting</a> - Common configuration issues</li>
+                <li><a href="api-reference.html">API Reference</a> - Detailed API documentation</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 StackSleuth. MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-javascript.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

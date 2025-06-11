@@ -1,0 +1,43 @@
+<svg width="200" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2C3E50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34495E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="200" height="80" fill="#FFFFFF" rx="8"/>
+  
+  <!-- Icon - Stack representation -->
+  <g transform="translate(10, 15)">
+    <!-- Bottom layer -->
+    <rect x="0" y="35" width="35" height="8" fill="url(#gradient)" rx="2" opacity="0.8"/>
+    <!-- Middle layer -->
+    <rect x="3" y="25" width="29" height="8" fill="url(#gradient)" rx="2" opacity="0.9"/>
+    <!-- Top layer -->
+    <rect x="6" y="15" width="23" height="8" fill="url(#gradient)" rx="2"/>
+    
+    <!-- Performance graph lines -->
+    <polyline points="40,45 45,40 50,35 55,30 60,25 65,20" 
+              stroke="#4A90E2" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <polyline points="40,50 45,48 50,44 55,38 60,32 65,28" 
+              stroke="#357ABD" stroke-width="2" fill="none" stroke-linecap="round"/>
+    
+    <!-- Data points -->
+    <circle cx="45" cy="40" r="2" fill="#4A90E2"/>
+    <circle cx="55" cy="30" r="2" fill="#4A90E2"/>
+    <circle cx="65" cy="20" r="2" fill="#4A90E2"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="75" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="url(#textGradient)">Stack</text>
+  <text x="75" y="50" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="url(#textGradient)">Sleuth</text>
+  
+  <!-- Tagline -->
+  <text x="75" y="65" font-family="Arial, sans-serif" font-size="8" fill="#7F8C8D">Performance Monitoring</text>
+</svg> 

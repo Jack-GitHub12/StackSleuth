@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackSleuth - Comprehensive Performance Monitoring</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="logo.svg" alt="StackSleuth Logo" class="logo">
+                <span>StackSleuth</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#quickstart">Quick Start</a></li>
+                <li><a href="#packages">Packages</a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="#api">API</a></li>
+                <li><a href="https://github.com/Jack-GitHub12/StackSleuth" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>StackSleuth</h1>
+            <p class="tagline">Comprehensive Performance Monitoring for Modern Applications</p>
+            <p class="description">
+                Monitor, analyze, and optimize your full-stack applications with ease. 
+                From frontend to backend, databases to APIs - StackSleuth has you covered.
+            </p>
+            <div class="hero-buttons">
+                <a href="#quickstart" class="btn btn-primary">Get Started</a>
+                <a href="https://www.npmjs.com/search?q=%40stacksleuth" class="btn btn-secondary" target="_blank">View on NPM</a>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <h3>16+</h3>
+                    <p>NPM Packages</p>
+                </div>
+                <div class="stat">
+                    <h3>15+</h3>
+                    <p>Frameworks Supported</p>
+                </div>
+                <div class="stat">
+                    <h3>Real-time</h3>
+                    <p>Performance Tracking</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Why StackSleuth?</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Universal Coverage</h3>
+                    <p>Monitor frontend, backend, databases, and APIs with specialized agents for each layer of your stack.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-time Analytics</h3>
+                    <p>Get instant insights into performance bottlenecks with live dashboards and customizable metrics.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Framework Agnostic</h3>
+                    <p>Works with Express, React, Vue, Django, Laravel, FastAPI, and many more popular frameworks.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Alerting</h3>
+                    <p>Set up intelligent alerts based on performance thresholds and anomaly detection.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Deep Insights</h3>
+                    <p>Trace requests across your entire stack with distributed tracing and correlation IDs.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Low Overhead</h3>
+                    <p>Optimized for production use with minimal performance impact on your applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quickstart" class="quickstart">
+        <div class="container">
+            <h2>Quick Start</h2>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('express')">Express.js</button>
+                <button class="tab" onclick="showTab('vue')">Vue.js</button>
+                <button class="tab" onclick="showTab('django')">Django</button>
+                <button class="tab" onclick="showTab('api')">API Service</button>
+            </div>
+
+            <div id="express" class="tab-content active">
+                <h3>Express.js Integration</h3>
+                <pre><code class="language-bash">npm install @stacksleuth/backend-agent @stacksleuth/core</code></pre>
+                <pre><code class="language-javascript">import express from 'express';
+import { BackendAgent } from '@stacksleuth/backend-agent';
+
+const app = express();
+const agent = new BackendAgent({
+  enabled: true,
+  projectId: 'your-project-id',
+  apiKey: 'your-api-key'
+});
+
+// Start monitoring
+agent.startMonitoring();
+app.use(agent.middleware());
+
+app.get('/api/users', async (req, res) => {
+  const users = await getUsersFromDatabase();
+  res.json(users);
+});
+
+app.listen(3000);</code></pre>
+            </div>
+
+            <div id="vue" class="tab-content">
+                <h3>Vue.js Integration</h3>
+                <pre><code class="language-bash">npm install @stacksleuth/vue-agent</code></pre>
+                <pre><code class="language-javascript">import { createApp } from 'vue';
+import { VueAgent } from '@stacksleuth/vue-agent';
+import App from './App.vue';
+
+const app = createApp(App);
+
+const agent = new VueAgent({
+  enabled: true,
+  trackComponents: true,
+  trackRouter: true
+});
+
+app.use(agent);
+agent.startMonitoring();
+
+app.mount('#app');</code></pre>
+            </div>
+
+            <div id="django" class="tab-content">
+                <h3>Django Integration</h3>
+                <pre><code class="language-bash">pip install stacksleuth-django</code></pre>
+                <pre><code class="language-python"># settings.py
+INSTALLED_APPS = [
+    # ... your apps
+    'stacksleuth.django',
+]
+
+MIDDLEWARE = [
+    'stacksleuth.django.middleware.StackSleuthMiddleware',
+    # ... your middleware
+]
+
+STACKSLEUTH = {
+    'ENABLED': True,
+    'PROJECT_ID': 'your-project-id',
+    'API_KEY': 'your-api-key',
+    'SAMPLE_RATE': 0.1,
+}</code></pre>
+            </div>
+
+            <div id="api" class="tab-content">
+                <h3>API Service Setup</h3>
+                <pre><code class="language-bash">npm install @stacksleuth/api</code></pre>
+                <pre><code class="language-javascript">import { StackSleuthAPI } from '@stacksleuth/api';
+
+const api = new StackSleuthAPI();
+api.start(3000);
+
+// API Documentation: http://localhost:3000/api-docs
+// Health Check: http://localhost:3000/health</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section id="packages" class="packages">
+        <div class="container">
+            <h2>NPM Packages</h2>
+            <p class="section-desc">Choose the packages that fit your stack</p>
+            
+            <div class="package-categories">
+                <div class="category">
+                    <h3>Core & CLI</h3>
+                    <div class="package-list">
+                        <a href="https://www.npmjs.com/package/@stacksleuth/core" class="package-item">
+                            <code>@stacksleuth/core</code>
+                            <span>Core profiling engine</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/cli" class="package-item">
+                            <code>@stacksleuth/cli</code>
+                            <span>Command-line interface</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/api" class="package-item">
+                            <code>@stacksleuth/api</code>
+                            <span>API service</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <h3>Frontend Agents</h3>
+                    <div class="package-list">
+                        <a href="https://www.npmjs.com/package/@stacksleuth/frontend-agent" class="package-item">
+                            <code>@stacksleuth/frontend-agent</code>
+                            <span>Universal frontend monitoring</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/vue-agent" class="package-item">
+                            <code>@stacksleuth/vue-agent</code>
+                            <span>Vue.js specific agent</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/svelte-agent" class="package-item">
+                            <code>@stacksleuth/svelte-agent</code>
+                            <span>Svelte monitoring</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/browser-extension" class="package-item">
+                            <code>@stacksleuth/browser-extension</code>
+                            <span>Browser extension</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <h3>Backend Agents</h3>
+                    <div class="package-list">
+                        <a href="https://www.npmjs.com/package/@stacksleuth/backend-agent" class="package-item">
+                            <code>@stacksleuth/backend-agent</code>
+                            <span>Node.js backend monitoring</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/django-agent" class="package-item">
+                            <code>@stacksleuth/django-agent</code>
+                            <span>Django Python agent</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/laravel-agent" class="package-item">
+                            <code>@stacksleuth/laravel-agent</code>
+                            <span>Laravel PHP agent</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/fastapi-agent" class="package-item">
+                            <code>@stacksleuth/fastapi-agent</code>
+                            <span>FastAPI Python agent</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <h3>Database Agents</h3>
+                    <div class="package-list">
+                        <a href="https://www.npmjs.com/package/@stacksleuth/db-agent" class="package-item">
+                            <code>@stacksleuth/db-agent</code>
+                            <span>Universal database agent</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/mongodb-agent" class="package-item">
+                            <code>@stacksleuth/mongodb-agent</code>
+                            <span>MongoDB monitoring</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/redis-agent" class="package-item">
+                            <code>@stacksleuth/redis-agent</code>
+                            <span>Redis monitoring</span>
+                        </a>
+                        <a href="https://www.npmjs.com/package/@stacksleuth/mysql-agent" class="package-item">
+                            <code>@stacksleuth/mysql-agent</code>
+                            <span>MySQL monitoring</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="examples" class="examples">
+        <div class="container">
+            <h2>Real-World Examples</h2>
+            <div class="example-grid">
+                <div class="example">
+                    <h3>E-commerce Platform</h3>
+                    <p>Monitor product catalog performance, shopping cart optimization, and payment processing.</p>
+                    <a href="https://github.com/Jack-GitHub12/StackSleuth/tree/main/examples/real-world/e-commerce" class="link">View Example →</a>
+                </div>
+                <div class="example">
+                    <h3>Microservices Architecture</h3>
+                    <p>Track service-to-service communication, API gateway performance, and distributed tracing.</p>
+                    <a href="https://github.com/Jack-GitHub12/StackSleuth/tree/main/examples/real-world/microservices" class="link">View Example →</a>
+                </div>
+                <div class="example">
+                    <h3>Blog Platform</h3>
+                    <p>Optimize content delivery, monitor search functionality, and track user engagement.</p>
+                    <a href="https://github.com/Jack-GitHub12/StackSleuth/tree/main/examples/real-world/blog" class="link">View Example →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="api" class="api-reference">
+        <div class="container">
+            <h2>API Reference</h2>
+            <div class="api-grid">
+                <div class="api-section">
+                    <h3>Core API</h3>
+                    <ul>
+                        <li><a href="api/core.html">ProfilerCore</a></li>
+                        <li><a href="api/trace-collector.html">TraceCollector</a></li>
+                        <li><a href="api/performance-metrics.html">PerformanceMetrics</a></li>
+                    </ul>
+                </div>
+                <div class="api-section">
+                    <h3>Agent APIs</h3>
+                    <ul>
+                        <li><a href="api/backend-agent.html">BackendAgent</a></li>
+                        <li><a href="api/frontend-agent.html">FrontendAgent</a></li>
+                        <li><a href="api/database-agent.html">DatabaseAgent</a></li>
+                    </ul>
+                </div>
+                <div class="api-section">
+                    <h3>REST API</h3>
+                    <ul>
+                        <li><a href="api/rest-metrics.html">Metrics Endpoints</a></li>
+                        <li><a href="api/rest-traces.html">Traces Endpoints</a></li>
+                        <li><a href="api/rest-alerts.html">Alerts Endpoints</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/Jack-GitHub12/StackSleuth">GitHub Repository</a></li>
+                        <li><a href="https://www.npmjs.com/search?q=%40stacksleuth">NPM Packages</a></li>
+                        <li><a href="https://github.com/Jack-GitHub12/StackSleuth/tree/main/examples">Examples</a></li>
+                        <li><a href="https://github.com/Jack-GitHub12/StackSleuth/issues">Issues</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="getting-started.html">Getting Started</a></li>
+                        <li><a href="configuration.html">Configuration</a></li>
+                        <li><a href="best-practices.html">Best Practices</a></li>
+                        <li><a href="troubleshooting.html">Troubleshooting</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://github.com/Jack-GitHub12/StackSleuth/discussions">Discussions</a></li>
+                        <li><a href="contributing.html">Contributing</a></li>
+                        <li><a href="code-of-conduct.html">Code of Conduct</a></li>
+                        <li><a href="changelog.html">Changelog</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StackSleuth. MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-bash.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

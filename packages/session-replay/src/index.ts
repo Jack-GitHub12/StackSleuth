@@ -82,6 +82,7 @@ export class SessionReplayAgent {
     enableNetworkTracking?: boolean;
     enablePerformanceTracking?: boolean;
     enableConsoleTracking?: boolean;
+    enablePrivacyMode?: boolean;
   }) {
     this.profiler = new ProfilerCore(config);
     this.sessionId = this.generateSessionId();

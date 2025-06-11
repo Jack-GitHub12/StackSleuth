@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - StackSleuth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <style>
+        .guide-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .step {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #4A90E2;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .architecture-diagram {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .architecture-diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="logo.svg" alt="StackSleuth Logo" class="logo">
+                <span>StackSleuth</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="getting-started.html" class="active">Getting Started</a></li>
+                <li><a href="configuration.html">Configuration</a></li>
+                <li><a href="api-reference.html">API Reference</a></li>
+                <li><a href="https://github.com/Jack-GitHub12/StackSleuth" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="guide-content">
+        <h1>Getting Started with StackSleuth</h1>
+        <p class="lead">Follow this guide to get StackSleuth up and running in your application in minutes.</p>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <h2>Choose Your Architecture</h2>
+            <p>StackSleuth supports multiple deployment architectures:</p>
+            
+            <h3>Option A: Cloud-Hosted (Recommended)</h3>
+            <p>Use our cloud-hosted API service for zero-maintenance monitoring:</p>
+            <pre><code class="language-javascript">const agent = new BackendAgent({
+    apiEndpoint: 'https://api.stacksleuth.com',
+    projectId: 'your-project-id',
+    apiKey: 'your-api-key'
+});</code></pre>
+
+            <h3>Option B: Self-Hosted</h3>
+            <p>Run the StackSleuth API service on your own infrastructure:</p>
+            <pre><code class="language-bash">npm install @stacksleuth/api
+npx stacksleuth-api start --port 3000</code></pre>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <h2>Install Core Packages</h2>
+            <p>Install the core package and the agents you need:</p>
+            
+            <h3>For Node.js Applications</h3>
+            <pre><code class="language-bash">npm install @stacksleuth/core @stacksleuth/backend-agent</code></pre>
+
+            <h3>For Frontend Applications</h3>
+            <pre><code class="language-bash"># For general frontend apps
+npm install @stacksleuth/frontend-agent
+
+# For Vue.js
+npm install @stacksleuth/vue-agent
+
+# For Svelte
+npm install @stacksleuth/svelte-agent</code></pre>
+
+            <h3>For Databases</h3>
+            <pre><code class="language-bash"># Universal database agent
+npm install @stacksleuth/db-agent
+
+# Specific database agents
+npm install @stacksleuth/mongodb-agent
+npm install @stacksleuth/redis-agent
+npm install @stacksleuth/mysql-agent</code></pre>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <h2>Basic Configuration</h2>
+            <p>Configure your agent with minimal settings:</p>
+            
+            <pre><code class="language-javascript">import { BackendAgent } from '@stacksleuth/backend-agent';
+
+const agent = new BackendAgent({
+    // Required settings
+    enabled: true,
+    projectId: 'my-awesome-app',
+    
+    // Optional settings
+    sampleRate: 0.1,  // Sample 10% of requests
+    enableTracing: true,
+    enableMetrics: true,
+    
+    // Performance thresholds
+    thresholds: {
+        responseTime: 1000,  // Alert if response > 1s
+        errorRate: 0.05      // Alert if error rate > 5%
+    }
+});</code></pre>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <h2>Integrate with Your Framework</h2>
+            
+            <h3>Express.js</h3>
+            <pre><code class="language-javascript">import express from 'express';
+import { BackendAgent } from '@stacksleuth/backend-agent';
+
+const app = express();
+const agent = new BackendAgent({ /* config */ });
+
+// Start monitoring
+agent.startMonitoring();
+
+// Add middleware
+app.use(agent.middleware());
+
+// Your routes
+app.get('/api/users', (req, res) => {
+    res.json({ users: [] });
+});
+
+app.listen(3000);</code></pre>
+
+            <h3>Vue.js</h3>
+            <pre><code class="language-javascript">import { createApp } from 'vue';
+import { VueAgent } from '@stacksleuth/vue-agent';
+import App from './App.vue';
+
+const app = createApp(App);
+
+const agent = new VueAgent({
+    trackComponents: true,
+    trackRouter: true,
+    trackErrors: true
+});
+
+app.use(agent);
+agent.startMonitoring();
+
+app.mount('#app');</code></pre>
+
+            <h3>Django</h3>
+            <pre><code class="language-python"># settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    # ... other apps
+    'stacksleuth.django',
+]
+
+MIDDLEWARE = [
+    'stacksleuth.django.middleware.StackSleuthMiddleware',
+    # ... other middleware
+]
+
+STACKSLEUTH = {
+    'ENABLED': True,
+    'PROJECT_ID': 'my-django-app',
+    'SAMPLE_RATE': 0.1,
+}</code></pre>
+        </div>
+
+        <div class="step">
+            <div class="step-number">5</div>
+            <h2>View Your Metrics</h2>
+            <p>Once integrated, you can view your metrics in several ways:</p>
+            
+            <h3>Option 1: StackSleuth Dashboard</h3>
+            <p>Access the web dashboard at <code>https://dashboard.stacksleuth.com</code></p>
+            
+            <h3>Option 2: CLI</h3>
+            <pre><code class="language-bash"># Install CLI
+npm install -g @stacksleuth/cli
+
+# View real-time metrics
+stacksleuth metrics --project my-awesome-app
+
+# View traces
+stacksleuth traces --project my-awesome-app --limit 50</code></pre>
+
+            <h3>Option 3: API</h3>
+            <pre><code class="language-javascript">// Get metrics programmatically
+const response = await fetch('https://api.stacksleuth.com/metrics', {
+    headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'X-Project-ID': 'my-awesome-app'
+    }
+});
+
+const metrics = await response.json();</code></pre>
+        </div>
+
+        <div class="step">
+            <div class="step-number">6</div>
+            <h2>Set Up Alerts</h2>
+            <p>Configure alerts to get notified of performance issues:</p>
+            
+            <pre><code class="language-javascript">agent.setAlert({
+    name: 'High Response Time',
+    condition: 'responseTime > 1000',
+    actions: ['email', 'slack'],
+    recipients: ['team@example.com'],
+    cooldown: 300  // 5 minutes
+});
+
+agent.setAlert({
+    name: 'Error Rate Spike',
+    condition: 'errorRate > 0.05',
+    actions: ['pagerduty'],
+    severity: 'critical'
+});</code></pre>
+        </div>
+
+        <div class="architecture-diagram">
+            <h2>Architecture Overview</h2>
+            <pre class="language-mermaid">
+graph TB
+    subgraph "Your Application"
+        FE[Frontend<br/>Vue/React/Svelte]
+        BE[Backend<br/>Express/Django/Laravel]
+        DB[(Database<br/>MongoDB/MySQL/Redis)]
+    end
+    
+    subgraph "StackSleuth Agents"
+        FA[Frontend Agent]
+        BA[Backend Agent]
+        DA[Database Agent]
+    end
+    
+    subgraph "StackSleuth Core"
+        API[API Service]
+        M[Metrics Store]
+        T[Trace Store]
+        A[Alert Engine]
+    end
+    
+    subgraph "Visualization"
+        D[Dashboard]
+        CLI[CLI Tool]
+        EXT[Browser Extension]
+    end
+    
+    FE --> FA
+    BE --> BA
+    DB --> DA
+    
+    FA --> API
+    BA --> API
+    DA --> API
+    
+    API --> M
+    API --> T
+    API --> A
+    
+    M --> D
+    T --> D
+    M --> CLI
+    T --> CLI
+    
+    FA -.-> EXT
+            </pre>
+        </div>
+
+        <div class="next-steps">
+            <h2>Next Steps</h2>
+            <ul>
+                <li><a href="configuration.html">Advanced Configuration</a> - Fine-tune StackSleuth for your needs</li>
+                <li><a href="best-practices.html">Best Practices</a> - Learn optimization techniques</li>
+                <li><a href="api-reference.html">API Reference</a> - Detailed API documentation</li>
+                <li><a href="troubleshooting.html">Troubleshooting</a> - Common issues and solutions</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 StackSleuth. MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-bash.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 
