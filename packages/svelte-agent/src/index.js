@@ -313,6 +313,13 @@ class SvelteAgent {
         this.storeMetrics.clear();
         console.log('🛑 Svelte Agent stopped');
     }
+    /** TEST COMPATIBILITY WRAPPERS */
+    startProfiling() {
+        return this.init();
+    }
+    async stopProfiling() {
+        await this.stop();
+    }
 }
 exports.SvelteAgent = SvelteAgent;
 // Export default instance

@@ -57,12 +57,14 @@ export declare class FastAPIAgent {
     private maxMetricsHistory;
     private wsConnection?;
     private pythonServerUrl;
+    private monitoringInterval?;
     constructor(config?: {
         endpoint?: string;
         apiKey?: string;
         slowQueryThreshold?: number;
         maxMetricsHistory?: number;
         pythonServerUrl?: string;
+        autoInit?: boolean;
     });
     /**
      * Initialize the FastAPI agent
@@ -81,9 +83,9 @@ export declare class FastAPIAgent {
      */
     private requestServerInfo;
     /**
-     * Record route performance metrics
+     * Record route performance metrics (made public for testing)
      */
-    private recordRouteMetrics;
+    recordRouteMetrics(data: any): void;
     /**
      * Update server metrics
      */
@@ -134,7 +136,7 @@ export declare class FastAPIAgent {
      */
     generateMiddlewareCode(): string;
     /**
-     * Stop monitoring and cleanup
+     * Stop the FastAPI agent and cleanup resources
      */
     stop(): Promise<void>;
 }

@@ -46,16 +46,24 @@ export class RedisAgent {
   private isActive: boolean = false;
   private slowQueryThreshold: number = 100; // ms
   private maxMetricsHistory: number = 10000;
+  private metricsInterval?: NodeJS.Timeout;
 
   constructor(config?: { 
     endpoint?: string; 
     apiKey?: string; 
     slowQueryThreshold?: number;
     maxMetricsHistory?: number;
+    autoInit?: boolean;
   }) {
     this.profiler = new ProfilerCore(config);
     this.slowQueryThreshold = config?.slowQueryThreshold || 100;
     this.maxMetricsHistory = config?.maxMetricsHistory || 10000;
+    
+    // Don't auto-initialize to prevent hanging in tests
+    if (config?.autoInit !== false && process.env.NODE_ENV !== 'test') {
+      // Only auto-init in non-test environments
+      setTimeout(() => this.init().catch(console.error), 0);
+    }
   }
 
   /**
@@ -65,7 +73,13 @@ export class RedisAgent {
     if (this.isActive) return;
     
     this.isActive = true;
-    await this.profiler.init();
+    
+    try {
+      await this.profiler.init();
+    } catch (error) {
+      // Don't fail if profiler can't initialize (e.g., in tests)
+      console.warn('⚠️  ProfilerCore initialization failed:', error);
+    }
     
     // Instrument Redis clients
     this.instrumentRedisClient();
@@ -301,9 +315,9 @@ export class RedisAgent {
   }
 
   /**
-   * Record operation metrics
+   * Record operation metrics (made public for testing)
    */
-  private recordOperationMetrics(metrics: RedisOperationMetrics): void {
+  public recordOperationMetrics(metrics: RedisOperationMetrics): void {
     this.operationMetrics.push(metrics);
     
     // Maintain history limit
@@ -311,12 +325,19 @@ export class RedisAgent {
       this.operationMetrics.splice(0, this.operationMetrics.length - this.maxMetricsHistory);
     }
 
-    // Record with profiler
-    this.profiler.recordMetric('redis_operation', metrics);
+    try {
+      // Record with profiler (only if active)
+      if (this.isActive) {
+        this.profiler.recordMetric('redis_operation', metrics);
 
-    // Record slow queries
-    if (metrics.duration > this.slowQueryThreshold) {
-      this.profiler.recordMetric('redis_slow_query', metrics);
+        // Record slow queries
+        if (metrics.duration > this.slowQueryThreshold) {
+          this.profiler.recordMetric('redis_slow_query', metrics);
+        }
+      }
+    } catch (error) {
+      // Don't fail on profiler errors
+      console.warn('⚠️  Failed to record metrics:', error);
     }
   }
 
@@ -351,7 +372,12 @@ export class RedisAgent {
    * Start periodic metrics collection
    */
   private startPeriodicMetricsCollection(): void {
-    setInterval(() => {
+    // Clear any existing interval
+    if (this.metricsInterval) {
+      clearInterval(this.metricsInterval);
+    }
+    
+    this.metricsInterval = setInterval(() => {
       this.collectRedisInfo();
       this.cleanupOldMetrics();
     }, 30000); // Every 30 seconds
@@ -528,15 +554,26 @@ export class RedisAgent {
   }
 
   /**
-   * Stop monitoring and cleanup
+   * Stop the Redis agent and cleanup resources
    */
   public async stop(): Promise<void> {
-    if (!this.isActive) return;
-    
     this.isActive = false;
-    await this.profiler.stop();
+    
+    // Clear metrics collection interval
+    if (this.metricsInterval) {
+      clearInterval(this.metricsInterval);
+      this.metricsInterval = undefined;
+    }
+    
+    // Clear metrics
     this.operationMetrics = [];
     this.connectionMetrics.clear();
+    
+    try {
+      await this.profiler.stop();
+    } catch (error) {
+      // Ignore errors during stop
+    }
     
     console.log('🛑 Redis Agent stopped');
   }

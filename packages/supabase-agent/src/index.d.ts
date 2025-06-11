@@ -134,6 +134,11 @@ export declare class SupabaseAgent {
      * Stop monitoring and cleanup
      */
     stop(): Promise<void>;
+    /** TEST COMPATIBILITY WRAPPERS */
+    startMonitoring(): Promise<void>;
+    stopMonitoring(): Promise<void>;
+    getOperationMetrics(): any[];
+    getTableStatistics(): any[];
 }
 export declare const supabaseAgent: SupabaseAgent;
 //# sourceMappingURL=index.d.ts.map
