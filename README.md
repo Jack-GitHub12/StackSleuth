@@ -33,7 +33,7 @@ StackSleuth provides unified profiling across frontend, backend, and database la
 - ✅ **N+1 Query Detection** - Automatic anti-pattern identification
 
 ### 📚 Production-Ready Demo
-- ✅ **Full-Stack Example** - Complete Next.js + Express + PostgreSQL + MongoDB
+- ✅ **API Example** - Express + PostgreSQL + MongoDB (+ optional Redis)
 - ✅ **Real Performance Scenarios** - Caching, transactions, complex queries
 - ✅ **Interactive Documentation** - Live examples in `examples/fullstack-demo/`
 
@@ -278,6 +278,9 @@ export default {
 Start real-time profiling in development mode
 ```bash
 sleuth watch --port 3001 --sampling 1.0
+
+# Auto-stop after 10 seconds (useful for CI/tests)
+sleuth watch --timeout 10
 ```
 
 ### `sleuth report`
@@ -290,6 +293,9 @@ sleuth report --format json --output report.json --last 1h
 Initialize StackSleuth in your project
 ```bash
 sleuth init --framework express --typescript
+
+# Non-interactive defaults
+sleuth init --yes
 ```
 
 ### `sleuth stats`
@@ -339,6 +345,8 @@ npm run build        # Build all packages
 npm run dev          # Watch mode for development
 npm run test         # Run tests
 npm run lint         # Lint code
+npm run lint:fix     # Auto-fix lint issues where possible
+npm run format       # Format with Prettier
 ```
 
 ## 🤝 Contributing
@@ -406,4 +414,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Made with ❤️ for developers who care about performance** # StackSleuth
+**Made with ❤️ for developers who care about performance**

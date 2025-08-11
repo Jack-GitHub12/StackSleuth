@@ -3,8 +3,10 @@ import path from 'path';
 import inquirer from 'inquirer';
 
 interface InitOptions {
-  framework: 'react' | 'express' | 'nextjs';
-  typescript: boolean;
+  framework?: 'react' | 'express' | 'nextjs';
+  typescript?: boolean;
+  yes?: boolean;
+  nonInteractive?: boolean;
 }
 
 // Dynamic import for chalk to handle ESM compatibility
@@ -46,7 +48,7 @@ export class InitCommand {
     const questions = [];
 
     // Ask for framework if not provided
-    if (!options.framework) {
+    if (!options.framework && !(options.yes || options.nonInteractive)) {
       questions.push({
         type: 'list',
         name: 'framework',
@@ -60,7 +62,7 @@ export class InitCommand {
     }
 
     // Ask for TypeScript if not specified
-    if (options.typescript === undefined) {
+    if (options.typescript === undefined && !(options.yes || options.nonInteractive)) {
       questions.push({
         type: 'confirm',
         name: 'typescript',
@@ -69,11 +71,11 @@ export class InitCommand {
       });
     }
 
-    const answers = await inquirer.prompt(questions);
+    const answers = questions.length > 0 ? await inquirer.prompt(questions) : {};
     
     return {
-      framework: options.framework || answers.framework,
-      typescript: options.typescript !== undefined ? options.typescript : answers.typescript
+      framework: options.framework || (answers as any).framework || 'express',
+      typescript: options.typescript !== undefined ? options.typescript : ((answers as any).typescript ?? true)
     };
   }
 
@@ -155,13 +157,13 @@ ${exportSyntax} {
     // Generate framework-specific examples
     switch (config.framework) {
       case 'express':
-        await this.createExpressExample(exampleDir, config.typescript);
+        await this.createExpressExample(exampleDir, !!config.typescript);
         break;
       case 'react':
-        await this.createReactExample(exampleDir, config.typescript);
+        await this.createReactExample(exampleDir, !!config.typescript);
         break;
       case 'nextjs':
-        await this.createNextExample(exampleDir, config.typescript);
+        await this.createNextExample(exampleDir, !!config.typescript);
         break;
     }
   }

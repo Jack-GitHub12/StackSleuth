@@ -24,8 +24,8 @@ export class DashboardServer {
   }
 
   async start(): Promise<void> {
-    return new Promise(async (resolve, reject) => {
-      const c = await initChalk();
+    const c = await initChalk();
+    return new Promise((resolve, reject) => {
       // Create HTTP server with embedded HTML dashboard
       this.server = http.createServer((req, res) => {
         if (req.url === '/') {

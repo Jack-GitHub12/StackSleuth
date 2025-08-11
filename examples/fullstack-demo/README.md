@@ -2,9 +2,9 @@
 
 This demo showcases **StackSleuth** performance monitoring in a real-world full-stack application using:
 
-- **Frontend**: Next.js with React + StackSleuth React Agent
+- **Frontend**: React app + StackSleuth Frontend Agent
 - **Backend**: Express.js + StackSleuth Backend Agent  
-- **Databases**: PostgreSQL + MongoDB + Redis with StackSleuth DB Agents
+- **Databases**: PostgreSQL + MongoDB + Redis with StackSleuth Agents
 - **Monitoring**: Real-time performance dashboard with flamegraphs
 
 ## 🚀 Quick Start
@@ -40,8 +40,7 @@ npm run dev
 
 This will start:
 - API Server: http://localhost:3001
-- Frontend: http://localhost:3000  
-- StackSleuth Dashboard: http://localhost:3001/dashboard
+- StackSleuth Dashboard: http://localhost:3001
 
 ## 📊 What This Demo Shows
 
@@ -51,12 +50,12 @@ The Express API demonstrates:
 
 ```javascript
 // Automatic HTTP request tracing
-app.use(sleuthAgent.middleware());
+sleuthAgent.instrument(app);
 
 // Manual trace wrapping
-const trace = sleuthAgent.startTrace('Get Users');
-const result = await instrumentedPool.query('SELECT * FROM users');
-sleuthAgent.completeTrace(trace.id, 'success');
+await sleuthAgent.trace('Get Users', async () => {
+  await instrumentedPool.query('SELECT * FROM users');
+});
 ```
 
 **Monitored Operations**:
@@ -72,7 +71,9 @@ sleuthAgent.completeTrace(trace.id, 'success');
 
 **PostgreSQL** (Users, Orders):
 ```javascript
-const pgAgent = new PostgreSQLAgent();
+import { DatabaseAgent } from '@stacksleuth/db-agent';
+
+const pgAgent = new DatabaseAgent();
 const instrumentedPool = pgAgent.instrumentPool(pgPool);
 
 // Automatically traces all queries
@@ -104,7 +105,7 @@ The React frontend shows:
 
 ```javascript
 // Automatic component render tracking
-import { StackSleuthProvider, useStackSleuth } from '@stacksleuth/react-agent';
+import { StackSleuthProvider, useTrace } from '@stacksleuth/frontend-agent';
 
 function App() {
   return (
@@ -115,11 +116,11 @@ function App() {
 }
 
 // Manual operation tracing
-const { trace } = useStackSleuth();
+const { trace } = useTrace();
 
 const handleSubmit = async () => {
   await trace('Submit Order', async () => {
-    const response = await fetch('/api/orders', { ... });
+    const response = await fetch('/api/orders', { /* ... */ });
     return response.json();
   });
 };
@@ -203,7 +204,7 @@ curl -X POST http://localhost:3001/api/users # Validation error
 
 ## 📈 Dashboard Features
 
-Visit http://localhost:3001/dashboard to see:
+Visit http://localhost:3001 to see:
 
 ### **Real-time Trace List**
 - Live trace updates via WebSocket
@@ -305,7 +306,9 @@ STACKSLEUTH_DASHBOARD_PORT=3001
 
 ```javascript
 // Custom StackSleuth config
-const sleuthAgent = new StackSleuthAgent({
+import { BackendAgent } from '@stacksleuth/backend-agent';
+
+const sleuthAgent = new BackendAgent({
   enabled: true,
   sampling: { 
     rate: 0.1,  // 10% sampling in production
@@ -320,6 +323,14 @@ const sleuthAgent = new StackSleuthAgent({
     dashboard: { enabled: true, port: 3001 }
   }
 });
+```
+
+### Start the Profiler
+
+In a separate terminal, run the dashboard and collector:
+
+```bash
+sleuth watch
 ```
 
 ## 🚦 Performance Tips

@@ -37,8 +37,10 @@ npm publish --workspace=@stacksleuth/core
 
 # Publish agents
 npm publish --workspace=@stacksleuth/backend-agent
-npm publish --workspace=@stacksleuth/frontend-agent  
+npm publish --workspace=@stacksleuth/frontend-agent
+npm publish --workspace=@stacksleuth/vue-agent
 npm publish --workspace=@stacksleuth/db-agent
+npm publish --workspace=@stacksleuth/mongodb-agent
 
 # Publish CLI last
 npm publish --workspace=@stacksleuth/cli
@@ -52,7 +54,9 @@ npm info @stacksleuth/cli
 npm info @stacksleuth/core
 npm info @stacksleuth/backend-agent
 npm info @stacksleuth/frontend-agent
+npm info @stacksleuth/vue-agent
 npm info @stacksleuth/db-agent
+npm info @stacksleuth/mongodb-agent
 ```
 
 ### 4. Test Installation

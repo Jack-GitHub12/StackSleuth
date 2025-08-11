@@ -36,7 +36,10 @@ npm install -g @stacksleuth/cli
 ```
 
 ```bash
-yarn global add @stacksleuth/cli
+sleuth init
+
+# Non-interactive mode (use defaults)
+sleuth init --yes
 ```
 
 ```bash
@@ -46,7 +49,10 @@ pnpm add -g @stacksleuth/cli
 ### Local Installation
 
 ```bash
-npm install @stacksleuth/cli
+sleuth watch
+
+# Auto-stop after 10 seconds (handy for CI/tests)
+sleuth watch --timeout 10
 ```
 
 ```bash
@@ -111,12 +117,10 @@ Initialize StackSleuth monitoring in your project.
 stacksleuth init [options]
 
 Options:
-  --type <type>           Project type (express, react, vue, django, etc.)
-  --database <db>         Primary database (mongodb, redis, mysql, postgres)
-  --config <path>         Custom configuration file path
-  --template <template>   Use predefined template
-  --interactive           Interactive setup wizard
-```
+- `--port <port>` - Dashboard port (default: 3001)
+- `--sampling <rate>` - Sampling rate 0.0-1.0 (default: 1.0)
+- `--no-dashboard` - Disable dashboard UI
+- `--timeout <seconds>` - Auto-stop after N seconds
 
 ### `stacksleuth watch`
 

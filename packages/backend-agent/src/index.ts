@@ -43,6 +43,9 @@ export class BackendAgent {
       (req as any).stacksleuthTrace = trace;
       (req as any).stacksleuthSpan = span;
 
+      // Ensure correct `this` binding inside res.send override
+      const self = this;
+
       // Hook into response to complete the trace
       const originalSend = res.send;
       res.send = function(body: any) {
@@ -58,7 +61,6 @@ export class BackendAgent {
         return originalSend.call(this, body);
       };
 
-      const self = this;
       next();
     });
   }

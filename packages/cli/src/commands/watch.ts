@@ -6,6 +6,7 @@ interface WatchOptions {
   port: string;
   sampling: string;
   dashboard: boolean;
+  timeout?: string;
 }
 
 // Dynamic import for chalk to handle ESM compatibility
@@ -81,7 +82,18 @@ export class WatchCommand {
       console.log('  • Performance issues will be highlighted in real-time');
       console.log('  • Press Ctrl+C to stop profiling\n');
 
-      // Keep the process alive
+      // Keep the process alive or auto-stop for tests/CI
+      if (options.timeout) {
+        const seconds = parseInt(options.timeout, 10);
+        if (!isNaN(seconds) && seconds > 0) {
+          setTimeout(async () => {
+            spinner.info(`Auto-stopping after ${seconds}s (timeout)`);
+            await this.shutdown();
+            process.exit(0);
+          }, seconds * 1000);
+        }
+      }
+
       await this.waitForExit();
 
     } catch (error: any) {
@@ -163,22 +175,26 @@ export class WatchCommand {
       process.on('SIGINT', async () => {
         const c = await initChalk();
         console.log(c.yellow('\n🛑 Shutting down StackSleuth...'));
-
-        // Stop dashboard server
-        if (this.dashboardServer) {
-          await this.dashboardServer.stop();
-        }
-
-        // Show final statistics
-        const stats = this.collector.getStats();
-        console.log(c.gray('\n📊 Final Statistics:'));
-        console.log(`  ${c.cyan('Total Traces:')} ${stats.traces.total}`);
-        console.log(`  ${c.cyan('Total Spans:')} ${stats.spans.total}`);
-        console.log(`  ${c.cyan('Average Trace Duration:')} ${stats.traces.avg.toFixed(2)}ms`);
-
-        console.log(c.green('\n✅ StackSleuth stopped successfully'));
+        await this.shutdown();
         resolve();
       });
     });
+  }
+
+  private async shutdown(): Promise<void> {
+    const c = await initChalk();
+    // Stop dashboard server
+    if (this.dashboardServer) {
+      await this.dashboardServer.stop();
+    }
+
+    // Show final statistics
+    const stats = this.collector.getStats();
+    console.log(c.gray('\n📊 Final Statistics:'));
+    console.log(`  ${c.cyan('Total Traces:')} ${stats.traces.total}`);
+    console.log(`  ${c.cyan('Total Spans:')} ${stats.spans.total}`);
+    console.log(`  ${c.cyan('Average Trace Duration:')} ${stats.traces.avg.toFixed(2)}ms`);
+
+    console.log(c.green('\n✅ StackSleuth stopped successfully'));
   }
 } 

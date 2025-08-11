@@ -8,12 +8,21 @@ import { InitCommand } from './commands/init';
 
 const program = new Command();
 
-// Dynamic import for chalk to handle ESM compatibility
+// Dynamic import for chalk to handle ESM/CJS compatibility without TS rewriting
 let chalk: any;
 
 async function initChalk() {
-  if (!chalk) {
-    chalk = (await import('chalk')).default;
+  if (chalk) return chalk;
+  try {
+    // Use native dynamic import at runtime to support ESM-only chalk@5
+    const mod: any = await (Function('return import("chalk")')() as Promise<any>);
+    chalk = mod.default ?? mod;
+  } catch {
+    // Fallback to CJS require for chalk@4
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { createRequire } = require('module');
+    const req = createRequire(__filename);
+    chalk = req('chalk');
   }
   return chalk;
 }
@@ -43,6 +52,7 @@ program
   .option('-p, --port <port>', 'Dashboard port', '3001')
   .option('-s, --sampling <rate>', 'Sampling rate (0.0-1.0)', '1.0')
   .option('--no-dashboard', 'Disable dashboard UI')
+  .option('-t, --timeout <seconds>', 'Auto-stop after N seconds (useful for CI/tests)')
   .action(async (options) => {
     const watchCmd = new WatchCommand(collector);
     await watchCmd.execute(options);
@@ -66,6 +76,8 @@ program
   .description('Initialize StackSleuth in your project')
   .option('--framework <framework>', 'Framework (react|express|nextjs)', 'express')
   .option('--typescript', 'Use TypeScript configuration')
+  .option('-y, --yes', 'Use defaults and skip interactive prompts')
+  .option('--non-interactive', 'Alias for --yes')
   .action(async (options) => {
     const initCmd = new InitCommand();
     await initCmd.execute(options);
@@ -104,7 +116,7 @@ async function main() {
     
     program.parse(process.argv);
   } catch (err: any) {
-    if (err.code === 'commander.help') {
+    if (err.code === 'commander.help' || err.code === 'commander.helpDisplayed' || err.code === 'commander.version') {
       process.exit(0);
     }
     const c = await initChalk();
