@@ -1,10 +1,10 @@
-import { BaseAgent, AgentConfig, MetricType } from '@stacksleuth/core';
+import { BaseAgent, AgentConfig } from '@stacksleuth/core';
 import { Connection, createConnection } from 'mysql2/promise';
 import { MySQLConfig, QueryMetrics, ConnectionPoolMetrics } from './types';
 
 export class MySQLAgent extends BaseAgent {
   private connection?: Connection;
-  private config: MySQLConfig;
+  private mysqlConfig: MySQLConfig;
   private queryMetrics: Map<string, QueryMetrics> = new Map();
   private poolMetrics: ConnectionPoolMetrics = {
     active: 0,
@@ -12,39 +12,53 @@ export class MySQLAgent extends BaseAgent {
     waiting: 0,
     total: 0
   };
+  private metricsInterval?: NodeJS.Timeout;
+  private performanceInterval?: NodeJS.Timeout;
 
   constructor(config: MySQLConfig & AgentConfig) {
     super(config);
-    this.config = config;
+    this.mysqlConfig = config;
   }
 
-  async start(): Promise<void> {
-    await super.start();
+  async startMonitoring(): Promise<void> {
+    this.isActive = true;
     
     try {
       this.connection = await createConnection({
-        host: this.config.host,
-        port: this.config.port || 3306,
-        user: this.config.user,
-        password: this.config.password,
-        database: this.config.database
+        host: this.mysqlConfig.host,
+        port: this.mysqlConfig.port || 3306,
+        user: this.mysqlConfig.user,
+        password: this.mysqlConfig.password,
+        database: this.mysqlConfig.database
       });
 
       this.setupQueryInterception();
       this.startMetricsCollection();
       
-      this.logger.info('MySQL Agent started successfully');
+      if (this.config.debug) {
+        console.log('[MySQLAgent] Started successfully');
+      }
     } catch (error) {
-      this.logger.error('Failed to start MySQL Agent', error);
+      if (this.config.debug) {
+        console.error('[MySQLAgent] Failed to start', error);
+      }
       throw error;
     }
   }
 
-  async stop(): Promise<void> {
+  async stopMonitoring(): Promise<void> {
+    this.isActive = false;
+    
+    if (this.metricsInterval) {
+      clearInterval(this.metricsInterval);
+    }
+    if (this.performanceInterval) {
+      clearInterval(this.performanceInterval);
+    }
+    
     if (this.connection) {
       await this.connection.end();
     }
-    await super.stop();
   }
 
   private setupQueryInterception(): void {
@@ -62,16 +76,10 @@ export class MySQLAgent extends BaseAgent {
         this.recordQueryMetrics(queryId, sql, duration, true);
         
         // Track slow queries
-        if (duration > (this.config.slowQueryThreshold || 1000)) {
-          this.recordMetric({
-            type: MetricType.DATABASE,
-            name: 'mysql.slow_query',
-            value: duration,
-            unit: 'ms',
-            tags: {
-              query: this.sanitizeQuery(sql),
-              database: this.config.database
-            }
+        if (duration > (this.mysqlConfig.slowQueryThreshold || 1000)) {
+          this.recordMetric('mysql.slow_query', duration, {
+            query: this.sanitizeQuery(sql),
+            database: this.mysqlConfig.database
           });
         }
         
@@ -86,7 +94,7 @@ export class MySQLAgent extends BaseAgent {
 
   private startMetricsCollection(): void {
     // Collect connection pool metrics
-    setInterval(async () => {
+    this.metricsInterval = setInterval(async () => {
       try {
         const [rows] = await this.connection!.query(
           "SHOW STATUS WHERE Variable_name IN ('Threads_connected', 'Threads_running', 'Max_used_connections')"
@@ -104,32 +112,28 @@ export class MySQLAgent extends BaseAgent {
           total: status.Threads_connected || 0
         };
         
-        this.recordMetric({
-          type: MetricType.DATABASE,
-          name: 'mysql.connections.active',
-          value: this.poolMetrics.active,
+        this.recordMetric('mysql.connections.active', this.poolMetrics.active, {
           unit: 'connections'
         });
         
-        this.recordMetric({
-          type: MetricType.DATABASE,
-          name: 'mysql.connections.idle',
-          value: this.poolMetrics.idle,
+        this.recordMetric('mysql.connections.idle', this.poolMetrics.idle, {
           unit: 'connections'
         });
       } catch (error) {
-        this.logger.error('Failed to collect MySQL metrics', error);
+        if (this.config.debug) {
+          console.error('[MySQLAgent] Failed to collect metrics', error);
+        }
       }
-    }, this.config.metricsInterval || 30000);
+    }, this.mysqlConfig.metricsInterval || 30000);
     
     // Collect query performance schema metrics
-    if (this.config.enablePerformanceSchema) {
+    if (this.mysqlConfig.enablePerformanceSchema) {
       this.collectPerformanceSchemaMetrics();
     }
   }
 
   private async collectPerformanceSchemaMetrics(): Promise<void> {
-    setInterval(async () => {
+    this.performanceInterval = setInterval(async () => {
       try {
         const [rows] = await this.connection!.query(`
           SELECT 
@@ -146,22 +150,19 @@ export class MySQLAgent extends BaseAgent {
         `);
         
         (rows as any[]).forEach(row => {
-          this.recordMetric({
-            type: MetricType.DATABASE,
-            name: 'mysql.query.performance',
-            value: row.avg_time_ms,
+          this.recordMetric('mysql.query.performance', row.avg_time_ms, {
             unit: 'ms',
-            tags: {
-              query: this.sanitizeQuery(row.query),
-              executions: row.executions.toString(),
-              rows_examined: row.rows_examined.toString()
-            }
+            query: this.sanitizeQuery(row.query),
+            executions: row.executions.toString(),
+            rows_examined: row.rows_examined.toString()
           });
         });
       } catch (error) {
-        this.logger.warn('Performance schema not available or not enabled');
+        if (this.config.debug) {
+          console.warn('[MySQLAgent] Performance schema not available or not enabled');
+        }
       }
-    }, this.config.performanceSchemaInterval || 60000);
+    }, this.mysqlConfig.performanceSchemaInterval || 60000);
   }
 
   private recordQueryMetrics(queryId: string, sql: string, duration: number, success: boolean): void {
@@ -187,15 +188,10 @@ export class MySQLAgent extends BaseAgent {
     
     this.queryMetrics.set(queryId, existing);
     
-    this.recordMetric({
-      type: MetricType.DATABASE,
-      name: 'mysql.query.duration',
-      value: duration,
+    this.recordMetric('mysql.query.duration', duration, {
       unit: 'ms',
-      tags: {
-        query_type: this.getQueryType(sql),
-        success: success.toString()
-      }
+      query_type: this.getQueryType(sql),
+      success: success.toString()
     });
   }
 
