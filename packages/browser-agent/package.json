@@ -37,20 +37,21 @@
   ],
   "dependencies": {
     "@stacksleuth/core": "^0.2.1",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
     "playwright": "^1.40.0",
     "puppeteer": "^21.0.0",
-    "cheerio": "^1.0.0-rc.12",
-    "axios": "^1.6.0",
     "ws": "^8.14.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "vitest": "^1.0.0",
-    "@vitest/coverage-v8": "^1.0.0",
-    "jsdom": "^23.0.0",
     "@types/node": "^20.0.0",
     "@types/ws": "^8.5.0",
-    "eslint": "^8.0.0"
+    "@vitest/coverage-v8": "^1.0.0",
+    "@vitest/ui": "^1.6.1",
+    "eslint": "^8.0.0",
+    "jsdom": "^23.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.6.1"
   },
   "publishConfig": {
     "access": "public"

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackSleuth Dashboard - Real-time Performance Monitoring</title>
+    <link rel="stylesheet" href="css/gitbook.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+</head>
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <button class="mobile-toggle" id="mobile-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="sidebar-logo">
+            <img src="logo.svg" alt="StackSleuth">
+            <span>StackSleuth</span>
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="gitbook-container">
+        <!-- Sidebar -->
+        <nav class="gitbook-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo">
+                    <img src="logo.svg" alt="StackSleuth">
+                    <span>StackSleuth</span>
+                </a>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Getting Started</div>
+                    <div class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <i class="fas fa-home icon"></i>
+                            Overview
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="getting-started.html" class="nav-link">
+                            <i class="fas fa-rocket icon"></i>
+                            Quick Start
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="dashboard.html" class="nav-link active">
+                            <i class="fas fa-chart-line icon"></i>
+                            Dashboard
+                        </a>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Packages</div>
+                    <div class="nav-item">
+                        <a href="packages.html" class="nav-link">
+                            <i class="fas fa-box icon"></i>
+                            All Packages
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="api-reference.html" class="nav-link">
+                            <i class="fas fa-code icon"></i>
+                            API Reference
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="examples.html" class="nav-link">
+                            <i class="fas fa-flask icon"></i>
+                            Examples
+                        </a>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Resources</div>
+                    <div class="nav-item">
+                        <a href="configuration.html" class="nav-link">
+                            <i class="fas fa-cog icon"></i>
+                            Configuration
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="https://github.com/Jack-GitHub12/StackSleuth" target="_blank" class="nav-link">
+                            <i class="fab fa-github icon"></i>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="gitbook-content">
+            <div class="gitbook-header">
+                <div class="header-title">
+                    <h1>StackSleuth Dashboard</h1>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+
+            <div class="content-wrapper">
+                <article class="content-inner">
+                    <div class="content-section">
+                        <h2>📊 Real-time Performance Monitoring Dashboard</h2>
+                        <p>The StackSleuth Dashboard provides a comprehensive view of your application's performance metrics, traces, and system health in real-time.</p>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>New Dashboard Available!</strong>
+                                <p>We've completely rebuilt our dashboard with React and modern UI components for better performance and user experience.</p>
+                            </div>
+                        </div>
+
+                        <h2>Features</h2>
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                                <h3>Real-time Metrics</h3>
+                                <p>Monitor CPU usage, memory consumption, response times, and throughput in real-time with interactive charts.</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <h3>Flame Graphs</h3>
+                                <p>Visualize performance bottlenecks with interactive flame graphs showing execution time distribution.</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-route"></i>
+                                </div>
+                                <h3>Distributed Tracing</h3>
+                                <p>Track requests across multiple services with detailed timing breakdowns and dependency analysis.</p>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <h3>Smart Alerts</h3>
+                                <p>Configure intelligent alerts based on anomaly detection and custom thresholds.</p>
+                            </div>
+                        </div>
+
+                        <h2>Getting Started with the Dashboard</h2>
+                        
+                        <h3>Installation</h3>
+                        <pre class="language-bash"><code># Install the dashboard package
+npm install @stacksleuth/dashboard
+
+# Or use the standalone version
+npx @stacksleuth/dashboard</code></pre>
+
+                        <h3>Running the Dashboard</h3>
+                        <p>The dashboard can be run in several ways:</p>
+
+                        <h4>1. Development Mode</h4>
+                        <pre class="language-bash"><code># Navigate to the dashboard package
+cd packages/dashboard
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+
+# Dashboard will be available at http://localhost:5173</code></pre>
+
+                        <h4>2. Production Build</h4>
+                        <pre class="language-bash"><code># Build for production
+npm run build
+
+# Preview the production build
+npm run preview</code></pre>
+
+                        <h4>3. Docker Deployment</h4>
+                        <pre class="language-bash"><code># Using Docker Compose
+docker-compose up dashboard
+
+# Or run standalone
+docker run -p 3001:3001 stacksleuth/dashboard:latest</code></pre>
+
+                        <h2>Dashboard Pages</h2>
+
+                        <h3>Overview Page</h3>
+                        <p>The main dashboard provides a high-level view of your application's health:</p>
+                        <ul>
+                            <li>Request rate and error rate trends</li>
+                            <li>Average response time</li>
+                            <li>System resource utilization</li>
+                            <li>Recent alerts and incidents</li>
+                            <li>Service dependency map</li>
+                        </ul>
+
+                        <h3>Traces Page</h3>
+                        <p>Detailed distributed tracing view showing:</p>
+                        <ul>
+                            <li>Request flow across services</li>
+                            <li>Timing breakdowns for each span</li>
+                            <li>Error detection and root cause analysis</li>
+                            <li>Database query performance</li>
+                            <li>External API call monitoring</li>
+                        </ul>
+
+                        <h3>Metrics Page</h3>
+                        <p>Comprehensive metrics visualization including:</p>
+                        <ul>
+                            <li>Custom business metrics</li>
+                            <li>Technical performance indicators</li>
+                            <li>Time-series analysis</li>
+                            <li>Comparative analysis across environments</li>
+                            <li>Export capabilities for further analysis</li>
+                        </ul>
+
+                        <h3>Flame Graph Page</h3>
+                        <p>Interactive performance profiling with:</p>
+                        <ul>
+                            <li>CPU flame graphs</li>
+                            <li>Memory allocation graphs</li>
+                            <li>Differential flame graphs for comparison</li>
+                            <li>Stack trace analysis</li>
+                            <li>Hot path identification</li>
+                        </ul>
+
+                        <h3>Settings Page</h3>
+                        <p>Configure your monitoring preferences:</p>
+                        <ul>
+                            <li>Alert thresholds and channels</li>
+                            <li>Data retention policies</li>
+                            <li>User management and permissions</li>
+                            <li>Integration settings</li>
+                            <li>API key management</li>
+                        </ul>
+
+                        <h2>Configuration</h2>
+                        <p>The dashboard can be configured through environment variables or a configuration file:</p>
+
+                        <h3>Environment Variables</h3>
+                        <pre class="language-bash"><code># API endpoint
+VITE_API_URL=http://localhost:3000/api
+
+# WebSocket endpoint for real-time updates
+VITE_WS_URL=ws://localhost:3000
+
+# Authentication
+VITE_AUTH_ENABLED=true
+VITE_AUTH_PROVIDER=oauth2
+
+# Feature flags
+VITE_ENABLE_FLAMEGRAPHS=true
+VITE_ENABLE_TRACES=true
+VITE_ENABLE_METRICS=true</code></pre>
+
+                        <h3>Configuration File</h3>
+                        <p>Create a <code>dashboard.config.js</code> file:</p>
+                        <pre class="language-javascript"><code>export default {
+  api: {
+    baseUrl: process.env.VITE_API_URL || 'http://localhost:3000/api',
+    timeout: 30000,
+    retryAttempts: 3
+  },
+  features: {
+    flamegraphs: true,
+    traces: true,
+    metrics: true,
+    alerts: true,
+    darkMode: true
+  },
+  theme: {
+    primaryColor: '#3b82f6',
+    darkMode: 'auto' // 'light', 'dark', or 'auto'
+  },
+  refresh: {
+    interval: 5000, // 5 seconds
+    enabled: true
+  }
+};</code></pre>
+
+                        <h2>Customization</h2>
+                        <p>The dashboard is built with React and Tailwind CSS, making it easy to customize:</p>
+
+                        <h3>Theming</h3>
+                        <pre class="language-css"><code>/* Customize colors in tailwind.config.js */
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#eff6ff',
+          500: '#3b82f6',
+          900: '#1e3a8a'
+        }
+      }
+    }
+  }
+}</code></pre>
+
+                        <h3>Adding Custom Widgets</h3>
+                        <pre class="language-javascript"><code>import { Widget } from '@stacksleuth/dashboard';
+
+export function CustomMetricWidget({ data }) {
+  return (
+    &lt;Widget title="Custom Metric"&gt;
+      &lt;div className="metric-value"&gt;
+        {data.value}
+      &lt;/div&gt;
+    &lt;/Widget&gt;
+  );
+}</code></pre>
+
+                        <h2>API Integration</h2>
+                        <p>The dashboard connects to the StackSleuth API for data:</p>
+
+                        <pre class="language-javascript"><code>import { StackSleuthClient } from '@stacksleuth/dashboard';
+
+const client = new StackSleuthClient({
+  apiKey: 'your-api-key',
+  baseUrl: 'https://api.stacksleuth.com'
+});
+
+// Fetch metrics
+const metrics = await client.getMetrics({
+  timeRange: '1h',
+  resolution: '1m'
+});
+
+// Subscribe to real-time updates
+client.subscribe('metrics', (data) => {
+  console.log('New metrics:', data);
+});</code></pre>
+
+                        <h2>Deployment Options</h2>
+
+                        <h3>Static Hosting</h3>
+                        <p>Deploy to any static hosting service:</p>
+                        <pre class="language-bash"><code># Build the dashboard
+npm run build
+
+# Deploy to Netlify
+netlify deploy --prod --dir=dist
+
+# Deploy to Vercel
+vercel --prod
+
+# Deploy to GitHub Pages
+npm run deploy:gh-pages</code></pre>
+
+                        <h3>Self-Hosted</h3>
+                        <p>Run on your own infrastructure:</p>
+                        <pre class="language-bash"><code># Using Node.js
+npm run build
+npm run preview
+
+# Using Nginx
+server {
+  listen 80;
+  server_name dashboard.example.com;
+  root /var/www/dashboard/dist;
+  
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}</code></pre>
+
+                        <h3>Cloud Platforms</h3>
+                        <p>Deploy to cloud platforms:</p>
+                        <pre class="language-bash"><code># AWS S3 + CloudFront
+aws s3 sync dist/ s3://your-bucket --delete
+aws cloudfront create-invalidation --distribution-id YOUR_ID --paths "/*"
+
+# Google Cloud Storage
+gsutil -m rsync -r -d dist/ gs://your-bucket
+
+# Azure Blob Storage
+az storage blob upload-batch -s dist/ -d '$web' --account-name youraccount</code></pre>
+
+                        <h2>Troubleshooting</h2>
+
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>Common Issues</strong>
+                                <ul>
+                                    <li><strong>CORS errors:</strong> Ensure your API server allows requests from the dashboard origin</li>
+                                    <li><strong>WebSocket connection failed:</strong> Check firewall rules and proxy configuration</li>
+                                    <li><strong>Blank page:</strong> Verify the API_URL environment variable is set correctly</li>
+                                    <li><strong>Authentication errors:</strong> Ensure your API key has the necessary permissions</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h2>Support</h2>
+                        <p>Need help with the dashboard?</p>
+                        <ul>
+                            <li>📖 Check the <a href="https://github.com/Jack-GitHub12/StackSleuth/wiki">documentation</a></li>
+                            <li>💬 Join our <a href="https://discord.gg/stacksleuth">Discord community</a></li>
+                            <li>🐛 Report issues on <a href="https://github.com/Jack-GitHub12/StackSleuth/issues">GitHub</a></li>
+                            <li>📧 Contact support at support@stacksleuth.com</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- Page Navigation -->
+                <div class="page-nav">
+                    <a href="getting-started.html" class="prev-page">
+                        <i class="fas fa-arrow-left"></i>
+                        <div>
+                            <small>Previous</small>
+                            <span>Getting Started</span>
+                        </div>
+                    </a>
+                    <a href="packages.html" class="next-page">
+                        <div>
+                            <small>Next</small>
+                            <span>Packages</span>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-modal-content">
+            <input type="text" id="search-input" placeholder="Search documentation..." autofocus>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <script src="js/gitbook.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+</body>
+</html>

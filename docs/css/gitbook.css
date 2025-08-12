@@ -364,38 +364,104 @@ tr:last-child td {
 }
 
 /* Callouts & Alerts */
-.callout {
+.callout, .alert {
     padding: 1rem 1.5rem;
     margin: 1.5rem 0;
     border-radius: 6px;
     border-left: 4px solid;
     background: #f8f9fa;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
 }
 
-.callout.info {
+.callout.info, .alert.alert-info {
     border-left-color: #3498db;
     background: #e8f4f8;
 }
 
-.callout.warning {
+.callout.warning, .alert.alert-warning {
     border-left-color: #f39c12;
     background: #fdf6e3;
 }
 
-.callout.success {
+.callout.success, .alert.alert-success {
     border-left-color: #27ae60;
     background: #d5f4e6;
 }
 
-.callout.danger {
+.callout.danger, .alert.alert-danger {
     border-left-color: #e74c3c;
     background: #fdf2f2;
 }
 
-.callout-title {
+.callout-title, .alert strong {
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: #2c3e50;
+    display: block;
+}
+
+.alert > i {
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+}
+
+.alert.alert-info > i { color: #3498db; }
+.alert.alert-warning > i { color: #f39c12; }
+.alert.alert-success > i { color: #27ae60; }
+.alert.alert-danger > i { color: #e74c3c; }
+
+/* Feature Grid */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.feature-card {
+    background: white;
+    border: 1px solid #e6e8eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-color: #3498db;
+}
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.feature-icon i {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.feature-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+.feature-card p {
+    font-size: 0.9rem;
+    color: #5a6c7d;
+    line-height: 1.5;
+    margin: 0;
 }
 
 /* Navigation Footer */

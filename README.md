@@ -4,6 +4,8 @@
 
 StackSleuth provides unified profiling across frontend, backend, and database layers with minimal overhead and a developer-first experience.
 
+📚 **[Documentation](https://jack-github12.github.io/StackSleuth/)** | 🎯 **[Dashboard Demo](https://jack-github12.github.io/StackSleuth/dashboard.html)** | 📦 **[NPM Packages](https://jack-github12.github.io/StackSleuth/packages.html)** | 🚀 **[Quick Start](https://jack-github12.github.io/StackSleuth/getting-started.html)**
+
 ## 🚀 Features
 
 - **🔄 Real-time Tracing** - Live performance monitoring across your entire stack
