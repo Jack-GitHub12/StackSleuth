@@ -4,9 +4,9 @@
   "description": "Interactive web dashboard for StackSleuth - Real-time performance visualization, comprehensive analytics, team collaboration features, and advanced monitoring capabilities.",
   "private": true,
   "scripts": {
-    "build": "echo 'Dashboard build skipped - using embedded dashboard in CLI'",
+    "build": "vite build",
     "dev": "vite",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint src/**/*.{ts,tsx}",
     "clean": "rm -rf dist",
     "preview": "vite preview"
