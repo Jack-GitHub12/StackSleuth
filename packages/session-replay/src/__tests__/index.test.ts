@@ -7,7 +7,8 @@ Object.defineProperty(global, 'document', {
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     querySelectorAll: vi.fn(() => []),
-    body: { appendChild: vi.fn() }
+    body: { appendChild: vi.fn() },
+    referrer: 'http://localhost:3000/'
   }
 });
 
@@ -18,6 +19,9 @@ Object.defineProperty(global, 'window', {
     performance: {
       now: vi.fn(() => Date.now()),
       getEntriesByType: vi.fn(() => [])
+    },
+    location: {
+      href: 'http://localhost:3000/test'
     }
   }
 });
@@ -48,24 +52,27 @@ describe('SessionReplayAgent', () => {
 
   it('should export session data', () => {
     agent.startRecording();
-    const sessionData = agent.exportSession();
-    expect(sessionData).toBeDefined();
-    expect(sessionData.sessionId).toBeDefined();
+    const sessionDataJson = agent.exportSession();
+    expect(sessionDataJson).toBeDefined();
+    const sessionData = JSON.parse(sessionDataJson);
+    expect(sessionData.metadata.sessionId).toBeDefined();
     expect(Array.isArray(sessionData.events)).toBe(true);
   });
 
   it('should clear session data', () => {
     agent.startRecording();
     agent.clearSession();
-    const sessionData = agent.exportSession();
+    const sessionDataJson = agent.exportSession();
+    const sessionData = JSON.parse(sessionDataJson);
     expect(sessionData.events).toHaveLength(0);
   });
 
   it('should record custom events', () => {
     agent.startRecording();
     agent.recordCustomEvent('test-event', { data: 'test' });
-    const sessionData = agent.exportSession();
-    const customEvents = sessionData.events.filter(e => e.type === 'custom');
+    const sessionDataJson = agent.exportSession();
+    const sessionData = JSON.parse(sessionDataJson);
+    const customEvents = sessionData.events.filter((e: any) => e.type === 'custom');
     expect(customEvents.length).toBeGreaterThan(0);
   });
 }); 

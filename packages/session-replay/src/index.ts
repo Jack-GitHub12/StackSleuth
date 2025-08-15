@@ -92,7 +92,7 @@ export class SessionReplayAgent {
     this.metadata = {
       sessionId: this.sessionId,
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Node.js',
-      url: typeof window !== 'undefined' ? window.location.href : 'N/A',
+      url: typeof window !== 'undefined' && window.location ? window.location.href : 'N/A',
       referrer: typeof document !== 'undefined' ? document.referrer : 'N/A',
       viewport: this.getViewportSize(),
       startTime: Date.now(),

@@ -13,7 +13,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "vitest",
+    "test": "vitest --run",
+    "test:watch": "vitest",
     "test:ci": "vitest run --coverage",
     "lint": "eslint src/**/*.ts",
     "clean": "rm -rf dist",

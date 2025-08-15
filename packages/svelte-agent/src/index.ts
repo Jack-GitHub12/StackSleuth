@@ -319,8 +319,8 @@ export class SvelteAgent {
   /**
    * Get current component metrics
    */
-  public getComponentMetrics(): Map<string, SvelteComponentMetrics> {
-    return new Map(this.componentMetrics);
+  public getComponentMetrics(): SvelteComponentMetrics[] {
+    return Array.from(this.componentMetrics.values());
   }
 
   /**
@@ -338,6 +338,11 @@ export class SvelteAgent {
     const stores = Array.from(this.storeMetrics.values());
 
     return {
+      // Add expected properties for tests
+      totalComponents: components.length,
+      averageRenderTime: components.reduce((sum, c) => sum + c.renderTime, 0) / components.length || 0,
+      
+      // Detailed breakdown
       components: {
         total: components.length,
         averageRenderTime: components.reduce((sum, c) => sum + c.renderTime, 0) / components.length || 0,
