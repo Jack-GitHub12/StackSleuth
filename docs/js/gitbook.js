@@ -321,4 +321,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     console.log('🚀 StackSleuth Documentation loaded successfully');
+    
+    // Register Service Worker for offline support
+    if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+        navigator.serviceWorker.register('/StackSleuth/sw.js')
+            .then(registration => {
+                console.log('ServiceWorker registered:', registration.scope);
+            })
+            .catch(error => {
+                console.log('ServiceWorker registration failed:', error);
+            });
+    }
 }); 

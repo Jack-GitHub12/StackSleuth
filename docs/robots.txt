@@ -1,0 +1,18 @@
+# StackSleuth Documentation Robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://jack-github12.github.io/StackSleuth/sitemap.xml
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /

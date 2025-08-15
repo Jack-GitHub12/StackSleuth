@@ -1,0 +1,22 @@
+{
+  "name": "StackSleuth Documentation",
+  "short_name": "StackSleuth",
+  "description": "Open-source performance monitoring for modern applications",
+  "start_url": "/StackSleuth/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3498db",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/StackSleuth/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["developer", "productivity", "utilities"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false
+}
