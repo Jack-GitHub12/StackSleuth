@@ -231,7 +231,7 @@ const agent = new MySQLAgent({
 ## 📊 Performance Dashboard
 
 <div align="center">
-  <img src="docs/images/dashboard-preview.png" alt="StackSleuth Dashboard" width="100%">
+  <img src="docs/images/dashboard-preview.svg" alt="StackSleuth Dashboard" width="100%">
 </div>
 
 The StackSleuth dashboard provides:

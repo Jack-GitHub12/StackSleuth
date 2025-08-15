@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600">
+  <!-- Background -->
+  <rect width="1200" height="600" fill="#f8f9fa"/>
+  
+  <!-- Header -->
+  <rect width="1200" height="60" fill="#ffffff"/>
+  <rect y="60" width="1200" height="1" fill="#e6e8eb"/>
+  
+  <!-- Logo and Title -->
+  <circle cx="40" cy="30" r="18" fill="#3498db"/>
+  <text x="70" y="36" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#2c3e50">StackSleuth Dashboard</text>
+  
+  <!-- Navigation -->
+  <text x="350" y="36" font-family="Arial, sans-serif" font-size="14" fill="#5a6c7d">Overview</text>
+  <text x="450" y="36" font-family="Arial, sans-serif" font-size="14" fill="#3498db">Traces</text>
+  <text x="530" y="36" font-family="Arial, sans-serif" font-size="14" fill="#5a6c7d">Metrics</text>
+  <text x="610" y="36" font-family="Arial, sans-serif" font-size="14" fill="#5a6c7d">Errors</text>
+  
+  <!-- Sidebar -->
+  <rect x="0" y="61" width="250" height="539" fill="#fafbfc"/>
+  <rect x="250" y="61" width="1" height="539" fill="#e6e8eb"/>
+  
+  <!-- Sidebar Content -->
+  <text x="20" y="100" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#8892a4">SERVICES</text>
+  <rect x="20" y="115" width="210" height="35" rx="4" fill="#e8f4f8"/>
+  <text x="30" y="137" font-family="Arial, sans-serif" font-size="14" fill="#3498db">● api-server</text>
+  <rect x="20" y="155" width="210" height="35" rx="4" fill="transparent"/>
+  <text x="30" y="177" font-family="Arial, sans-serif" font-size="14" fill="#5a6c7d">● frontend-app</text>
+  <rect x="20" y="195" width="210" height="35" rx="4" fill="transparent"/>
+  <text x="30" y="217" font-family="Arial, sans-serif" font-size="14" fill="#5a6c7d">● database</text>
+  
+  <!-- Main Content Area -->
+  <rect x="251" y="61" width="949" height="539" fill="#ffffff"/>
+  
+  <!-- Stats Cards -->
+  <rect x="280" y="90" width="210" height="100" rx="8" fill="#ffffff" stroke="#e6e8eb"/>
+  <text x="300" y="120" font-family="Arial, sans-serif" font-size="12" fill="#8892a4">Response Time</text>
+  <text x="300" y="150" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#2c3e50">142ms</text>
+  <text x="300" y="170" font-family="Arial, sans-serif" font-size="12" fill="#27ae60">↓ 12% from last hour</text>
+  
+  <rect x="510" y="90" width="210" height="100" rx="8" fill="#ffffff" stroke="#e6e8eb"/>
+  <text x="530" y="120" font-family="Arial, sans-serif" font-size="12" fill="#8892a4">Throughput</text>
+  <text x="530" y="150" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#2c3e50">1.2K req/s</text>
+  <text x="530" y="170" font-family="Arial, sans-serif" font-size="12" fill="#27ae60">↑ 8% from last hour</text>
+  
+  <rect x="740" y="90" width="210" height="100" rx="8" fill="#ffffff" stroke="#e6e8eb"/>
+  <text x="760" y="120" font-family="Arial, sans-serif" font-size="12" fill="#8892a4">Error Rate</text>
+  <text x="760" y="150" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#2c3e50">0.3%</text>
+  <text x="760" y="170" font-family="Arial, sans-serif" font-size="12" fill="#e74c3c">↑ 0.1% from last hour</text>
+  
+  <rect x="970" y="90" width="210" height="100" rx="8" fill="#ffffff" stroke="#e6e8eb"/>
+  <text x="990" y="120" font-family="Arial, sans-serif" font-size="12" fill="#8892a4">Apdex Score</text>
+  <text x="990" y="150" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#2c3e50">0.95</text>
+  <text x="990" y="170" font-family="Arial, sans-serif" font-size="12" fill="#27ae60">Excellent</text>
+  
+  <!-- Chart Area -->
+  <rect x="280" y="210" width="900" height="250" rx="8" fill="#ffffff" stroke="#e6e8eb"/>
+  <text x="300" y="240" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">Response Time Trend</text>
+  
+  <!-- Simple line chart -->
+  <polyline points="320,380 380,360 440,370 500,340 560,350 620,330 680,340 740,320 800,330 860,310 920,320 980,300 1040,310 1100,290"
+            fill="none" stroke="#3498db" stroke-width="2"/>
+  <polyline points="320,380 380,360 440,370 500,340 560,350 620,330 680,340 740,320 800,330 860,310 920,320 980,300 1040,310 1100,290 1100,420 320,420"
+            fill="#3498db" opacity="0.1"/>
+  
+  <!-- Trace List -->
+  <rect x="280" y="480" width="900" height="100" rx="8" fill="#ffffff" stroke="#e6e8eb"/>
+  <text x="300" y="510" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">Recent Traces</text>
+  
+  <!-- Trace Items -->
+  <rect x="300" y="525" width="860" height="40" rx="4" fill="#f8f9fa"/>
+  <circle cx="320" cy="545" r="4" fill="#27ae60"/>
+  <text x="335" y="550" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">GET /api/users</text>
+  <text x="500" y="550" font-family="Arial, sans-serif" font-size="12" fill="#5a6c7d">142ms</text>
+  <text x="600" y="550" font-family="Arial, sans-serif" font-size="12" fill="#5a6c7d">2 minutes ago</text>
+  
+  <!-- Watermark -->
+  <text x="600" y="300" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#e6e8eb" opacity="0.3" text-anchor="middle">StackSleuth</text>
+</svg>
